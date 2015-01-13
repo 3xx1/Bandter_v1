@@ -9,7 +9,7 @@ function uploadMusic() {
         var parseFile = new Parse.File(name, file);
 
         parseFile.save().then(function() {
-            // Must create a class with a reference to the uploaded file in order to access it
+            // Must create an object with a reference to the uploaded file in order to access it
             var TestMusic = Parse.Object.extend("TestMusic");
             var testMusic = new TestMusic();
             
