@@ -5,7 +5,7 @@ function uploadMusic() {
     if (fileUploadControl.files.length > 0) {
         var file = fileUploadControl.files[0];
         var name = fileUploadControl.files[0].name;
-        var date = new Date()
+        
         var parseFile = new Parse.File(name, file);
 
         parseFile.save().then(function() {
@@ -15,7 +15,6 @@ function uploadMusic() {
             
             AudioObject.set('file', parseFile);
             AudioObject.set('recordingName', name);
-            AudioObject.set('uploadDate', date);
             AudioObject.set('annotations', []);
             AudioObject.save();
             
