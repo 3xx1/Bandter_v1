@@ -14,25 +14,26 @@
   <script type-"text/javascript" src="js/dev/uploadMusic.js"></script>
 </head>
 
+<script type="text/javascript">
+    Parse.initialize("5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi")
+</script>
+
 <body>
-  
-  <div id="main">
-    <h1>You're ready to use Parse!</h1>
-    <p>Read the documentation and start building your JavaScript app:</p>
+    <div id="main">
+        <h1>You're ready to use Parse!</h1>
+        <p>Read the documentation and start building your JavaScript app:</p>
 
-    <ul>
-      <li><a href="https://www.parse.com/docs/js_guide">Parse JavaScript Guide</a></li>
-      <li><a href="https://www.parse.com/docs/js">Parse JavaScript API Documentation</a></li>
-    </ul>
+        <ul>
+            <li><a href="https://www.parse.com/docs/js_guide">Parse JavaScript Guide</a></li>
+            <li><a href="https://www.parse.com/docs/js">Parse JavaScript API Documentation</a></li>
+        </ul>
 
-    <span>I AM JOSH</span>
-    <div>
-        <span> File upload </span>
-        <input type="file" id="musicFileUpload">
-        <button onclick="uploadMusic()">Upload</button> 
+        <div>
+            <span> Select a file to upload </span>
+            <input type="file" id="musicFileUpload">
+            <button onclick="uploadMusic()">Upload</button> 
+        </div>
     </div>
-
-  </div>
 
 </body>
 
