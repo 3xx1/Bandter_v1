@@ -2,13 +2,18 @@ function showUploadForm() {
     // Folder name defaults to today's date
     var d = new Date();
     var folderName = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + ' jam';
-    // Try to remove last 4 characters of filename - not working for some reason: 
-    //var recordingName = document.getElementById("musicFileUpload")[0].files[0].name;
-    //recordingName = recordingName.substring(0, recordingName.length - 4);
-    document.getElementById("nameUploadFile").className = "";
-    document.getElementById("recordingName").value = $("#musicFileUpload")[0].files[0].name;
-    //document.getElementById("recordingName").value = recordingName;
-    document.getElementById("recordingFolderName").value = folderName;
+    var recordingName = $("#musicFileUpload")[0].files[0].name;
+
+    // Naive way to remove last 4 characters of filename by default 
+    if (recordingName.length > 4) {
+        recordingName = recordingName.substring(0, recordingName.length - 4);
+    }
+    // Band temporary way to reveal the hidden div. This input method will need to be reworked, 
+    // and maybe end up as a modal or even separate page to support uploading many files at once
+    $("#nameUploadFile")[0].className = "";
+    // The text input fields receive a default name 
+    $("#recordingName")[0].value = recordingName;
+    $("#recordingFolderName")[0].value = folderName;
 }
 
 function uploadMusic() {
@@ -17,18 +22,19 @@ function uploadMusic() {
     if (fileUploadControl.files.length > 0) {
         var file = fileUploadControl.files[0];
         var name = fileUploadControl.files[0].name;
-
+        // Create instance of Parse's File object 
         var parseFile = new Parse.File(name, file);
 
         parseFile.save().then(function() {
-            // Must create an object with a reference to the uploaded file in order to access it
+            // In order to get access to the File, we must create 
+            // an object linking to the uploaded file
             var AudioObject = Parse.Object.extend("AudioObject");
             var AudioObject = new AudioObject();
-            
-            var recordingName = document.getElementById("recordingName").value;
 
             AudioObject.set('file', parseFile);
-            AudioObject.set('recordingName', recordingName);
+            // Set the recording name as whatever is in the associated text input box
+            AudioObject.set('recordingName', $("#recordingName")[0].value);
+            // Annotations start empty, but should be an array of Annotation objects?
             AudioObject.set('annotations', []);
             AudioObject.save();
             
