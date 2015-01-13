@@ -5,17 +5,19 @@ function uploadMusic() {
     if (fileUploadControl.files.length > 0) {
         var file = fileUploadControl.files[0];
         var name = fileUploadControl.files[0].name;
-
+        var date = new Date()
         var parseFile = new Parse.File(name, file);
 
         parseFile.save().then(function() {
             // Must create an object with a reference to the uploaded file in order to access it
-            var TestMusic = Parse.Object.extend("TestMusic");
-            var testMusic = new TestMusic();
+            var AudioObject = Parse.Object.extend("AudioObject");
+            var AudioObject = new AudioObject();
             
-            testMusic.set('fileReference', parseFile);
-            testMusic.set('annotations', []);
-            testMusic.save();
+            AudioObject.set('file', parseFile);
+            AudioObject.set('recordingName', name);
+            AudioObject.set('uploadDate', date);
+            AudioObject.set('annotations', []);
+            AudioObject.save();
             
             console.log('Done')
             
