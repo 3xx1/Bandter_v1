@@ -1,6 +1,5 @@
 function showUploadForm() {
     // Folder name defaults to today's date
-    // test
     var d = new Date();
     var folderName = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + ' jam';
     var recordingName = $("#musicFileUpload")[0].files[0].name;
