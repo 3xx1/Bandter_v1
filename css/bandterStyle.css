@@ -70,7 +70,6 @@ body {
 /*
  * Main content
  */
-
 .main {
   padding: 20px;
 }
@@ -88,7 +87,6 @@ body {
 /*
  * Placeholder dashboard ideas
  */
-
 .placeholders {
   margin-bottom: 30px;
   text-align: center;
@@ -103,7 +101,6 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
-
 
 
 /*
