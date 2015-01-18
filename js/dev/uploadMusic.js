@@ -40,10 +40,17 @@ function uploadMusic() {
             AudioObject.save();
             
             console.log('Done uploading ' + recordingName)
+            // Hide the file name input form
+            $("#nameUploadFile")[0].className = "hidden";
             
         }, function(error) {
             // The file either could not be read, or could not be saved to Parse.
             console.log('error saving file');
         });
     }
+}
+
+// For now, just resetting the container div to be hidden
+function cancelUploadMusic() {
+    $("#nameUploadFile")[0].className = "hidden";
 }
