@@ -18,6 +18,7 @@ function showUploadForm() {
 
 function uploadMusic() {
     var fileUploadControl = $("#musicFileUpload")[0];
+    var recordingName = $("#recordingName")[0].value;
     // TODO - handle multiple file uploading
     if (fileUploadControl.files.length > 0) {
         var file = fileUploadControl.files[0];
@@ -33,7 +34,7 @@ function uploadMusic() {
 
             AudioObject.set('file', parseFile);
             // Set the recording name as whatever is in the associated text input box
-            AudioObject.set('recordingName', $("#recordingName")[0].value);
+            AudioObject.set('recordingName', recordingName);
             // Annotations start empty, but should be an array of Annotation objects?
             AudioObject.set('annotations', []);
             AudioObject.save();
