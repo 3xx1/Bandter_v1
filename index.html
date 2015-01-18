@@ -14,13 +14,14 @@
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.3.min.js"></script>
   <script type-"text/javascript" src="js/lib/wavesurjer.min.js"></script>
   <script type-"text/javascript" src="js/dev/uploadMusic.js"></script>
+  <script type-"text/javascript" src="js/dev/getFolders.js"></script>
 </head>
 
 <script type="text/javascript">
     Parse.initialize("5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi")
 </script>
 
-<body>
+<body onload="getFolders();">
 	<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -48,44 +49,37 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
-			  <ul class="nav nav-sidebar">
-				<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-				<li><a href="#">Reports</a></li>
-				<li><a href="#">Analytics</a></li>
-				<li><a href="#">Export</a></li>
+        <!-- Display all folders here -->
+			  <ul id="folderList" class="nav nav-sidebar">
+				  <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+				  <li><a href="#">Default nav item</a></li>
+          <!-- Any folders (and recordings within those folders) will be appended here by the getFolders.js on page load -->
 			  </ul>
 			  <ul class="nav nav-sidebar">
-				<li><a href="">Nav item</a></li>
-				<li><a href="">Nav item again</a></li>
-				<li><a href="">One more nav</a></li>
-				<li><a href="">Another nav item</a></li>
-				<li><a href="">More navigation</a></li>
-			  </ul>
-			  <ul class="nav nav-sidebar">
-        <!-- Ugly but functional file upload -->
-				<li>
-          <!-- Upload button styling grabbed from http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button -->
-          <span class="btn btn-default btn-file">
-            Upload a file <input type="file" id="musicFileUpload" onchange="showUploadForm()">
-          </span>
+          <!-- Ugly but functional file upload -->
+  				<li>
+            <!-- Upload button styling grabbed from http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button -->
+            <span class="btn btn-default btn-file">
+              Upload a file <input type="file" id="musicFileUpload" onchange="showUploadForm()">
+            </span>
 
-          <div id="fileUpload">
-            <!-- Do we need forms with Parse? Should this be a form? -->
-            <div id="nameUploadFile" class="hidden"> <!-- using class="hidden" temporarily -->
-              <div class="form-group">
-                <label> Recording name: </label>
-                <input id="recordingName" type="text" class="form-control">
+            <div id="fileUpload">
+              <!-- Do we need forms with Parse? Should this be a form? -->
+              <div id="nameUploadFile" class="hidden"> <!-- using class="hidden" temporarily -->
+                <div class="form-group">
+                  <label> Recording name: </label>
+                  <input id="recordingName" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label> Folder name: </label>
+                  <input id="recordingFolderName" type="text" class="form-control">
+                </div>
+                <button class="btn btn-default" onclick="cancelUploadMusic()">Cancel</button>
+                <button class="btn btn-default" onclick="uploadMusic()">Upload</button> 
               </div>
-              <div class="form-group">
-                <label> Folder name: </label>
-                <input id="recordingFolderName" type="text" class="form-control">
-              </div>
-              <button class="btn btn-default" onclick="cancelUploadMusic()">Cancel</button>
-              <button class="btn btn-default" onclick="uploadMusic()">Upload</button> 
             </div>
-          </div>
-        </li>
-        <!-- End ugly but funcitonal file upload -->
+          </li>
+          <!-- End ugly but funcitonal file upload -->
 			  </ul>
 			</div>
 		</div>
