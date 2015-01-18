@@ -17,14 +17,14 @@ function getFolders() {
       for (var i = 0; i < results.length; i++) {
         var folder = results[i];
         // Append an li to the sidebar, containing the name of the folder
-        $("#folderList").append('<li><a> ' + folder.get('name') + ' (folder) </a></li>');
+        $("#folderList").append('<li><a href="#"> ' + folder.get('name') + ' (folder) </a></li>');
 
         // Loop through all files in the folder and display them
         var recordings = folder.get('recordings');
         for (var j = 0; j < recordings.length; j++) {
           var recording = recordings[j];
           // Temporary code to add the recording name as a link on the navbar. There is probably a much more elegant and useful way to do this.
-          $("#folderList").append('<li><a> -- ' + recording.get('recordingName') + '</a></li>');
+          $("#folderList").append('<li><a href="#"> -- ' + recording.get('recordingName') + '</a></li>');
         }
 
       }
