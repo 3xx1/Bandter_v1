@@ -1,13 +1,43 @@
 
+// Wrapper function which calls getBands(), which will then call getFolders() 
+// Function is called on page load 
+function getNavItems() {
+  getBands()
+}
 
-// Function is called on page load to get all the folders (and recordings within the folders) as sidebar nav items
-// There is probably a different approach that needs to be used so this entire function may need to be removed or rewritten
-function getFolders() {
+// Get all the bands (and folders within the bands) as sidebar nav items
+function getBands() {
+  var Band = Parse.Object.extend("Band");
+  var bandQuery = new Parse.Query(Band);
+  bandQuery.include("folders");
+  // Find all bands in the database
+  bandQuery.find({
+      success: function(results) {
+        console.log("Successfully retrieved " + results.length + " bands.");
+        // Do something with the returned Parse.Object values
+        for (var i = 0; i < results.length; i++) {
+          var band = results[i];
+          // Append an li to the sidebar, containing the name of the band
+          $("#folderList").append('<li><a href="#"> ' + band.get('name') + ' (band) </a></li>');
+          // Call getFolders, which will add all folders and recordings within the folders to the nav
+          getFolders(band);
+        }
+      },
+      error: function(error) {
+        console.log("Error: " + error.code + " " + error.message);
+      }
+    });
+}
+
+
+// This function takes a band, an adds all folders (and recordings within those folders) as navbar items
+function getFolders(band) {
   var Folder = Parse.Object.extend("Folder");
   var folderQuery = new Parse.Query(Folder);
   // Below line indicates that we need to include the elements inside the "recordings" array in our query.
   // This makes it so that we can later use .get() on the objects pointed to by this array, in order to
   // display these recordings in the navbar
+  folderQuery.equalTo("band", band)
   folderQuery.include("recordings");
 
   folderQuery.find({
