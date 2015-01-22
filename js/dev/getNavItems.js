@@ -9,54 +9,40 @@ function getNavItems() {
 function getBands() {
   var Band = Parse.Object.extend("Band");
   var bandQuery = new Parse.Query(Band);
-  bandQuery.include("folders");
-  // Find all bands in the database
+  // Temporarily limiting this to a particular band
+  // Will eventually need to grab the current logged in user and all bands they're a part of
+  bandQuery.equalTo("objectId", "h54TtHZGZ5")  
+
   bandQuery.find({
-      success: function(results) {
-        console.log("Successfully retrieved " + results.length + " bands.");
-        // Do something with the returned Parse.Object values
-        for (var i = 0; i < results.length; i++) {
-          var band = results[i];
-          // Append an li to the sidebar, containing the name of the band
-          $("#folderList").append('<li><a href="#"> ' + band.get('name') + ' (band) </a></li>');
-          // Call getFolders, which will add all folders and recordings within the folders to the nav
-          getFolders(band);
-        }
-      },
-      error: function(error) {
-        console.log("Error: " + error.code + " " + error.message);
-      }
-    });
-}
-
-
-// This function takes a band, an adds all folders (and recordings within those folders) as navbar items
-function getFolders(band) {
-  var Folder = Parse.Object.extend("Folder");
-  var folderQuery = new Parse.Query(Folder);
-  // Below line indicates that we need to include the elements inside the "recordings" array in our query.
-  // This makes it so that we can later use .get() on the objects pointed to by this array, in order to
-  // display these recordings in the navbar
-  folderQuery.equalTo("band", band)
-  folderQuery.include("recordings");
-
-  folderQuery.find({
     success: function(results) {
-      console.log("Successfully retrieved " + results.length + " folders.");
-      // Do something with the returned Parse.Object values
+      console.log("Successfully retrieved " + results.length + " bands.");
       for (var i = 0; i < results.length; i++) {
-        var folder = results[i];
-        // Append an li to the sidebar, containing the name of the folder
-        $("#folderList").append('<li><a href="#"> ' + folder.get('name') + ' (folder) </a></li>');
+        var band = results[i];
+        var structure = band.get("structure");
+        var structure_url = structure["_url"];
+        // Log grabbing of URL
+        console.log("Url of JSON file is " + structure_url);
 
-        // Loop through all files in the folder and display them
-        var recordings = folder.get('recordings');
-        for (var j = 0; j < recordings.length; j++) {
-          var recording = recordings[j];
-          // Temporary code to add the recording name as a link on the navbar. There is probably a much more elegant and useful way to do this.
-          $("#folderList").append('<li><a href="#"> -- ' + recording.get('recordingName') + '</a></li>');
-        }
+        $("#folderList").append('<li><a href="#"> ' + band.get("name") + ' (band) </a></li>');
 
+        // Go through the JSON file, and for each folder, and recording
+        $.getJSON(structure_url, function(data) { 
+          
+          // Grab the folder: recordings key/value pair in the JSON
+          $.each(data, function(folder, recordings) {
+            console.log('Folder: ' + folder + '  Recordings: '+ recordings);
+            $("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
+
+            // Grab the recording: info key/value pair
+            $.each(recordings, function(recording, info) {
+              console.log('Recording Name: ' + recording + '  Info: '+ info);
+              $("#folderList").append('<li><a href="#"> ' + recording + ' (recording) </a></li>');
+            });
+          // End folder: recording (below)
+          });
+        // End loop through JSON file (below)
+        });
+      // End loop through query results (below)
       }
     },
     error: function(error) {
