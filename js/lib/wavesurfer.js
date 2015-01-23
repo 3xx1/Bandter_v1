@@ -10,18 +10,18 @@
 
 var WaveSurfer = {
     defaultParams: {
-        height        : 128,
+        height        : 100,
         waveColor     : '#999',
         progressColor : '#555',
         cursorColor   : '#333',
         cursorWidth   : 1,
         skipLength    : 2,
-        minPxPerSec   : 20,
+        minPxPerSec   : 20,                        // originally 20
         pixelRatio    : window.devicePixelRatio,
         fillParent    : true,
-        scrollParent  : false,
+        scrollParent  : true,                       // originally false
         hideScrollbar : false,
-        normalize     : false,
+        normalize     : true,                       // originally false
         audioContext  : null,
         container     : null,
         dragSelection : true,

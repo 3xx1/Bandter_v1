@@ -21,11 +21,15 @@
         <script src="js/lib/drawer.canvas.js"></script>
 
         <!-- regions plugin -->
+        <script src="js/lib/wavesurfer.timeline.js"></script>
+        <script src="js/lib/wavesurfer.minimap.js"></script>
         <script src="js/lib/wavesurfer.regions.js"></script>
 
         <!-- Where you import js files you coded -->
-        <script src="js/dev/main_example.js"></script>
-        <script src="js/dev/trivial_example.js"></script>
+        <!-- <script src="js/dev/waveform-draw.js"></script> 
+        -->
+        <script src="js/dev/waveform-annotate.js"></script>
+        
     </head>
 
 
@@ -33,20 +37,11 @@
         
         <div class="container">
             <div class="header">
-                <!--
-                <noindex>
-                <ul class="nav nav-pills pull-right">
-                    <li><a href="?fill">Fill</a></li>
-                    <li><a href="?scroll">Scroll</a></li>
-                    <li><a href="?normalize">Normalize</a></li>
-                </ul>
-                </noindex>
-                -->
-
                 <h1 itemprop="name">AM I AXE?</h1>
             </div>
 
             <div id="demo">
+                <div id="wave-timeline"></div>
                 <div id="waveform">
                     <div class="progress progress-striped active" id="progress-bar">
                         <div class="progress-bar progress-bar-info"></div>
@@ -59,11 +54,35 @@
                     <button class="btn btn-primary" data-action="play"><i class="glyphicon glyphicon-play"></i>Play/<i class="glyphicon glyphicon-pause"></i>Pause</button>
                     <button class="btn btn-primary" data-action="forth"><i class="glyphicon glyphicon-step-forward"></i>Forward</button>
                     <button class="btn btn-primary" data-action="toggle-mute"><i class="glyphicon glyphicon-volume-off"></i>Toggle Mute</button>
+                    <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON"><i class="glyphicon glyphicon-file"></i>Export</button>
                 </div>
             </div>
 
             <p class="lead pull-center" id="drop"> Drag'n'drop your favorite <i class="glyphicon glyphicon-music"></i>-file here!</p> 
+
+            <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
+                <div class="form-group">
+                    <label for="start">Start</label>
+                    <input class="form-control" id="start" name="start" />
+                </div>
+
+                <div class="form-group">
+                    <label for="end">End</label>
+                    <input class="form-control" id="end" name="end" />
+                </div>
+
+                <div class="form-group">
+                    <label for="note">Note</label>
+                    <textarea id="note" class="form-control" rows="3" name="note"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Save</button>
+                <center><i>or</i></center>
+                <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
+            </form>
+            
         </div>
+
 
         
     </body>
