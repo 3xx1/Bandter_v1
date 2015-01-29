@@ -1,65 +1,172 @@
-<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
 
-  <title>Bandter 1st Edition</title>
+  <title>Bandter_v1</title>
   <meta name="description" content="My Parse App">
   <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="stylesheet" type="text/css" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/dev/bandterStyle.css">
+  <link rel="stylesheet" href="css/lib/reset.css">
+  <link rel="stylesheet" href="css/lib/styles.css">
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.3.min.js"></script>
+  <script type-"text/javascript" src="js/lib/wavesurfer.min.js"></script>
+  <script type="text/javascript" src="js/lib/wavesurfer.js"></script>
+  <script type="text/javascript" src="js/lib/webaudio.js"></script>
+  <script type="text/javascript" src="js/lib/audioelement.js"></script>
+  <script type="text/javascript" src="js/lib/drawer.js"></script>
+  <script type="text/javascript" src="js/lib/drawer.canvas.js"></script>
+  <script type-"text/javascript" src="js/lib/wavesurfer.timeline.js"></script>
+  <script type-"text/javascript" src="js/lib/wavesurfer.regions.js"></script>
+  <script type-"text/javascript" src="js/lib/wavesurfer.minimap.js"></script>
+  <script type-"text/javascript" src="js/dev/uploadMusic.js"></script>
+  <script type-"text/javascript" src="js/dev/getNavItems.js"></script>
+  <script type="text/javascript" src="js/dev/waveform-trivia.js"></script>
+  <script type="text/javascript" src="js/dev/waveform-annotation.js"></script>
+  </head>
 
-  <script type-"text/javascript" src="js/wavesurjer.min.js"></script>
-</head>
+<script type="text/javascript">
+    Parse.initialize("5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi")
+</script>
 
+<body onload="getNavItems();">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project name</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <input type="text" class="form-control" placeholder="Search...">
+        </form>
+      </div>
+    </div>
+  </nav>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+        <!-- Display all folders here -->
+			  <ul id="folderList" class="nav nav-sidebar">
+				  <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+				  <li><a href="#">Default nav item</a></li>
+          <!-- Any folders (and recordings within those folders) will be appended here by the getFolders.js on page load -->
+			  </ul>
+			  <ul class="nav nav-sidebar">
+          <!-- Ugly but functional file upload -->
+  				<li>
+            <!-- Upload button styling grabbed from http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button -->
+            <span class="btn btn-default btn-file">
+              Upload a file <input type="file" id="musicFileUpload" onchange="showUploadForm()">
+            </span>
 
-<body>
-  
+            <div id="fileUpload">
+              <!-- Do we need forms with Parse? Should this be a form? -->
+              <div id="nameUploadFile" class="hidden"> <!-- using class="hidden" temporarily -->
+                <div class="form-group">
+                  <label> Recording name: </label>
+                  <input id="recordingName" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label> Folder name: </label>
+                  <input id="recordingFolderName" type="text" class="form-control">
+                </div>
+                <button class="btn btn-default" onclick="cancelUploadMusic()">Cancel</button>
+                <button class="btn btn-default" onclick="uploadMusic()">Upload</button> 
+              </div>
+            </div>
+          </li>
+          <!-- End ugly but funcitonal file upload -->
+			  </ul>
+			</div>
+		</div>
+	</div>
+
+  <!-- This will have to be replaced with whatever Bootstrap wants to use for the main body -->
   <div id="main">
-    <h1>You're ready to use Parse!</h1>
-    <p>Read the documentation and start building your JavaScript app:</p>
+    <div class="container">
+            <div class="header">
+                <h1 itemprop="name">Bandter</h1>
+            </div>
 
-    <ul>
-      <li><a href="https://www.parse.com/docs/js_guide">Parse JavaScript Guide</a></li>
-      <li><a href="https://www.parse.com/docs/js">Parse JavaScript API Documentation</a></li>
-    </ul>
+            <div id="demo">        
+                <!-- comment this in if you need timeline with visualized waveform -->        
+                <!--<div id="wave-timeline"></div> -->
 
-    <div style="display:none" class="error">
-      Looks like there was a problem saving the test object. Make sure you've set your application ID and javascript key correctly in the call to <code>Parse.initialize</code> in this file.
-    </div>
+               
+                <div id="waveform">  
+                  <div class="progress progress-striped active" id="progress-bar">
+                        <div class="progress-bar progress-bar-info"></div>
+                    </div>
+                </div>
 
-    <div style="display:none" class="success">
-      <p>We've also just created your first object using the following code:</p>
-      
-        <code>
-          var TestObject = Parse.Object.extend("TestObject");<br/>
-          var testObject = new TestObject();<br/>
-          testObject.save({foo: "bar"});
-        </code>
-    </div>
+                <div class="row">
+                    
+                    <div class="col-sm-2">
+                        
+                        <button class="btn btn-primary btn-block" data-action="play">
+                            <span id="play">
+                                <i class="glyphicon glyphicon-play"></i>
+                                Play
+                            </span>
 
-    <div>I AM AXE</div>
+                            <span id="pause" style="display: none">
+                                <i class="glyphicon glyphicon-pause"></i>
+                                Pause
+                            </span>
+                        </button>
+                    </div>
 
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-2">
+                      <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
+                          <i class="glyphicon glyphicon-file"></i>
+                          Export
+                      </button>
+                  </div>  
+                </div>
+
+                <p id="subtitle" class="text-center text-info">&nbsp;</p>
+
+            </div>
+
+            <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
+                <div class="form-group">
+                    <label for="start">Start</label>
+                    <input class="form-control" id="start" name="start" />
+                </div>
+
+                <div class="form-group">
+                    <label for="end">End</label>
+                    <input class="form-control" id="end" name="end" />
+                </div>
+
+                <div class="form-group">
+                    <label for="note">Note</label>
+                    <textarea id="note" class="form-control" rows="3" name="note"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Save</button>
+                <center><i>or</i></center>
+                <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
+            </form>
+        </div>  
   </div>
 
-
-  <script type="text/javascript">
-    Parse.initialize("5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi");
-    
-    var TestObject = Parse.Object.extend("TestObject");
-    var testObject = new TestObject();
-      testObject.save({foo: "bar"}, {
-      success: function(object) {
-        $(".success").show();
-      },
-      error: function(model, error) {
-        $(".error").show();
-      }
-    });
-  </script>
-
 </body>
-
-
 </html>
