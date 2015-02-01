@@ -23,6 +23,8 @@ function getBands() {
         // Log grabbing of URL
         console.log("Url of JSON file is " + structure_url);
 
+        $("#bandSelect").append('<option value="' + band.get("objectId") + '"> ' + band.get("name") + '</option>');
+
         $("#folderList").append('<li><a href="#"> ' + band.get("name") + ' (band) </a></li>');
 
         // Go through the JSON file, and for each folder, and recording
