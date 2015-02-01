@@ -33,26 +33,32 @@
 
 <body onload="getNavItems();">
 	<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Project name</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Settings</a></li>
-          <li><a href="#">Profile</a></li>
-          <li><a href="#">Help</a></li>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Bandter</a>
+        </div>
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="#">Sessions Library</a></li>
+            <li><a href="#">Extractions Library</a></li>
         </ul>
-        <form class="navbar-form navbar-right">
-          <input type="text" class="form-control" placeholder="Search...">
-        </form>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+>>>>>>> 304d067a012546bbb50d13a9ea546f5eb93a1f6c
       </div>
     </div>
   </nav>
@@ -60,37 +66,37 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
         <!-- Display all folders here -->
-			  <ul id="folderList" class="nav nav-sidebar">
+				<ul id="folderList" class="nav nav-sidebar">
 				  <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 				  <li><a href="#">Default nav item</a></li>
           <!-- Any folders (and recordings within those folders) will be appended here by the getFolders.js on page load -->
-			  </ul>
-			  <ul class="nav nav-sidebar">
+				</ul>
+				<ul class="nav nav-sidebar">
           <!-- Ugly but functional file upload -->
-  				<li>
+					<li>
             <!-- Upload button styling grabbed from http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button -->
-            <span class="btn btn-default btn-file">
-              Upload a file <input type="file" id="musicFileUpload" onchange="showUploadForm()">
-            </span>
+						<span class="btn btn-default btn-file">
+						  Upload a file <input type="file" id="musicFileUpload" onchange="showUploadForm()">
+						</span>
 
-            <div id="fileUpload">
-              <!-- Do we need forms with Parse? Should this be a form? -->
-              <div id="nameUploadFile" class="hidden"> <!-- using class="hidden" temporarily -->
-                <div class="form-group">
-                  <label> Recording name: </label>
-                  <input id="recordingName" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label> Folder name: </label>
-                  <input id="recordingFolderName" type="text" class="form-control">
-                </div>
-                <button class="btn btn-default" onclick="cancelUploadMusic()">Cancel</button>
-                <button class="btn btn-default" onclick="uploadMusic()">Upload</button> 
-              </div>
-            </div>
-          </li>
+						<div id="fileUpload">
+						  <!-- Do we need forms with Parse? Should this be a form? -->
+						  <div id="nameUploadFile" class="hidden"> <!-- using class="hidden" temporarily -->
+							<div class="form-group">
+							  <label> Recording name: </label>
+							  <input id="recordingName" type="text" class="form-control">
+							</div>
+							<div class="form-group">
+							  <label> Folder name: </label>
+							  <input id="recordingFolderName" type="text" class="form-control">
+							</div>
+							<button class="btn btn-default" onclick="cancelUploadMusic()">Cancel</button>
+							<button class="btn btn-default" onclick="uploadMusic()">Upload</button> 
+						  </div>
+						</div>
+					</li>
           <!-- End ugly but funcitonal file upload -->
-			  </ul>
+				</ul>
 			</div>
 		</div>
 	</div>
