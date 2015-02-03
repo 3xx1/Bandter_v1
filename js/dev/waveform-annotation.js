@@ -4,18 +4,18 @@
 var wavesurfer = Object.create(WaveSurfer);
 
 /**
- * Parse logistics, init, and so on. 
+ * Parse logistics, init, and so on.
  */
 var rawData = {};
 
-// Probably these logistics below will be commented out because I will just fetch array from Josh's part. 
+// Probably these logistics below will be commented out because I will just fetch array from Josh's part.
 
 // "5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi" - Bandter Parse Account Authorization Keys
 Parse.initialize("gUXmz1UDr3xVjmRuCpgi0knEaphIphyj7mRlnlXi", "gsJUjDpTLkdHkqgjOhI9Qfe7a3qU6Wxt1PBLXusU"); // Relace Keys with Bandter ones
 var annotationObject = Parse.Object.extend("annotationObject");
 var query = new Parse.Query(annotationObject);
 var annotationObject = new annotationObject();
-annotationObject.id = "YbB4zxaZTt"; 
+annotationObject.id = "YbB4zxaZTt";
 
 query.equalTo("objectId", "YbB4zxaZTt");
 query.find({
@@ -46,22 +46,22 @@ document.addEventListener('DOMContentLoaded', function () {
         container: document.querySelector('#waveform'),
         height: 100,
         scrollParent: true,
-        normalize: true,
+        normalize: false,
         minimap: true,
         waveColor: 'red',
-        progressColor: 'blue',
+        progressColor: 'purple',
         cursorColor: 'blue',
 
         // backend: 'AudioElement'
     });
 
-    
+
     wavesurfer.util.ajax({
         responseType: 'json',
         url: 'media/rashomon.json'
     }).on('success', function (data) {
         wavesurfer.load(
-            'media/rooster.mp3' // will be replaced with the actual file path
+            'file:///Users/3xx1/Documents/Bandter_v1/media/rooster.mp3' // will be replaced with the actual file path
         );
     });
 
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Regions */
     wavesurfer.enableDragSelection({
-        color: randomColor(0.1)
+        color: randomColor(0.5)
     });
 
     wavesurfer.on('ready', function () {
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Minimap plugin */
     wavesurfer.initMinimap({
-        height: 30,
+        height: 0,
         waveColor: '#ddd',
         progressColor: '#999',
         cursorColor: '#999'
@@ -188,7 +188,7 @@ function saveRegions() {
  */
 function loadRegions(regions) {
     regions.forEach(function (region) {
-        region.color = randomColor(0.1);
+        region.color = randomColor(0.5);
         wavesurfer.addRegion(region);
     });
 }
@@ -252,9 +252,11 @@ function extractRegions(peaks, duration) {
         return reg.end - reg.start >= minLen;
     });
 
+
     // Return time-based regions
     return fRegions.map(function (reg) {
         return {
+
             start: Math.round(reg.start * coef * 10) / 10,
             end: Math.round(reg.end * coef * 10) / 10
         };
@@ -308,11 +310,25 @@ function editAnnotation (region) {
  * Display annotation.
  */
 function showNote (region) {
+    var target;
+    target = document.getElementById('annotation');
     if (!showNote.el) {
         showNote.el = document.querySelector('#subtitle');
     }
+    var dur = wavesurfer.getDuration();
+    var wid = wavesurfer.drawer.wrapper.scrollWidth;
+    target.style.left = (region.start / dur * wid + 'px');
+    // wavesurfer.drawer.wrapper.getBoundingClientRect().left
+    // target.style.color = 'rgba(0, 120, 180, 0)';
+    // target.style.backgroundColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.textContent = region.data.note || '–';
+
 }
+
+/**
+ * Positioning annotation dialogue
+ */
+
 
 /**
  * Bind controls.
@@ -335,7 +351,7 @@ GLOBAL_ACTIONS['export'] = function () {
             // console.log(data[0].start);
             // console.log(data[1].end);
             // console.log(data[2].data[0]);
-            
+
 
             annotationObject.set("logs", data);
             annotationObject.save();
@@ -344,4 +360,3 @@ GLOBAL_ACTIONS['export'] = function () {
         }
       })
 };
-

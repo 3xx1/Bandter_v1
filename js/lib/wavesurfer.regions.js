@@ -151,8 +151,8 @@ WaveSurfer.Region = {
             cursor: 'move',
             position: 'absolute',
             zIndex: 2,
-            height: '100%',
-            top: '0px'
+            height: '50%',
+            top: '50%'
         });
 
         /* Resize handles */
@@ -238,6 +238,7 @@ WaveSurfer.Region = {
             if (my.loop) {
                 my.wavesurfer.play(my.start);
             }
+
         });
     },
 

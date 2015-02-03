@@ -143,6 +143,7 @@ WaveSurfer.Drawer = {
             this.style(this.wrapper, {
                 width: ~~(this.width / this.params.pixelRatio) + 'px'
             });
+            
         }
 
         this.updateWidth();
