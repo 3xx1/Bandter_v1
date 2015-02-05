@@ -19,6 +19,10 @@ function showUploadForm() {
 function uploadMusic() {
     var fileUploadControl = $("#musicFileUpload")[0];
     var recordingName = $("#recordingName")[0].value;
+    var band_id = $("#bandSelect").val();
+
+    console.log('Band ID = ' + band_id);
+
     // TODO - handle multiple file uploading
     if (fileUploadControl.files.length > 0) {
         var file = fileUploadControl.files[0];

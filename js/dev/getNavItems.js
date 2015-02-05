@@ -1,4 +1,9 @@
 
+
+// Global variable storing the current band. This should be accessible from anywhere
+var currentBand = null;
+
+
 // Wrapper function which calls getBands(), which will then call getFolders() 
 // Function is called on page load 
 function getNavItems() {
@@ -18,12 +23,15 @@ function getBands() {
       console.log("Successfully retrieved " + results.length + " bands.");
       for (var i = 0; i < results.length; i++) {
         var band = results[i];
+
+        currentBand = band;
+
         var structure = band.get("structure");
         var structure_url = structure["_url"];
         // Log grabbing of URL
         console.log("Url of JSON file is " + structure_url);
 
-        $("#bandSelect").append('<option value="' + band.get("objectId") + '"> ' + band.get("name") + '</option>');
+        $("#bandSelect").append('<option value="' + band.id + '"> ' + band.get("name") + '</option>');
 
         $("#folderList").append('<li><a href="#"> ' + band.get("name") + ' (band) </a></li>');
 
