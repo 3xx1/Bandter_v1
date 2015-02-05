@@ -39,8 +39,7 @@ function uploadMusic() {
             AudioObject.set('file', parseFile);
             // Set the recording name as whatever is in the associated text input box
             AudioObject.set('recordingName', recordingName);
-            // Annotations start empty, but should be an array of Annotation objects?
-            AudioObject.set('annotations', []);
+
             AudioObject.save();
             
             console.log('Done uploading ' + recordingName)
@@ -57,4 +56,17 @@ function uploadMusic() {
 // For now, just resetting the container div to be hidden
 function cancelUploadMusic() {
     $("#nameUploadFile")[0].className = "hidden";
+}
+
+
+function updateJson(bandJsonUrl, folder) {
+
+    $.getJSON(bandJsonUrl, function(data) { 
+        
+        data[folder] = {};
+
+        //$("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
+
+    // End loop through JSON file (below)
+    });
 }

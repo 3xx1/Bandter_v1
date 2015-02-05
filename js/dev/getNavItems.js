@@ -2,7 +2,8 @@
 
 // Global variable storing the current band. This should be accessible from anywhere
 var currentBand = null;
-
+var currentBandJsonUrl = null;
+var currentSongUrl = null; 
 
 // Wrapper function which calls getBands(), which will then call getFolders() 
 // Function is called on page load 
@@ -23,20 +24,17 @@ function getBands() {
       console.log("Successfully retrieved " + results.length + " bands.");
       for (var i = 0; i < results.length; i++) {
         var band = results[i];
-
-        currentBand = band;
-
         var structure = band.get("structure");
-        var structure_url = structure["_url"];
+        var structureUrl = structure["_url"];
         // Log grabbing of URL
-        console.log("Url of JSON file is " + structure_url);
+        console.log("Url of JSON file is " + structureUrl);
 
         $("#bandSelect").append('<option value="' + band.id + '"> ' + band.get("name") + '</option>');
 
         $("#folderList").append('<li><a href="#"> ' + band.get("name") + ' (band) </a></li>');
 
         // Go through the JSON file, and for each folder, and recording
-        $.getJSON(structure_url, function(data) { 
+        $.getJSON(structureUrl, function(data) { 
           
           // Grab the folder: recordings key/value pair in the JSON
           $.each(data, function(folder, recordings) {
@@ -47,9 +45,18 @@ function getBands() {
             $.each(recordings, function(recording, info) {
               console.log('Recording Name: ' + recording + '  Info: '+ info);
               $("#folderList").append('<li><a href="#"> ' + recording + ' (recording) </a></li>');
+
+              currentSongUrl = info['audioFile'];
             });
           // End folder: recording (below)
           });
+
+        // Set these globals! For now they're whichever band is last in the list from the orginal band query
+        currentBand = band;
+        currentBandJsonUrl = structureUrl;
+
+        //updateJson(currentBandJsonUrl, 'testtestest');
+
         // End loop through JSON file (below)
         });
       // End loop through query results (below)
