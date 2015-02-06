@@ -81,3 +81,13 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
     //$("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
 
 }
+
+// Temporarily here, should be added to a better spot. Code by Kaz, moved here cluelessly by Josh
+function loadWaveform(url) {
+    wavesurfer.util.ajax({
+        responseType: 'json',
+        url: 'media/rashomon.json'
+    }).on('success', function (data) {
+        wavesurfer.load(url);
+    });
+}

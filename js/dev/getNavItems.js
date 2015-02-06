@@ -37,7 +37,10 @@ function getBands() {
           // Grab the recording: info key/value pair
           $.each(recordings, function(recording, info) {
             console.log('Recording Name: ' + recording + '  Info: '+ info);
-            $("#folderList").append('<li><a href="#"> ' + recording + ' (recording) </a></li>');
+
+            // Add the file URL to an onclick function so that this can be loaded later
+            url = info['audioFile'];
+            $("#folderList").append('<li onclick=loadWaveform("' + url + '") >' + recording + ' (recording) </li>');
 
             currentSongUrl = info['audioFile'];
           });
