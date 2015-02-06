@@ -2,7 +2,7 @@
 
 // Global variable storing the current band. This should be accessible from anywhere
 var currentBand = null;
-var currentBandJsonUrl = null;
+var currentBandStructure = null;
 var currentSongUrl = null; 
 
 // Wrapper function which calls getBands(), which will then call getFolders() 
@@ -23,41 +23,25 @@ function getBands() {
     success: function(results) {
       console.log("Successfully retrieved " + results.length + " bands.");
       for (var i = 0; i < results.length; i++) {
-        var band = results[i];
-        var structure = band.get("structure");
-        var structureUrl = structure["_url"];
-        // Log grabbing of URL
-        console.log("Url of JSON file is " + structureUrl);
+        currentBand = results[i];
+        currentBandStructure = currentBand.get("folderStructure")[0];
 
-        $("#bandSelect").append('<option value="' + band.id + '"> ' + band.get("name") + '</option>');
+        $("#bandSelect").append('<option value="' + currentBand.id + '"> ' + currentBand.get("name") + '</option>');
+        $("#folderList").append('<li><a href="#"> ' + currentBand.get("name") + ' (band) </a></li>');
 
-        $("#folderList").append('<li><a href="#"> ' + band.get("name") + ' (band) </a></li>');
+        // Grab the folder: recordings key/value pair in the JSON
+        $.each(currentBandStructure, function(folder, recordings) {
+          console.log('Folder: ' + folder + '  Recordings: '+ recordings);
+          $("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
 
-        // Go through the JSON file, and for each folder, and recording
-        $.getJSON(structureUrl, function(data) { 
-          
-          // Grab the folder: recordings key/value pair in the JSON
-          $.each(data, function(folder, recordings) {
-            console.log('Folder: ' + folder + '  Recordings: '+ recordings);
-            $("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
+          // Grab the recording: info key/value pair
+          $.each(recordings, function(recording, info) {
+            console.log('Recording Name: ' + recording + '  Info: '+ info);
+            $("#folderList").append('<li><a href="#"> ' + recording + ' (recording) </a></li>');
 
-            // Grab the recording: info key/value pair
-            $.each(recordings, function(recording, info) {
-              console.log('Recording Name: ' + recording + '  Info: '+ info);
-              $("#folderList").append('<li><a href="#"> ' + recording + ' (recording) </a></li>');
-
-              currentSongUrl = info['audioFile'];
-            });
-          // End folder: recording (below)
+            currentSongUrl = info['audioFile'];
           });
-
-        // Set these globals! For now they're whichever band is last in the list from the orginal band query
-        currentBand = band;
-        currentBandJsonUrl = structureUrl;
-
-        //updateJson(currentBandJsonUrl, 'testtestest');
-
-        // End loop through JSON file (below)
+        // End folder: recording (below)
         });
       // End loop through query results (below)
       }

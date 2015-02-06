@@ -19,6 +19,7 @@ function showUploadForm() {
 function uploadMusic() {
     var fileUploadControl = $("#musicFileUpload")[0];
     var recordingName = $("#recordingName")[0].value;
+    var recordingFolderName = $("#recordingFolderName")[0].value;
     var band_id = $("#bandSelect").val();
 
     console.log('Band ID = ' + band_id);
@@ -42,6 +43,9 @@ function uploadMusic() {
 
             AudioObject.save();
             
+            // Create a new folder in the band's structure tree
+            updateJsonForNewUpload(currentBand, currentBandStructure, recordingFolderName, recordingName, AudioObject);
+
             console.log('Done uploading ' + recordingName)
             // Hide the file name input form
             $("#nameUploadFile")[0].className = "hidden";
@@ -59,14 +63,21 @@ function cancelUploadMusic() {
 }
 
 
-function updateJson(bandJsonUrl, folder) {
+function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, AudioObject) {
+    // Get the url of the file
+    url = AudioObject.get('file')['_url'];
 
-    $.getJSON(bandJsonUrl, function(data) { 
-        
-        data[folder] = {};
+    // Need to create an empty structure if the folderName doesn't exist yet
+    if (folderName in bandStructure) {
+        bandStructure[folderName][recordingName] = {"audioFile": url};
+    } else {
+        bandStructure[folderName] = {}
+        bandStructure[folderName][recordingName] = {"audioFile": url};
+    };
+    
+    band.set("folderStructure", [bandStructure]);    
+    band.save();
 
-        //$("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
+    //$("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
 
-    // End loop through JSON file (below)
-    });
 }
