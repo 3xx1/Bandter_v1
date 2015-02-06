@@ -71,7 +71,7 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
     if (folderName in bandStructure) {
         bandStructure[folderName][recordingName] = {"audioFile": url};
     } else {
-        bandStructure[folderName] = {}
+        bandStructure[folderName] = {};
         bandStructure[folderName][recordingName] = {"audioFile": url};
     };
     
