@@ -7,7 +7,6 @@ var wavesurfer = Object.create(WaveSurfer);
  * Parse logistics, init, and so on.
  */
 var rawData = {};
-
 // Probably these logistics below will be commented out because I will just fetch array from Josh's part.
 
 // "5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi" - Bandter Parse Account Authorization Keys
@@ -286,14 +285,24 @@ function editAnnotation (region) {
     form.style.opacity = 1;
     form.elements.start.value = Math.round(region.start * 10) / 10,
     form.elements.end.value = Math.round(region.end * 10) / 10;
-    form.elements.note.value = region.data.note || '';
+    // form.elements.note.value = region.data.note || '';
+    form.elements.note.value = '';
+    // var noteVal = ;
+    // var accountVal = region.data.account;
+    //noteVal[noteVal.length] = form.elements.note.value;
+    //accountVal[accountVal.length] = "kaz";
+    var notation = region.data.note || '';
+    var accountNote = region.data.account || '';
+
     form.onsubmit = function (e) {
         e.preventDefault();
+        annotationNotes = notation.split("|");
         region.update({
             start: form.elements.start.value,
             end: form.elements.end.value,
             data: {
-                note: form.elements.note.value
+                "note": notation + "|" + form.elements.note.value,
+                "account": accountNote + "|" + "kaz"                  //replace here with actual account name
             }
         });
         form.style.opacity = 0;
@@ -318,16 +327,19 @@ function showNote (region) {
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
-    // wavesurfer.drawer.wrapper.getBoundingClientRect().left
-    // target.style.color = 'rgba(0, 120, 180, 0)';
-    // target.style.backgroundColor = 'rgba(20, 180, 120, 0.1)';
-    showNote.el.textContent = region.data.note || '–';
+    var antNotes = region.data.note.split("|");
+    console.log(antNotes.length);
+    var printNote = "";
 
+    for(var i=1; i<antNotes.length; i++)
+    {
+      printNote += antNotes[i] + '</br>';
+    }
+    showNote.el.innerHTML = printNote || '-';
+
+    // showNote.el.textContent = region.data.note || '–';
+    // console.log(annotationNotes.length);
 }
-
-/**
- * Positioning annotation dialogue
- */
 
 
 /**
@@ -348,11 +360,6 @@ GLOBAL_ACTIONS['export'] = function () {
     annotationObject.save(null, {
         success: function(annotationObject){
             var data = JSON.parse(localStorage.regions);
-            // console.log(data[0].start);
-            // console.log(data[1].end);
-            // console.log(data[2].data[0]);
-
-
             annotationObject.set("logs", data);
             annotationObject.save();
             // alert("saved!!");
