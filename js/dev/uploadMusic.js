@@ -4,14 +4,14 @@ function showUploadForm() {
     var folderName = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + ' jam';
     var recordingName = $("#musicFileUpload")[0].files[0].name;
 
-    // Naive way to remove last 4 characters of filename by default 
+    // Naive way to remove last 4 characters of filename by default
     if (recordingName.length > 4) {
         recordingName = recordingName.substring(0, recordingName.length - 4);
     }
-    // Band temporary way to reveal the hidden div. This input method will need to be reworked, 
+    // Band temporary way to reveal the hidden div. This input method will need to be reworked,
     // and maybe end up as a modal or even separate page to support uploading many files at once
     $("#nameUploadFile")[0].className = "";
-    // The text input fields receive a default name 
+    // The text input fields receive a default name
     $("#recordingName")[0].value = recordingName;
     $("#recordingFolderName")[0].value = folderName;
 }
@@ -28,11 +28,11 @@ function uploadMusic() {
     if (fileUploadControl.files.length > 0) {
         var file = fileUploadControl.files[0];
         var name = fileUploadControl.files[0].name;
-        // Create instance of Parse's File object 
+        // Create instance of Parse's File object
         var parseFile = new Parse.File(name, file);
 
         parseFile.save().then(function() {
-            // In order to get access to the File, we must create 
+            // In order to get access to the File, we must create
             // an object linking to the uploaded file
             var AudioObject = Parse.Object.extend("AudioObject");
             var AudioObject = new AudioObject();
@@ -42,14 +42,14 @@ function uploadMusic() {
             AudioObject.set('recordingName', recordingName);
 
             AudioObject.save();
-            
+
             // Create a new folder in the band's structure tree
             updateJsonForNewUpload(currentBand, currentBandStructure, recordingFolderName, recordingName, AudioObject);
 
             console.log('Done uploading ' + recordingName)
             // Hide the file name input form
             $("#nameUploadFile")[0].className = "hidden";
-            
+
         }, function(error) {
             // The file either could not be read, or could not be saved to Parse.
             console.log('error saving file');
@@ -74,8 +74,8 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
         bandStructure[folderName] = {};
         bandStructure[folderName][recordingName] = {"audioFile": url};
     };
-    
-    band.set("folderStructure", [bandStructure]);    
+
+    band.set("folderStructure", [bandStructure]);
     band.save();
 
     //$("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
@@ -83,11 +83,3 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
 }
 
 // Temporarily here, should be added to a better spot. Code by Kaz, moved here cluelessly by Josh
-function loadWaveform(url) {
-    wavesurfer.util.ajax({
-        responseType: 'json',
-        url: 'media/rashomon.json'
-    }).on('success', function (data) {
-        wavesurfer.load(url);
-    });
-}

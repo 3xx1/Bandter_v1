@@ -4,18 +4,21 @@
 var wavesurfer = Object.create(WaveSurfer);
 
 /**
- * Parse logistics, init, and so on. 
+ * Parse logistics, init, and so on.
  */
 var rawData = {};
 
-// Probably these logistics below will be commented out because I will just fetch array from Josh's part. 
+// Probably these logistics below will be commented out because I will just fetch array from Josh's part.
 
 // "5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi" - Bandter Parse Account Authorization Keys
-Parse.initialize("gUXmz1UDr3xVjmRuCpgi0knEaphIphyj7mRlnlXi", "gsJUjDpTLkdHkqgjOhI9Qfe7a3qU6Wxt1PBLXusU"); // Relace Keys with Bandter ones
+// Parse.initialize("gUXmz1UDr3xVjmRuCpgi0knEaphIphyj7mRlnlXi", "gsJUjDpTLkdHkqgjOhI9Qfe7a3qU6Wxt1PBLXusU"); // Relace Keys with Bandter ones
+
+/*
+
 var annotationObject = Parse.Object.extend("annotationObject");
 var query = new Parse.Query(annotationObject);
 var annotationObject = new annotationObject();
-annotationObject.id = "YbB4zxaZTt"; 
+annotationObject.id = "YbB4zxaZTt";
 
 query.equalTo("objectId", "YbB4zxaZTt");
 query.find({
@@ -29,16 +32,13 @@ query.find({
 });
 
 
+*/
+
 /**
  * Init & load.
  */
 
-
-
 /* Progress bar */
-
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
     // Init wavesurfer
@@ -49,13 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
         normalize: true,
         minimap: true,
         waveColor: 'red',
-        progressColor: 'blue',
+        progressColor: 'purple',
         cursorColor: 'blue',
 
         // backend: 'AudioElement'
     });
 
-    
+
     wavesurfer.util.ajax({
         responseType: 'json',
         url: 'media/rashomon.json'
@@ -69,15 +69,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Regions */
     wavesurfer.enableDragSelection({
-        color: randomColor(0.1)
+        color: randomColor(0.3)
     });
 
     wavesurfer.on('ready', function () {
-        if (localStorage.regions) {
-            loadRegions(JSON.parse(localStorage.regions));
-            // alert('thisisme');
-            // alert(localStorage.regions.start);
-        } else {
+      loadRegions(annotationGlobal);
+      // saveRegions();
+        //if (localStorage.regions) {
+            // loadRegions(JSON.parse(localStorage.regions));
+        // } else {
             // loadRegions(
             //     extractRegions(
             //         wavesurfer.backend.getPeaks(512),
@@ -92,10 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
             //    loadRegions(data);
             //   saveRegions();
             //});
-            loadRegions(rawData);
-            saveRegions();
+            // loadRegions(annotationGlobal);
+            // saveRegions();
             // alert("case2");
-        }
+        // }
     });
     wavesurfer.on('region-click', function (region, e) {
         e.stopPropagation();
@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
 document.addEventListener('DOMContentLoaded', function () {
     var progressDiv = document.querySelector('#progress-bar');
     var progressBar = progressDiv.querySelector('.progress-bar');
@@ -165,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
     wavesurfer.on('destroy', hideProgress);
     wavesurfer.on('error', hideProgress);
 });
+
 
 /**
  * Save annotations to localStorage.
@@ -193,6 +195,10 @@ function loadRegions(regions) {
     });
 }
 
+
+function clearRegions() {
+    wavesurfer.regions.clear();
+}
 
 /**
  * Extract regions separated by silence.
@@ -279,39 +285,61 @@ function randomColor(alpha) {
 /**
  * Edit annotation for a region.
  */
-function editAnnotation (region) {
-    var form = document.forms.edit;
-    form.style.opacity = 1;
-    form.elements.start.value = Math.round(region.start * 10) / 10,
-    form.elements.end.value = Math.round(region.end * 10) / 10;
-    form.elements.note.value = region.data.note || '';
-    form.onsubmit = function (e) {
-        e.preventDefault();
-        region.update({
-            start: form.elements.start.value,
-            end: form.elements.end.value,
-            data: {
-                note: form.elements.note.value
-            }
-        });
-        form.style.opacity = 0;
-    };
-    form.onreset = function () {
-        form.style.opacity = 0;
-        form.dataset.region = null;
-    };
-    form.dataset.region = region.id;
-}
+ function editAnnotation (region) {
+     var form = document.forms.edit;
+     form.style.opacity = 1;
+     form.elements.start.value = Math.round(region.start * 10) / 10,
+     form.elements.end.value = Math.round(region.end * 10) / 10;
+     // form.elements.note.value = region.data.note || '';
+     form.elements.note.value = '';
+     // var noteVal = ;
+     // var accountVal = region.data.account;
+     //noteVal[noteVal.length] = form.elements.note.value;
+     //accountVal[accountVal.length] = "kaz";
+     var notation = region.data.note || '';
+     var accountNote = region.data.account || '';
 
+     form.onsubmit = function (e) {
+         e.preventDefault();
+         annotationNotes = notation.split("|");
+         region.update({
+             start: form.elements.start.value,
+             end: form.elements.end.value,
+             data: {
+                 "note": notation + "|" + form.elements.note.value,
+                 "account": accountNote + "|" + "kaz"                  //replace here with actual account name
+             }
+         });
+         form.style.opacity = 0;
+     };
+     form.onreset = function () {
+         form.style.opacity = 0;
+         form.dataset.region = null;
+     };
+     form.dataset.region = region.id;
+ }
 
 /**
  * Display annotation.
  */
 function showNote (region) {
+    var target;
+    target = document.getElementById('annotation');
     if (!showNote.el) {
         showNote.el = document.querySelector('#subtitle');
     }
-    showNote.el.textContent = region.data.note || '–';
+    var dur = wavesurfer.getDuration();
+    var wid = wavesurfer.drawer.wrapper.scrollWidth;
+    target.style.left = (region.start / dur * wid + 'px');
+    var antNotes = region.data.note.split("|");
+    // console.log(antNotes.length);
+    var printNote = "";
+
+    for(var i=1; i<antNotes.length; i++)
+    {
+      printNote += antNotes[i] + '</br>';
+    }
+    showNote.el.innerHTML = printNote || '-';
 }
 
 /**
@@ -329,13 +357,13 @@ GLOBAL_ACTIONS['delete-region'] = function () {
 GLOBAL_ACTIONS['export'] = function () {
     window.open('data:application/json;charset=utf-8,' +
         encodeURIComponent(localStorage.regions));
+    /*
     annotationObject.save(null, {
         success: function(annotationObject){
             var data = JSON.parse(localStorage.regions);
             // console.log(data[0].start);
             // console.log(data[1].end);
             // console.log(data[2].data[0]);
-            
 
             annotationObject.set("logs", data);
             annotationObject.save();
@@ -343,5 +371,6 @@ GLOBAL_ACTIONS['export'] = function () {
             localStorage.clear();
         }
       })
+      */
+      localStorage.clear();
 };
-

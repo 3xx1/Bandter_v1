@@ -16,7 +16,7 @@ var WaveSurfer = {
         cursorColor   : '#333',
         cursorWidth   : 1,
         skipLength    : 2,
-        minPxPerSec   : 20,
+        minPxPerSec   : 2,
         pixelRatio    : window.devicePixelRatio,
         fillParent    : true,
         scrollParent  : false,

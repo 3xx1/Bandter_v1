@@ -3,10 +3,10 @@
 // Global variable storing the current band. This should be accessible from anywhere
 var currentBand = null;
 var currentBandStructure = null;
-var currentSongUrl = null; 
+var currentSongUrl = null;
 
-// Wrapper function which calls getBands(), which will then call getFolders() 
-// Function is called on page load 
+// Wrapper function which calls getBands(), which will then call getFolders()
+// Function is called on page load
 function getNavItems() {
   getBands()
 }
@@ -17,7 +17,7 @@ function getBands() {
   var bandQuery = new Parse.Query(Band);
   // Temporarily limiting this to a particular band
   // Will eventually need to grab the current logged in user and all bands they're a part of
-  bandQuery.equalTo("objectId", "h54TtHZGZ5")  
+  bandQuery.equalTo("objectId", "h54TtHZGZ5")
 
   bandQuery.find({
     success: function(results) {
