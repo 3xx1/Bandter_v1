@@ -27,6 +27,7 @@
   <script type="text/javascript" src="js/dev/waveform-trivia.js"></script>
   <script type="text/javascript" src="js/dev/waveform-annotation.js"></script>
   <script type="text/javascript" src="js/dev/loadwave-util.js"></script>
+  <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
 </head>
 
 <script type="text/javascript">
@@ -71,33 +72,12 @@
           <!-- Ugly but functional file upload -->
   				<li>
             <!-- Upload button styling grabbed from http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button -->
-            <span class="btn btn-default btn-file">
-              Upload a file <input type="file" id="musicFileUpload" onchange="showUploadForm()">
-            </span>
+            
 
-            <div id="fileUpload">
-              <!-- Do we need forms with Parse? Should this be a form? -->
-              <div id="nameUploadFile" class="hidden"> <!-- using class="hidden" temporarily -->
-                <div class="form-group">
-                  <label> Band: </label>
-                  <select id="bandSelect">
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label> Folder name: </label>
-                  <input id="recordingFolderName" type="text" class="form-control">
-                </div>
-
-                <div>
-                  <label> Recording name: </label>
-                  <input id="recordingName" type="text" class="form-control">
-                </div>
-
-                <button class="btn btn-default" onclick="cancelUploadMusic()">Cancel</button>
-                <button class="btn btn-default" onclick="uploadMusic()">Upload</button>
-              </div>
-            </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+              Upload recording
+            </button>
           </li>
           <!-- End ugly but funcitonal file upload -->
 			  </ul>
@@ -115,32 +95,32 @@
                     <div class="col-sm-1">
                         <button class="btn btn-primary" data-action="back">
                             <i class="glyphicon glyphicon-step-backward"></i>
-                            B
+                            Back
                         </button>
                     </div>
                     <div class="col-sm-1">
                         <button class="btn btn-primary btn-block" data-action="play">
                             <span id="play">
                                 <i class="glyphicon glyphicon-play"></i>
-                                P
+                                Play
                             </span>
 
                             <span id="pause" style="display: none">
                                 <i class="glyphicon glyphicon-pause"></i>
-                                P
+                                Pause
                             </span>
                         </button>
                     </div>
                     <div class="col-sm-1">
                         <button class="btn btn-primary" data-action="forth">
                             <i class="glyphicon glyphicon-step-forward"></i>
-                            F
+                            Forward
                         </button>
                     </div>
                     <div class="col-sm-1">
                         <button class="btn btn-primary" data-action="toggle-mute">
                             <i class="glyphicon glyphicon-volume-off"></i>
-                            M
+                            Mute
                         </button>
                     </div>
                 </div>
@@ -196,5 +176,50 @@
         </div>
     </div>
 
+
 </body>
+
+  <!-- Upload file Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Upload A Recording</h4>
+        </div>
+
+        <div class="modal-body">
+          <span class="btn btn-default btn-file btn-lg">
+              Select file <input type="file" id="musicFileUpload" onchange="showUploadForm()">
+          </span>
+          <br> <br> <br>
+          <div id="fileUpload">
+              <!-- Do we need forms with Parse? Should this be a form? -->
+              <div id="nameUploadFile"> <!-- using class="hidden" temporarily -->
+                <div class="form-group">
+                  <label> Band: </label>
+                  <select id="bandSelect">
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label> Folder name: </label>
+                  <input id="recordingFolderName" type="text" class="form-control">
+                </div>
+
+                <div>
+                  <label> Recording name: </label>
+                  <input id="recordingName" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="uploadMusic()" data-dismiss="modal">Upload!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End modal -->
 </html>
