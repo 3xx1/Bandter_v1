@@ -88,99 +88,97 @@
   <!-- This will have to be replaced with whatever Bootstrap wants to use for the main body -->
   <div id="main" class="container-fluid">
     <div class="row">
-      <div class="col-sm-9">
-        <div class="container waveformContainer">
-            <div id="loadingStatus"> </div>
-            <div class="header">
-                <div class="row buttonControl">
-                    <!--
-                    <div class="col-sm-1">
-                        <div data-action="back">
-                            <i class="fa fa-step-backward fa-3x"></i>
-                        </div>
-                    </div>
-                    -->
-                    <div class="col-sm-1">
-                        <div data-action="play">
-                            <div id="play" class="control">
-                                <i class="fa fa-play fa-4x"></i>
-                            </div>
-
-                            <div id="pause" class="control controlPause" style="display: none">
-                                <i class="fa fa-pause fa-3x"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <!--
-                    <div class="col-sm-1">
-                        <div data-action="forth">
-                            <i class="fa fa-step-forward fa-3x"></i>
-                        </div>
-                    </div>
-                    -->
-                    <!--
-                    <div class="col-sm-1">
-                        <button class="btn btn-primary" data-action="toggle-mute">
-                            <span class="glyphicon glyphicon-volume-off"></span>
-                            Mute
-                        </button>
-                    </div>
-                    -->
-                  <div id="displayRecordingInfo">
-                    <h1 id="displayRecordingName" itemprop="name">Default song</h1>
-                    <div id="displayRecordingFolderName"> Click a recording on the left sidebar to load it </div>
-                  </div>
-                </div>
-
-
-            </div>
-
-            <div id="demo">
-                <!-- comment this in if you need timeline with visualized waveform -->
-                <!--<div id="wave-timeline"></div> -->
-
-                <div id="waveform">
+      <div class="container waveformContainer">
+          <div id="loadingStatus"> </div>
+          <div class="header">
+              <div class="row buttonControl">
                   <!--
-                  <div class="progress progress-striped active" id="progress-bar">
-                        <div class="progress-bar progress-bar-info"></div>
+                  <div class="col-sm-1">
+                      <div data-action="back">
+                          <i class="fa fa-step-backward fa-3x"></i>
+                      </div>
                   </div>
                   -->
-                </div>
+                  <div class="col-sm-1">
+                      <div data-action="play">
+                          <div id="play" class="control">
+                              <i class="fa fa-play fa-4x"></i>
+                          </div>
 
-                <div id="annotation">
-                  <img border="0" src='media/kaz.jpg' width="30" height="30" alt="no image found :(">
-                  <p id="subtitle" class="text-info">&nbsp;</p>
-                  <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
-                      <div class="form-group">
-                          <!-- <label for="start">Start</label> -->
-                          <input type="hidden" class="form-control" id="start" name="start" />
+                          <div id="pause" class="control controlPause" style="display: none">
+                              <i class="fa fa-pause fa-3x"></i>
+                          </div>
                       </div>
-
-                      <div class="form-group">
-                          <!-- <label for="end">End</label> -->
-                          <input type="hidden" class="form-control" id="end" name="end" />
+                  </div>
+                  <!--
+                  <div class="col-sm-1">
+                      <div data-action="forth">
+                          <i class="fa fa-step-forward fa-3x"></i>
                       </div>
-
-                      <div class="form-group">
-                          <!-- <label for="note">Note</label> -->
-                          <textarea id="note" class="form-control" name="note"></textarea>
-                      </div>
-
-                      <button type="submit" class="btn btn-success btn-block">Save</button>
-
-                      <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
-                    </form>
+                  </div>
+                  -->
+                  <!--
+                  <div class="col-sm-1">
+                      <button class="btn btn-primary" data-action="toggle-mute">
+                          <span class="glyphicon glyphicon-volume-off"></span>
+                          Mute
+                      </button>
+                  </div>
+                  -->
+                <div id="displayRecordingInfo">
+                  <h1 id="displayRecordingName" itemprop="name">Default song</h1>
+                  <div id="displayRecordingFolderName"> Click a recording on the left sidebar to load it </div>
                 </div>
-            </div>
+              </div>
 
-            <div class="row">
-                <div class="col-sm-2">
-                    <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
-                        <i class="fa fa-file"></i>
-                        Export
-                    </button>
+
+          </div>
+
+          <div id="demo">
+              <!-- comment this in if you need timeline with visualized waveform -->
+              <!--<div id="wave-timeline"></div> -->
+
+              <div id="waveform">
+                <!--
+                <div class="progress progress-striped active" id="progress-bar">
+                      <div class="progress-bar progress-bar-info"></div>
                 </div>
-            </div>
+                -->
+              </div>
+
+              <div id="annotation">
+                <img border="0" src='media/kaz.jpg' width="30" height="30" alt="no image found :(">
+                <p id="subtitle" class="text-info">&nbsp;</p>
+                <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
+                    <div class="form-group">
+                        <!-- <label for="start">Start</label> -->
+                        <input type="hidden" class="form-control" id="start" name="start" />
+                    </div>
+
+                    <div class="form-group">
+                        <!-- <label for="end">End</label> -->
+                        <input type="hidden" class="form-control" id="end" name="end" />
+                    </div>
+
+                    <div class="form-group">
+                        <!-- <label for="note">Note</label> -->
+                        <textarea id="note" class="form-control" name="note"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-block">Save</button>
+
+                    <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
+                  </form>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-sm-2">
+                  <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
+                      <i class="fa fa-file"></i>
+                      Export
+                  </button>
+              </div>
           </div>
         </div>
       </div>
