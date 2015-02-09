@@ -22,7 +22,8 @@ function uploadMusic() {
     var recordingFolderName = $("#recordingFolderName")[0].value;
     var band_id = $("#bandSelect").val();
 
-    console.log('Band ID = ' + band_id);
+    $('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Uploading ' + recordingName);
+    //console.log('Band ID = ' + band_id);
 
     // TODO - handle multiple file uploading
     if (fileUploadControl.files.length > 0) {
@@ -47,8 +48,13 @@ function uploadMusic() {
             updateJsonForNewUpload(currentBand, currentBandStructure, recordingFolderName, recordingName, AudioObject);
 
             console.log('Done uploading ' + recordingName)
+            
+
+            $('#loadingStatus').empty();
+            
+            getNavItems();
             // Hide the file name input form
-            $("#nameUploadFile")[0].className = "hidden";
+            //$("#nameUploadFile")[0].className = "hidden";
 
         }, function(error) {
             // The file either could not be read, or could not be saved to Parse.
@@ -77,10 +83,6 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
 
     band.set("folderStructure", [bandStructure]);
     band.save();
-
-    getNavItems();
-    //$("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
-
 }
 
 // Temporarily here, should be added to a better spot. Code by Kaz, moved here cluelessly by Josh

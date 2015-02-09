@@ -94,11 +94,11 @@ side nav bands + folders no hover
     width: 100%;
 }
 
-#recordingName {
+#diplayRecordingName {
     margin-bottom: 0px;
 }
 
-#recordingFolderName {
+#diplayRecordingFolderName {
     color: #888888;
     font-size: 14px;
     margin-bottom: 15px;
