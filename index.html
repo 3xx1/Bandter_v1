@@ -11,6 +11,7 @@
   <link rel="stylesheet" type="text/css" href="css/lib/reset.css">
   <link rel="stylesheet" type="text/css" href="css/lib/styles.css">
   <link rel="styleSheet" type="text/css" href="css/dev/annotation-style.css">
+
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.3.min.js"></script>
   <script type="text/javascript" src="js/lib/wavesurfer.min.js"></script>
@@ -26,6 +27,7 @@
   <script type="text/javascript" src="js/dev/getNavItems.js"></script>
   <script type="text/javascript" src="js/dev/waveform-trivia.js"></script>
   <script type="text/javascript" src="js/dev/waveform-annotation.js"></script>
+
   <script type="text/javascript" src="js/dev/loadwave-util.js"></script>
   <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
 </head>
@@ -36,43 +38,44 @@
 
 <body onload="getNavItems();">
 	<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Project name</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Settings</a></li>
-          <li><a href="#">Profile</a></li>
-          <li><a href="#">Help</a></li>
-        </ul>
-        <form class="navbar-form navbar-right">
-          <input type="text" class="form-control" placeholder="Search...">
-        </form>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Bandter</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Help</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-3 col-md-2 sidebar">
+			<div class="col-sm-3 sidebar">
+				<ul id="LibraryTabs" class="nav nav-tabs nav-justified">
+					<li class="active"><a href="#">Sessions</a></li>
+					<li><a href="#">Extractions</a></li>
+				</ul>
         <!-- Display all folders here -->
-			  <ul id="folderList" class="nav nav-sidebar">
+				<!-- JsTree testing -->
+				<div id="sessionsTree">
+				
+				</div>
+				<ul id="folderList" class="nav nav-sidebar">
 				  <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 				  <li><a href="#">Default nav item</a></li>
           <!-- Any folders (and recordings within those folders) will be appended here by the getFolders.js on page load -->
-			  </ul>
-			  <ul class="nav nav-sidebar">
+				</ul>
+				<ul class="nav nav-sidebar">
           <!-- Ugly but functional file upload -->
-  				<li>
-            <!-- Upload button styling grabbed from http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button -->
-            
+					<li>
 
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -80,7 +83,7 @@
             </button>
           </li>
           <!-- End ugly but funcitonal file upload -->
-			  </ul>
+				</ul>
 			</div>
 		</div>
 	</div>
