@@ -31,16 +31,16 @@ function getBands() {
 
         // Grab the folder: recordings key/value pair in the JSON
         $.each(currentBandStructure, function(folder, recordings) {
-          console.log('Folder: ' + folder + '  Recordings: '+ recordings);
-          $("#folderList").append('<li><a href="#"> ' + folder + '</a></li>');
+          //console.log('Folder: ' + folder + '  Recordings: '+ recordings);
+          $("#folderList").append('<li><a href="#"> <i class="fa fa-folder-open-o"></i> ' + folder + '</a></li>');
 
           // Grab the recording: info key/value pair
           $.each(recordings, function(recording, info) {
-            console.log('Recording Name: ' + recording + '  Info: '+ info);
+            //console.log('Recording Name: ' + recording + '  Info: '+ info);
 
             // Add the file URL to an onclick function so that this can be loaded later
             url = info['audioFile'];
-            $("#folderList").append('<li onclick=loadWaveform("' + url + '") >' + recording + '</li>');
+            $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + '</li>');
 
             currentSongUrl = info['audioFile'];
           });

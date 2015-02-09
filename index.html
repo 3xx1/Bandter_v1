@@ -6,11 +6,13 @@
   <meta name="description" content="My Parse App">
   <meta name="viewport" content="width=device-width">
 
-  <link rel="stylesheet" type="text/css" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/dev/bandterStyle.css">
   <link rel="stylesheet" type="text/css" href="css/lib/reset.css">
   <link rel="stylesheet" type="text/css" href="css/lib/styles.css">
   <link rel="styleSheet" type="text/css" href="css/dev/annotation-style.css">
+
+  <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.3.min.js"></script>
@@ -46,7 +48,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Bandter</a>
+          <a class="navbar-brand" href="#"> <i class="fa fa-music"></i> Bandter</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -60,8 +62,8 @@
 		<div class="row">
 			<div class="col-sm-3 sidebar">
 				<ul id="LibraryTabs" class="nav nav-tabs nav-justified">
-					<li class="active"><a href="#">Sessions</a></li>
-					<li><a href="#">Extractions</a></li>
+					<li class="active"> <a href="#"> <i class="fa fa-users"></i>  Sessions</a></li>
+					<li><a href="#"> <i class="fa fa-bookmark-o"></i> Extractions</a></li>
 				</ul>
         <!-- Display all folders here -->
 				<ul id="folderList" class="nav nav-sidebar">
@@ -71,7 +73,7 @@
           <!-- Ugly but functional file upload -->
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                          Upload recording
+                          <i class="fa fa-cloud-upload"></i> Upload recording
                         </button>
           <!-- End ugly but functional file upload -->
 				</div>
@@ -87,37 +89,39 @@
                 <div id="recordingFolderName"> Default </div>
 
                 <div class="row">
+                    <!--
                     <div class="col-sm-1">
-                        <button class="btn btn-primary" data-action="back">
-                            <i class="glyphicon glyphicon-step-backward"></i>
-                            Back
-                        </button>
+                        <div data-action="back">
+                            <i class="fa fa-step-backward fa-3x"></i>
+                        </div>
                     </div>
+                    -->
                     <div class="col-sm-1">
-                        <button class="btn btn-primary btn-block" data-action="play">
+                        <div data-action="play">
                             <span id="play">
-                                <i class="glyphicon glyphicon-play"></i>
-                                Play
+                                <i class="fa fa-play fa-5x"></i>
                             </span>
 
                             <span id="pause" style="display: none">
-                                <i class="glyphicon glyphicon-pause"></i>
-                                Pause
+                                <i class="fa fa-pause fa-5x"></i>
                             </span>
-                        </button>
+                        </div>
                     </div>
+                    <!--
                     <div class="col-sm-1">
-                        <button class="btn btn-primary" data-action="forth">
-                            <i class="glyphicon glyphicon-step-forward"></i>
-                            Forward
-                        </button>
+                        <div data-action="forth">
+                            <i class="fa fa-step-forward fa-3x"></i>
+                        </div>
                     </div>
+                    -->
+                    <!--
                     <div class="col-sm-1">
                         <button class="btn btn-primary" data-action="toggle-mute">
-                            <i class="glyphicon glyphicon-volume-off"></i>
+                            <span class="glyphicon glyphicon-volume-off"></span>
                             Mute
                         </button>
                     </div>
+                    -->
                 </div>
 
             </div>
@@ -180,7 +184,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Upload A Recording</h4>
+          <h4 class="modal-title" id="myModalLabel"> Upload A Recording</h4>
         </div>
 
         <div class="modal-body">
