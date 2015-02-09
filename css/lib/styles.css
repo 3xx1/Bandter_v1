@@ -50,7 +50,7 @@ body {
     background: 0;
     padding: 0;
     border: 0;
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
 	padding-left: 50px;
 
@@ -84,7 +84,7 @@ body {
 .fixed{
     position: fixed;
     bottom:5px;
-    left:6%;
+    left:100px;
 	margin-top:25px
 }
 
