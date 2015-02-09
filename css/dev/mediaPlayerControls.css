@@ -1,0 +1,41 @@
+
+
+
+.controlButton {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    color: #fff;
+    text-align: center;
+    background: #337AB7;
+}
+
+.control {
+    background-color: #337AB7;
+    border: 1px solid #2E6DA4;
+    color: #FFF;
+    height: 90px;
+    width: 90px;
+    text-align: center;
+    padding-top: 14px;
+    padding-left: 12px;
+    border-radius: 45px;
+    display: block;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.control:hover {
+    background-color: #2E6DA4;
+    box-shadow: 0px 0px 8px #333;
+}
+
+.controlPause {
+    padding-top: 20px;
+    padding-left: 0px;
+}
+
+.buttonControl {
+    margin-bottom: 25px;
+}
+
