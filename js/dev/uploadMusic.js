@@ -78,6 +78,7 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
     band.set("folderStructure", [bandStructure]);
     band.save();
 
+    getNavItems();
     //$("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
 
 }

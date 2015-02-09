@@ -5,14 +5,8 @@ var currentBand = null;
 var currentBandStructure = null;
 var currentSongUrl = null;
 
-// Wrapper function which calls getBands(), which will then call getFolders()
-// Function is called on page load
-function getNavItems() {
-  getBands()
-}
-
 // Get all the bands (and folders within the bands) as sidebar nav items
-function getBands() {
+function getNavItems() {
   var Band = Parse.Object.extend("Band");
   var bandQuery = new Parse.Query(Band);
   // Temporarily limiting this to a particular band
@@ -25,6 +19,9 @@ function getBands() {
       for (var i = 0; i < results.length; i++) {
         currentBand = results[i];
         currentBandStructure = currentBand.get("folderStructure")[0];
+
+        $("#bandSelect").empty();
+        $("#folderList").empty();
 
         $("#bandSelect").append('<option value="' + currentBand.id + '"> ' + currentBand.get("name") + '</option>');
         $("#folderList").append('<li><a href="#"> ' + currentBand.get("name") + '</a></li>');
