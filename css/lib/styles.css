@@ -45,9 +45,34 @@ body {
     background: 0;
     padding: 0;
     border: 0;
-    text-shadow: rgba(0,0,0,0.6) 0 -1px 0;
-    font-weight: 400;
     font-size: 18px;
     text-decoration: none;
-    padding: 20px 0 7px 20px;
+	padding-left: 50px;
+}
+
+#folderList > li > a{
+	margin-left: -25px;
+	color: black;
+}
+
+/*side nav bands + folders no hover */
+#folderList > li > a:focus, #folderList > li > a:hover {
+    text-decoration: none;
+    background-color: #F5F5F5;
+	cursor: auto;
+}
+
+/*side nav songs hover */
+#folderList > li:focus, #folderList > li:hover {
+    text-decoration: none;
+    background-color: #EEE;
+	cursor: pointer;
+}
+
+/*static upload button*/
+.fixed{
+    position: fixed;
+    bottom:5px;
+    left:6%;
+	margin-top:25px
 }
