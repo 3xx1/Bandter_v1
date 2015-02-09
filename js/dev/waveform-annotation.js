@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Init wavesurfer
     wavesurfer.init({
         container: document.querySelector('#waveform'),
-        height: 100,
+        height: 150,
         scrollParent: true,
         fillParent: true,
         normalize: true,
