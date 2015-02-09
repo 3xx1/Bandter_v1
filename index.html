@@ -71,10 +71,10 @@
 				</ul>
 				<div class="fixed">
           <!-- Ugly but functional file upload -->
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                          <i class="fa fa-cloud-upload"></i> Upload recording
-                        </button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+              <i class="fa fa-cloud-upload"></i> Upload recording
+            </button>
           <!-- End ugly but functional file upload -->
 				</div>
 			</div>
@@ -82,8 +82,10 @@
 	</div>
 
   <!-- This will have to be replaced with whatever Bootstrap wants to use for the main body -->
-  <div id="main">
-      <div class="container waveformContainer">
+  <div id="main" class="container-fluid">
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="container waveformContainer">
             <div class="header">
                 <h1 id="recordingName" itemprop="name">Death Room 3</h1>
                 <div id="recordingFolderName"> Default </div>
@@ -167,12 +169,14 @@
             <div class="row">
                 <div class="col-sm-2">
                     <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
-                        <i class="glyphicon glyphicon-file"></i>
+                        <i class="fa fa-file"></i>
                         Export
                     </button>
                 </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
 
 

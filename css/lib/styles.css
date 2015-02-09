@@ -1,18 +1,20 @@
 body {
     background: #eee;
-    padding: 0 25px;
+    padding: 0px;
 }
 
 #main {
-    min-width: 85%;
-    height: 90%;
-    margin-left: 275px;
-    margin-top: 50px;
     text-align: left;
     background: white;
-    padding: 50px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
+
+    height: 100%;
+
+    padding-top: 120px;
+    padding-bottom: 20px;
+    padding-left: 350px;
+    padding-right: 20px;
 }
 
 #main h1 {
@@ -80,13 +82,13 @@ body {
 }
 
 
-
 .sidebar {
     max-width: 300px;
 }
 
 .waveformContainer {
     margin: 0px;
+    width: 100%;
 }
 
 #recordingName {
@@ -110,6 +112,7 @@ body {
 
 .control {
     background-color: #337AB7;
+    border: 1px solid #2E6DA4;
     color: #FFF;
     height: 90px;
     width: 90px;

@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
         container: document.querySelector('#waveform'),
         height: 100,
         scrollParent: true,
+        fillParent: true,
         normalize: true,
         minimap: true,
         waveColor: '#C6C6C6',
