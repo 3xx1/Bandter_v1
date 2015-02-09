@@ -2,7 +2,10 @@ var annotationGlobal;
 
 function loadWaveform(url)
 {
+  $('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Loading');
+
   wavesurfer.load(url);
+
   $.each(currentBandStructure, function(folder, recordings) {
     $.each(recordings, function(recording, info) {
       if(info['audioFile']==url){
@@ -13,15 +16,14 @@ function loadWaveform(url)
         clearRegions();
         annotationGlobal = info['annotation0'];
         console.log(annotationGlobal.length);
-        wavesurfer.load(url);
-
+        //wavesurfer.load(url);
+        $('#loadingStatus').empty();
         
         // loadRegions(annotationGlobal);
         // saveRegions();
       }
     });
   });
-
 }
 
 

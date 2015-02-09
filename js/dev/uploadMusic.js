@@ -49,7 +49,7 @@ function uploadMusic() {
 
             console.log('Done uploading ' + recordingName)
             
-
+            // Remove the loading sign on the div
             $('#loadingStatus').empty();
             
             getNavItems();
