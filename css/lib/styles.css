@@ -1,6 +1,7 @@
 body {
     background: #eee;
     padding: 0px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #main {
@@ -52,24 +53,30 @@ body {
     font-size: 18px;
     text-decoration: none;
 	padding-left: 50px;
+
+    color: #FAFAFA;
+    font-weight: 300;
 }
 
 #folderList > li > a{
+    text-decoration: none;
 	margin-left: -25px;
-	color: black;
+	/* color: black; */
+
+    color: #FFF;
 }
 
-/*side nav bands + folders no hover */
+side nav bands + folders no hover 
 #folderList > li > a:focus, #folderList > li > a:hover {
     text-decoration: none;
-    background-color: #F5F5F5;
+    background-color: #2E6DA4;
 	cursor: auto;
 }
 
 /*side nav songs hover */
 #folderList > li:focus, #folderList > li:hover {
     text-decoration: none;
-    background-color: #EEE;
+    background-color: #2E6DA4;
 	cursor: pointer;
 }
 
@@ -81,10 +88,6 @@ body {
 	margin-top:25px
 }
 
-
-.sidebar {
-    max-width: 300px;
-}
 
 .waveformContainer {
     margin: 0px;
@@ -138,3 +141,4 @@ body {
 .buttonControl {
     margin-bottom: 25px;
 }
+

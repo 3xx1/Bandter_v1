@@ -40,7 +40,7 @@ function getBands() {
 
             // Add the file URL to an onclick function so that this can be loaded later
             url = info['audioFile'];
-            $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + '</li>');
+            $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </li>');
 
             currentSongUrl = info['audioFile'];
           });

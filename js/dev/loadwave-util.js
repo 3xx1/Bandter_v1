@@ -23,3 +23,39 @@ function loadWaveform(url)
   });
 
 }
+
+
+function deleteAudioFile(url) {
+  $.each(currentBandStructure, function(folder, recordings) {
+    $.each(recordings, function(recording, info) {
+      if(info['audioFile']==url){
+        
+        delete currentBandStructure[folder][recording];
+
+        // Remove folder if no songs in it
+        if (jQuery.isEmptyObject(currentBandStructure[folder])) {
+          delete currentBandStructure[folder];
+        };
+
+        console.log('Removing ' + recording + ' from ' + folder)
+        currentBand.set("folderStructure", [currentBandStructure]);
+        currentBand.save();
+      }
+    });
+  });
+}
+
+
+function deleteEntireFolder(folderName) {
+  $.each(currentBandStructure, function(folder, recordings) {
+    
+    console.log('Removing ' + folder)
+
+    if(folderName == folder) {
+      delete currentBandStructure[folder];
+    };
+
+    currentBand.set("folderStructure", [currentBandStructure]);
+    currentBand.save();
+  });
+}
