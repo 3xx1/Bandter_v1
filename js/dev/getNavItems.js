@@ -27,12 +27,12 @@ function getBands() {
         currentBandStructure = currentBand.get("folderStructure")[0];
 
         $("#bandSelect").append('<option value="' + currentBand.id + '"> ' + currentBand.get("name") + '</option>');
-        $("#folderList").append('<li><a href="#"> ' + currentBand.get("name") + ' (band) </a></li>');
+        $("#folderList").append('<li><a href="#"> ' + currentBand.get("name") + '</a></li>');
 
         // Grab the folder: recordings key/value pair in the JSON
         $.each(currentBandStructure, function(folder, recordings) {
           console.log('Folder: ' + folder + '  Recordings: '+ recordings);
-          $("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
+          $("#folderList").append('<li><a href="#"> ' + folder + '</a></li>');
 
           // Grab the recording: info key/value pair
           $.each(recordings, function(recording, info) {
@@ -40,7 +40,7 @@ function getBands() {
 
             // Add the file URL to an onclick function so that this can be loaded later
             url = info['audioFile'];
-            $("#folderList").append('<li onclick=loadWaveform("' + url + '") >' + recording + ' (recording) </li>');
+            $("#folderList").append('<li onclick=loadWaveform("' + url + '") >' + recording + '</li>');
 
             currentSongUrl = info['audioFile'];
           });
