@@ -1,8 +1,8 @@
 var annotationGlobal;
 
-function loadWaveform(url)
-{
-  $('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Loading');
+function loadWaveform(url) {
+  
+  // $('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Loading');
 
   wavesurfer.load(url);
 
@@ -10,20 +10,22 @@ function loadWaveform(url)
     $.each(recordings, function(recording, info) {
       if(info['audioFile']==url){
         
-        $("#recordingName").text(recording);
-        $("#recordingFolderName").text('In folder ' + folder);
-
+        $("#displayRecordingName").text(recording);
+        $("#displayRecordingFolderName").text('In folder ' + folder);
+        
         clearRegions();
         annotationGlobal = info['annotation0'];
         console.log(annotationGlobal.length);
         //wavesurfer.load(url);
-        $('#loadingStatus').empty();
+        
         
         // loadRegions(annotationGlobal);
         // saveRegions();
       }
     });
   });
+
+  // $('#loadingStatus').empty();
 }
 
 

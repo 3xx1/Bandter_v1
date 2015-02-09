@@ -66,7 +66,7 @@ body {
     color: #FFF;
 }
 
-side nav bands + folders no hover 
+/* side nav bands + folders no hover */ 
 #folderList > li > a:focus, #folderList > li > a:hover {
     text-decoration: none;
     background-color: #2E6DA4;
@@ -94,11 +94,12 @@ side nav bands + folders no hover
     width: 100%;
 }
 
-#diplayRecordingName {
+
+#displayRecordingName {
     margin-bottom: 0px;
 }
 
-#diplayRecordingFolderName {
+#displayRecordingFolderName {
     color: #888888;
     font-size: 14px;
     margin-bottom: 15px;
