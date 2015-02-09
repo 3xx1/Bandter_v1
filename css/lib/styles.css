@@ -4,8 +4,10 @@ body {
 }
 
 #main {
-    width: 500px;
-    margin: auto;
+    min-width: 85%;
+    height: 90%;
+    margin-left: 275px;
+    margin-top: 50px;
     text-align: left;
     background: white;
     padding: 50px 60px;
@@ -75,4 +77,24 @@ body {
     bottom:5px;
     left:6%;
 	margin-top:25px
+}
+
+
+
+.sidebar {
+    max-width: 300px;
+}
+
+.waveformContainer {
+    margin: 0px;
+}
+
+#recordingName {
+    margin-bottom: 0px;
+}
+
+#recordingFolderName {
+    color: #888888;
+    font-size: 14px;
+    margin-bottom: 15px;
 }

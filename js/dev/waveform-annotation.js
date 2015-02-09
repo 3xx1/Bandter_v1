@@ -48,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollParent: true,
         normalize: true,
         minimap: true,
-        waveColor: 'red',
-        progressColor: 'purple',
-        cursorColor: 'blue',
+        waveColor: '#C6C6C6',
+        progressColor: '#337AB7',
+        cursorColor: '222244',
 
         // backend: 'AudioElement'
     });
