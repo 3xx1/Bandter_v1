@@ -11,7 +11,6 @@
 }
 
 .control {
-    background-color: #337AB7;
     border: 1px solid #2E6DA4;
     color: #FFF;
     height: 90px;
@@ -22,12 +21,16 @@
     border-radius: 45px;
     display: block;
 
+
+    background-color: #337AB7;
+    background: radial-gradient(circle at 30px 30px, #539AD7, #337AB7);
+    box-shadow: 0px 0px 4px #333;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 .control:hover {
     background-color: #2E6DA4;
-    box-shadow: 0px 0px 8px #333;
+    box-shadow: 0px 0px 8px #000;
 }
 
 .controlPause {
