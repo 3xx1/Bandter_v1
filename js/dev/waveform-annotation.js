@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Regions */
     wavesurfer.enableDragSelection({
-        color: 'rgba(20, 180, 120, 0.3)'
+        color: 'rgba(20, 180, 120, 1)' // Alpha set to 1 by Josh; Opacity now controlled in css
     });
 
     wavesurfer.on('ready', function () {

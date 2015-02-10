@@ -1,3 +1,19 @@
+
+
+.wavesurfer-region {
+  height: 120px !important;
+  opacity: .4;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.wavesurfer-region:hover {
+  box-shadow: 0px 0px 10px #000;
+  /* border: 1px solid #888; */
+  opacity: .55;
+}
+
+
 #annotation {
   position: relative;
   left: 0px;
