@@ -63,11 +63,6 @@ function uploadMusic() {
     }
 }
 
-// For now, just resetting the container div to be hidden
-function cancelUploadMusic() {
-    $("#nameUploadFile")[0].className = "hidden";
-}
-
 
 function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, AudioObject) {
     // Get the url of the file
@@ -84,5 +79,3 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
     band.set("folderStructure", [bandStructure]);
     band.save();
 }
-
-// Temporarily here, should be added to a better spot. Code by Kaz, moved here cluelessly by Josh
