@@ -85,11 +85,21 @@ body {
 }
 
 
+#helpText {
+    color: #888888;
+    font-size: 14px;
+    float: right;
+    padding-right: 15px;
+}
+
 .waveformContainer {
     margin: 0px;
     width: 100%;
 }
 
+#waveform {
+  cursor: pointer;
+}
 
 /*
  * Upload file button
