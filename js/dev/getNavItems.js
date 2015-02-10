@@ -21,7 +21,7 @@ function getNavItems() {
       for (var i = 0; i < results.length; i++) {
         currentBand = results[i];
         currentBandStructure = currentBand.get("folderStructure")[0];
-
+        // Empty the nav items so that this can be called again without doubling the length of the nav 
         $("#bandSelect").empty();
         $("#folderList").empty();
 
@@ -41,20 +41,16 @@ function getNavItems() {
             url = info['audioFile'];
             $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </li>');
 
-
             currentFolder = folder;
             currentSong = recording;
             currentSongUrl = info['audioFile'];
-
-            //delete currentBandStructure[folder][recording]['annotations']
-            //currentBand.set('folderStructure', currentBandStructure);
-            //currentBand.save();
 
           });
         // End folder: recording (below)
         });
       // End loop through query results (below)
       }
+    // By default, load whatever the last song is
     loadWaveform(currentSongUrl)
     },
     error: function(error) {

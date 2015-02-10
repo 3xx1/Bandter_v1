@@ -186,15 +186,9 @@ function saveRegions() {
             };
         })
     );
-
-    //localStorage.regions = regionJson;
-
     currentBandStructure[currentFolder][currentSong]['annotations'] = regionJson;
-    //console.log('saving ' + currentSong + ' with json ' + regionJson);
     currentBand.set('folderStructure', [currentBandStructure]);
-    //currentBand.set('annotation_test', [regionJson]);
     currentBand.save();
-
 }
 
 
@@ -202,22 +196,18 @@ function saveRegions() {
  * Load regions from localStorage.
  */
 function loadRegions() {
-    
-    //regionJson = JSON.parse(currentBand.get('annotation_test')[0])
     if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
         regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
-        console.log('loading regions:' + regionJson + '; length of ' + regionJson.length)
-        //loadRegions();
+        console.log('loading ' + regionJson.length + ' regions')
 
         for (var i = 0; i < regionJson.length; i++) {
             var currentRegion = regionJson[i];
-            console.log('loading region ' + currentRegion);
+            //console.log('loading region ' + currentRegion);
+            //console.log('data = ' + currentRegion.data.note);
 
-            console.log('data = ' + currentRegion.data.note)
-            //currentRegion.color = 'rgba(20, 180, 120, 1)';
-
-            //wavesurfer.addRegion(currentRegion);
+            // Adding in regions based on the start / stop time in JSON ...
             wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
+            // And then manually updating the region data with the data from the JSON
             wavesurfer.regions.list[i].data = currentRegion.data;
         };
     };
@@ -387,6 +377,9 @@ GLOBAL_ACTIONS['delete-region'] = function () {
         wavesurfer.regions.list[regionId].remove();
         form.reset();
     }
+
+    // Make sure to save after the deletion!
+    saveRegions();
 };
 
 GLOBAL_ACTIONS['export'] = function () {
