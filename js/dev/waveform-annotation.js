@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fillParent: true,
         normalize: true,
         minimap: true,
+        cursorWidth: 2 ,
         waveColor: '#C6C6C6',
         progressColor: '#337AB7',
         cursorColor: '222244',
@@ -57,14 +58,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    wavesurfer.util.ajax({
-        responseType: 'json',
-        url: 'media/rashomon.json'
-    }).on('success', function (data) {
-        wavesurfer.load(
-            'media/rooster.mp3' // will be replaced with the actual file path
-        );
-    });
+    // wavesurfer.util.ajax({
+    //     responseType: 'json',
+    //     url: 'media/rashomon.json'
+    // }).on('success', function (data) {
+    //     wavesurfer.load(
+    //         'media/rooster.mp3' // will be replaced with the actual file path
+    //     );
+    // });
 
     // wavesurfer.load(wavesurfer.load('media/msw001_03_rashomon_akutagawa_mt_64kb.mp3');
 

@@ -40,11 +40,13 @@ function getNavItems() {
             $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </li>');
 
             currentSongUrl = info['audioFile'];
+
           });
         // End folder: recording (below)
         });
       // End loop through query results (below)
       }
+    loadWaveform(currentSongUrl)
     },
     error: function(error) {
       console.log("Error: " + error.code + " " + error.message);
