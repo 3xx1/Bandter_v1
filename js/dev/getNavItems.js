@@ -3,6 +3,8 @@
 // Global variable storing the current band. This should be accessible from anywhere
 var currentBand = null;
 var currentBandStructure = null;
+var currentFolder = null;
+var currentSong = null;
 var currentSongUrl = null;
 
 // Get all the bands (and folders within the bands) as sidebar nav items
@@ -39,6 +41,9 @@ function getNavItems() {
             url = info['audioFile'];
             $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </li>');
 
+
+            currentFolder = folder;
+            currentSong = recording;
             currentSongUrl = info['audioFile'];
 
           });

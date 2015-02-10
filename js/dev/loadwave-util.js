@@ -13,6 +13,11 @@ function loadWaveform(url) {
         $("#displayRecordingName").text(recording);
         $("#displayRecordingFolderName").text('In folder ' + folder);
         
+        // Update these globals
+        currentFolder = folder;
+        currentSong = recording;
+        currentSongUrl = info['audioFile'];
+
         clearRegions();
         annotationGlobal = info['annotation0'];
         console.log(annotationGlobal.length);
