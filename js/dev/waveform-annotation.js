@@ -70,12 +70,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Regions */
     wavesurfer.enableDragSelection({
-        color: randomColor(0.3)
+        color: 'rgba(20, 180, 120, 0.3)'
     });
 
     wavesurfer.on('ready', function () {
       loadRegions(annotationGlobal);
-      // saveRegions();
+      saveRegions();
         //if (localStorage.regions) {
             // loadRegions(JSON.parse(localStorage.regions));
         // } else {
@@ -156,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var showProgress = function (percent) {
         progressDiv.style.display = 'block';
         progressBar.style.width = percent + '%';
+        if(percent>99) hideProgress();
     };
 
     var hideProgress = function () {
@@ -191,7 +192,7 @@ function saveRegions() {
  */
 function loadRegions(regions) {
     regions.forEach(function (region) {
-        region.color = randomColor(0.1);
+        region.color = 'rgba(20, 180, 120, 0.2)';
         wavesurfer.addRegion(region);
     });
 }
@@ -282,7 +283,6 @@ function randomColor(alpha) {
 
 }
 
-
 /**
  * Edit annotation for a region.
  */
@@ -333,13 +333,21 @@ function showNote (region) {
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
     var antNotes = region.data.note.split("|");
+    var antUsers = region.data.account.split("|");
     // console.log(antNotes.length);
     var printNote = "";
 
     for(var i=1; i<antNotes.length; i++)
     {
+      var sourceimg = 'media/' + antUsers[i] + '.jpg';
+
+      printNote +=  '<img border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :(">';
+      printNote += '&nbsp';
+      printNote += '<b>' + antUsers[i] + '</b>' + '</br>';
       printNote += antNotes[i] + '</br>';
+      printNote += '<hr>';
     }
+    target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote || '-';
 }
 
@@ -373,5 +381,5 @@ GLOBAL_ACTIONS['export'] = function () {
         }
       })
       */
-      localStorage.clear();
+      // localStorage.clear();
 };
