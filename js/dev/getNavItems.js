@@ -46,6 +46,10 @@ function getNavItems() {
             currentSong = recording;
             currentSongUrl = info['audioFile'];
 
+            //delete currentBandStructure[folder][recording]['annotations']
+            //currentBand.set('folderStructure', currentBandStructure);
+            //currentBand.save();
+
           });
         // End folder: recording (below)
         });

@@ -70,12 +70,17 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
 
     // Need to create an empty structure if the folderName doesn't exist yet
     if (folderName in bandStructure) {
-        bandStructure[folderName][recordingName] = {"audioFile": url};
+        bandStructure[folderName][recordingName] = {"audioFile": url, "annotations": null};
     } else {
         bandStructure[folderName] = {};
-        bandStructure[folderName][recordingName] = {"audioFile": url};
+        bandStructure[folderName][recordingName] = {"audioFile": url,  "annotations": null};
     };
 
     band.set("folderStructure", [bandStructure]);
     band.save();
+}
+
+
+function stupid() {
+    wavesurfer.addRegion( {id: 5, start: 10, end: 30, color:'rgba(20, 180, 120, 1)'} );
 }

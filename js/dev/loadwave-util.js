@@ -3,6 +3,7 @@ var annotationGlobal;
 function loadWaveform(url) {
   
   // $('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Loading');
+  clearRegions();
 
   wavesurfer.load(url);
 
@@ -18,18 +19,16 @@ function loadWaveform(url) {
         currentSong = recording;
         currentSongUrl = info['audioFile'];
 
-        clearRegions();
-        annotationGlobal = info['annotation0'];
-        console.log(annotationGlobal.length);
-        //wavesurfer.load(url);
         
+        //annotationGlobal = info['annotation0'];
+        //console.log(annotationGlobal.length);
+        //wavesurfer.load(url);
         
         // loadRegions(annotationGlobal);
         // saveRegions();
       }
     });
   });
-
   // $('#loadingStatus').empty();
 }
 

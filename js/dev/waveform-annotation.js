@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     wavesurfer.on('ready', function () {
-      loadRegions(annotationGlobal);
-      saveRegions();
+      //loadRegions(annotationGlobal);
+      //saveRegions();
         //if (localStorage.regions) {
             // loadRegions(JSON.parse(localStorage.regions));
         // } else {
@@ -106,8 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-updated', saveRegions);
-    wavesurfer.on('region-removed', saveRegions);
+    //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', showNote);
+    wavesurfer.on('ready', loadRegions)
 
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
@@ -127,13 +128,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* Timeline plugin */
-    wavesurfer.on('ready', function () {
-        var timeline = Object.create(WaveSurfer.Timeline);
-        timeline.init({
-            wavesurfer: wavesurfer,
-            container: "#wave-timeline"
-        });
-    });
+    // wavesurfer.on('ready', function () {
+    //     var timeline = Object.create(WaveSurfer.Timeline);
+    //     timeline.init({
+    //         wavesurfer: wavesurfer,
+    //         container: "#wave-timeline"
+    //     });
+    // });
 
 
     /* Toggle play/pause buttons. */
@@ -175,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Save annotations to localStorage.
  */
 function saveRegions() {
-    localStorage.regions = JSON.stringify(
+    regionJson = JSON.stringify(
         Object.keys(wavesurfer.regions.list).map(function (id) {
             var region = wavesurfer.regions.list[id];
             return {
@@ -185,17 +186,41 @@ function saveRegions() {
             };
         })
     );
+
+    //localStorage.regions = regionJson;
+
+    currentBandStructure[currentFolder][currentSong]['annotations'] = regionJson;
+    //console.log('saving ' + currentSong + ' with json ' + regionJson);
+    currentBand.set('folderStructure', [currentBandStructure]);
+    //currentBand.set('annotation_test', [regionJson]);
+    currentBand.save();
+
 }
 
 
 /**
  * Load regions from localStorage.
  */
-function loadRegions(regions) {
-    regions.forEach(function (region) {
-        region.color = 'rgba(20, 180, 120, 0.2)';
-        wavesurfer.addRegion(region);
-    });
+function loadRegions() {
+    
+    //regionJson = JSON.parse(currentBand.get('annotation_test')[0])
+    if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
+        regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
+        console.log('loading regions:' + regionJson + '; length of ' + regionJson.length)
+        //loadRegions();
+
+        for (var i = 0; i < regionJson.length; i++) {
+            var currentRegion = regionJson[i];
+            console.log('loading region ' + currentRegion);
+
+            console.log('data = ' + currentRegion.data.note)
+            //currentRegion.color = 'rgba(20, 180, 120, 1)';
+
+            //wavesurfer.addRegion(currentRegion);
+            wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
+            wavesurfer.regions.list[i].data = currentRegion.data;
+        };
+    };
 }
 
 
