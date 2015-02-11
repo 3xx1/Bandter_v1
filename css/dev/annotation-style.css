@@ -15,6 +15,10 @@
   opacity: .55;
 }
 
+/* Temporary styling for a selected region */
+.waveform-selected {
+  border: 1px solid #000;
+}
 
 #annotation {
   position: relative;

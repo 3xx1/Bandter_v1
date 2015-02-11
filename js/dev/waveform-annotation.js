@@ -211,6 +211,18 @@ function loadRegions() {
             wavesurfer.regions.list[i].data = currentRegion.data;
         };
     };
+
+    // Ability to style regions which have been selected
+    // $(document).mouseup(function (e) {
+    //     if (!e.target.classList.contains('wavesurfer-selected')) {
+    //         $(".wavesurfer-region").removeClass('waveform-selected');
+    //     } 
+    // });
+    // // Must wait for regions to load before style can be applied
+    // $(".wavesurfer-region").click(function() {
+    //   $(".wavesurfer-region").removeClass('waveform-selected');
+    //   $(this).addClass('waveform-selected');
+    // });
 }
 
 
