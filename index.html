@@ -158,7 +158,7 @@
 
               <div id="annotation">
                 <p id="subtitle" class="text-info">&nbsp;</p>
-                <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
+                <form id="annotationSubmitForm" role="form" name="edit">
                     <div class="form-group">
                         <!-- <label for="start">Start</label> -->
                         <input type="hidden" class="form-control" id="start" name="start" />
@@ -171,7 +171,7 @@
 
                     <div class="form-group">
                         <!-- <label for="note">Note</label> -->
-                        <textarea id="note" class="form-control" name="note"></textarea>
+                        <textarea id="note" class="form-control" name="note" placeholder="Add a comment..."></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-success btn-block">Save</button>

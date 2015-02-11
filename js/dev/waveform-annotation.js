@@ -370,16 +370,18 @@ function showNote (region) {
     // console.log(antNotes.length);
     var printNote = "";
 
+    // This will create the text for the html of individual comment replies  
     for(var i=1; i<antNotes.length; i++)
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
 
-      printNote +=  '<img border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :(">';
-      printNote += '&nbsp';
-      printNote += '<b>' + antUsers[i] + '</b>' + '</br>';
-      printNote += antNotes[i] + '</br>';
-      printNote += '<hr>';
+      printNote += '<div class="annotationContainer">'; 
+      printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
+      printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+      printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>'; 
+      printNote += '</div>'; // Closing div for "annotationContainer"
     }
+    
     target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote || '-';
 }
