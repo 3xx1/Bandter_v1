@@ -3,6 +3,10 @@
 function loadWaveform(url) {
   // First clear old regions
   clearRegions();
+  
+  // Hide the annotation form (will be shown when on a region is clicked)
+    // The .show() call is in editAnnotation
+  $('#annotation').hide();
 
   // Begin loading wavesurfer - on load it will then load the regions (annotations)
   wavesurfer.load(url);

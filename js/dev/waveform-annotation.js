@@ -303,6 +303,11 @@ function randomColor(alpha) {
  * Edit annotation for a region.
  */
  function editAnnotation (region) {
+     
+    // Show the annotation form (will be hidden when another recording loads)
+    // The .hide() call is in loadWaveform
+     $("#annotation").show();
+
      var form = document.forms.edit;
      form.style.opacity = 1;
      form.elements.start.value = Math.round(region.start * 10) / 10,
