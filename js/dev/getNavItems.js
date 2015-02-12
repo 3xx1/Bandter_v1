@@ -39,7 +39,14 @@ function getNavItems() {
 
             // Add the file URL to an onclick function so that this can be loaded later
             url = info['audioFile'];
-            $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </li>');
+            //$("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </li>');
+            
+            bandNameEnc = encodeURI(currentBand.get('name'));
+            folderNameEnc = encodeURI(folder);
+            recordingNameEnc = encodeURI(recording);
+            joinEnc = bandNameEnc + '/' + folderNameEnc + '/' + recordingNameEnc;
+
+            $("#folderList").append('<li><a href="#bands/'+ joinEnc +'"> ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </a> </li>');
 
             currentFolder = folder;
             currentSong = recording;
@@ -51,7 +58,9 @@ function getNavItems() {
       // End loop through query results (below)
       }
     // By default, load whatever the last song is
-    loadWaveform(currentSongUrl)
+    //loadWaveform(currentSongUrl)
+    loadWaveform(currentBand, currentFolder, currentSong);
+
     },
     error: function(error) {
       console.log("Error: " + error.code + " " + error.message);

@@ -1,6 +1,6 @@
 
 
-function loadWaveform(url) {
+function loadWaveform(band, folder, recording) {
   // First clear old regions
   clearRegions();
   
@@ -9,19 +9,23 @@ function loadWaveform(url) {
   $('#annotation').hide();
 
   // Begin loading wavesurfer - on load it will then load the regions (annotations)
-  wavesurfer.load(url);
+  //wavesurfer.load(url);
 
-  $.each(currentBandStructure, function(folder, recordings) {
-    $.each(recordings, function(recording, info) {
-      if(info['audioFile']==url){
+  $.each(currentBandStructure, function(c_folder, c_recordings) {
+    $.each(c_recordings, function(c_recording, info) {
+      //if(info['audioFile']==url){
+      if(folder == c_folder && recording == c_recording) {
         
+        url = info['audioFile'];
+        wavesurfer.load(url);
+
         $("#displayRecordingName").text(recording);
         $("#displayRecordingFolderName").text('In folder ' + folder);
         
         // Update these globals
         currentFolder = folder;
         currentSong = recording;
-        currentSongUrl = info['audioFile'];
+        currentSongUrl = url;
       }
     });
   });
