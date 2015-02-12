@@ -40,7 +40,9 @@ query.find({
 
 /* Progress bar */
 
-document.addEventListener('DOMContentLoaded', function () {
+//document.addEventListener('DOMContentLoaded', function () {
+function setupWavesurfer() {
+
     // Init wavesurfer
     wavesurfer.init({
         container: document.querySelector('#waveform'),
@@ -148,28 +150,28 @@ document.addEventListener('DOMContentLoaded', function () {
         playButton.style.display = '';
         pauseButton.style.display = 'none';
     });
-});
+};
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    var progressDiv = document.querySelector('#progress-bar');
-    var progressBar = progressDiv.querySelector('.progress-bar');
+// document.addEventListener('DOMContentLoaded', function () {
+//     var progressDiv = document.querySelector('#progress-bar');
+//     var progressBar = progressDiv.querySelector('.progress-bar');
 
-    var showProgress = function (percent) {
-        progressDiv.style.display = 'block';
-        progressBar.style.width = percent + '%';
-        if(percent>99) hideProgress();
-    };
+//     var showProgress = function (percent) {
+//         progressDiv.style.display = 'block';
+//         progressBar.style.width = percent + '%';
+//         if(percent>99) hideProgress();
+//     };
 
-    var hideProgress = function () {
-        progressDiv.style.display = 'none';
-    };
+//     var hideProgress = function () {
+//         progressDiv.style.display = 'none';
+//     };
 
-    wavesurfer.on('loading', showProgress);
-    wavesurfer.on('ready', hideProgress);
-    wavesurfer.on('destroy', hideProgress);
-    wavesurfer.on('error', hideProgress);
-});
+//     wavesurfer.on('loading', showProgress);
+//     wavesurfer.on('ready', hideProgress);
+//     wavesurfer.on('destroy', hideProgress);
+//     wavesurfer.on('error', hideProgress);
+// });
 
 
 /**

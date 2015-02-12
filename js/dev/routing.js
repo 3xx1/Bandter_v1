@@ -22,8 +22,8 @@
       //var restfulPageUrl = this.restfulUrl + animal + 'page'; //http://api.openkeyval.org/dogpage
       //Now we have a url lets get the data
       //this.loadRestfulData(restfulPageUrl);
-      //$("#content-pane").load("index.html");
-      
+      //$("#bodyContainer").load("recordingViewBody.html");
+
       bandName = decodeURI(band);
       folderName = decodeURI(folder);
       recordingName = decodeURI(recording);

@@ -9,6 +9,17 @@ var currentSongUrl = null;
 
 // Get all the bands (and folders within the bands) as sidebar nav items
 function getNavItems() {
+
+  // Parse.User.logIn("Josh", "capstone123", {
+  //   success: function(user) {
+  //     alert('woo')
+  //   },
+  //   error: function(user, error) {
+  //     alert('awwoo')
+  //   }
+  // });
+  setupWavesurfer()
+
   var Band = Parse.Object.extend("Band");
   var bandQuery = new Parse.Query(Band);
   // Temporarily limiting this to a particular band
@@ -59,7 +70,7 @@ function getNavItems() {
       }
     // By default, load whatever the last song is
     //loadWaveform(currentSongUrl)
-    loadWaveform(currentBand, currentFolder, currentSong);
+    //loadWaveform(currentBand, currentFolder, currentSong);
 
     },
     error: function(error) {
