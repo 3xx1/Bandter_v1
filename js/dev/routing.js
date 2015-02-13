@@ -28,9 +28,22 @@
       folderName = decodeURI(folder);
       recordingName = decodeURI(recording);
 
+      //Parse.history.navigate("help/troubleshooting", {trigger: true});
       //alert(folder, recording)
 
-      loadWaveform(bandName, folderName, recordingName);
+      if (wavesurferLoaded == 0) {
+        console.log('test')
+        //$( "#waveform" ).load(function() {
+          console.log('loaded #waveform')
+          setupWavesurfer();
+          console.log('Run setupWavesurfer')
+          loadWaveform(bandName, folderName, recordingName);
+          console.log('Run loadWaveform')
+        //});
+      } else {
+        //setupWavesurfer()
+        loadWaveform(bandName, folderName, recordingName);
+      };
     },
 
     // loadUrl:function (pageUrl) {
@@ -50,8 +63,8 @@
     
   new AppRouter;
   //Initiate a new history and controller class
-  //Backbone.emulateHTTP = true;
-  //Backbone.emulateJSON = true;
+  Parse.emulateHTTP = true;
+  Parse.emulateJSON = true;
   Parse.history.start();
   
   })(jQuery);

@@ -18,7 +18,7 @@ function getNavItems() {
   //     alert('awwoo')
   //   }
   // });
-  setupWavesurfer()
+  //setupWavesurfer();
 
   var Band = Parse.Object.extend("Band");
   var bandQuery = new Parse.Query(Band);

@@ -2,6 +2,7 @@
  * Create a WaveSurfer instance.
  */
 var wavesurfer = Object.create(WaveSurfer);
+var wavesurferLoaded = 0;
 
 /**
  * Parse logistics, init, and so on.
@@ -150,6 +151,8 @@ function setupWavesurfer() {
         playButton.style.display = '';
         pauseButton.style.display = 'none';
     });
+
+    wavesurferLoaded = 1;
 };
 
 
