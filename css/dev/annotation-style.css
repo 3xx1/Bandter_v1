@@ -24,11 +24,9 @@
 #annotation {
   position: relative;
   left: 0px;
-  width: 200px;
+  width: 300px;
   height: auto;
-  border-style: solid;
-  border-color: rgba(20, 180, 120, 0);
-  border-radius: 10px;
+  box-shadow: 3px 3px 5px 1px #c1c1c1;
   font-size: 14px;
   background-color: #EEE;
 }
@@ -47,6 +45,7 @@ p.text-info{
 .annotationContainer {
   border: 1px solid #F0F0F0;
   background-color: #FFF;
+
 }
 
 .annotationUserImageContainer {
@@ -54,15 +53,28 @@ p.text-info{
 }
 
 .annotationUserImage {
+  margin: 10px;
 }
 
 .annotationUserName {
-  font-weight: bold;
   display: inline;
+  margin: 5px;
 }
 
 /* The text of an individual reply */
 .annotationText {
   color: #000;
-  padding: 5px;
+  margin: 0 10 10 10;
+}
+
+/* Buttons Styling */
+.butts{
+  margin: -9 0 5 5;
+
+}
+
+/* input box */
+#note{
+  width: 95%;
+  margin: -5 5 0 5;
 }
