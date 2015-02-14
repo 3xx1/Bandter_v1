@@ -100,9 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // }
     });
     wavesurfer.on('region-click', function (region, e) {
-        e.stopPropagation();
+        // e.stopPropagation();
         // Play on click, loop on shift click
-        e.shiftKey ? region.playLoop() : region.play();
+        // e.shiftKey ? region.playLoop() : region.play();
     });
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-updated', saveRegions);
@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
-            wavesurfer.play(region.start);
-            wavesurfer.pause();
+            // wavesurfer.play(region.start);
+            // wavesurfer.pause();
         });
     });
 
