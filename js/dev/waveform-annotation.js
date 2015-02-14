@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         height: 150,
-        scrollParent: true,
+        scrollParent: false,
         fillParent: true,
         normalize: true,
         minimap: false,
@@ -99,16 +99,21 @@ document.addEventListener('DOMContentLoaded', function () {
             // alert("case2");
         // }
     });
+    // wavesurfer.on('ready', editAnnotation);
     wavesurfer.on('region-click', function (region, e) {
         // e.stopPropagation();
         // Play on click, loop on shift click
         // e.shiftKey ? region.playLoop() : region.play();
     });
+    wavesurfer.on('ready', loadRegions);
     wavesurfer.on('region-click', editAnnotation);
+    wavesurfer.on('region-click', showNote);
     wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
-    wavesurfer.on('region-in', showNote);
-    wavesurfer.on('ready', loadRegions)
+    wavesurfer.on('region-in', function(region, e){
+        showNote(region);
+    });
+
 
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
@@ -318,6 +323,10 @@ function randomColor(alpha) {
 
     // Show the annotation form (will be hidden when another recording loads)
     // The .hide() call is in loadWaveform
+    var target;
+    target = document.getElementById('subtitle');
+    target.innerHTML = '';
+
      $("#annotation").show();
 
      var form = document.forms.edit;
@@ -342,12 +351,21 @@ function randomColor(alpha) {
              start: form.elements.start.value,
              end: form.elements.end.value,
              data: {
-                 "timeStamp": timeStamp + '|' + timestmp,
+                 "timeStamp": timeStamp + '|' + timeStmp,
                  "note": notation + "|" + form.elements.note.value,
                  "account": accountNote + "|" + "kaz"                  //replace here with actual account name
              }
          });
-         form.style.opacity = 0;
+
+         // form.dataset.region = region.id;
+         timeStamp = timeStamp + '|' + timeStmp;
+         notation = notation + '|' + form.elements.note.value;
+         accountNote = accountNote + '|' + "kaz";
+         // saveRegions();
+         showNote(region);
+
+         form.elements.note.value = '';
+         // form.style.opacity = 0;
      };
      form.onreset = function () {
          form.style.opacity = 0;
@@ -361,10 +379,13 @@ function randomColor(alpha) {
  */
 function showNote (region) {
     var target;
+    // console.log("herecomes");
+
     target = document.getElementById('annotation');
     if (!showNote.el) {
         showNote.el = document.querySelector('#subtitle');
     }
+    showNote.el.innerHTML = '';
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
@@ -388,7 +409,9 @@ function showNote (region) {
     }
 
     target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
+    // console.log(printNote);
     showNote.el.innerHTML = printNote || '-';
+    $("#annotation").show();
 }
 
 /**
