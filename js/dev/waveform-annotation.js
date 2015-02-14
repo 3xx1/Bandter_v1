@@ -7,10 +7,14 @@ var wavesurfer = Object.create(WaveSurfer);
  * Parse logistics, init, and so on.
  */
 var rawData = {};
+
 // Probably these logistics below will be commented out because I will just fetch array from Josh's part.
 
 // "5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi" - Bandter Parse Account Authorization Keys
-Parse.initialize("gUXmz1UDr3xVjmRuCpgi0knEaphIphyj7mRlnlXi", "gsJUjDpTLkdHkqgjOhI9Qfe7a3qU6Wxt1PBLXusU"); // Relace Keys with Bandter ones
+// Parse.initialize("gUXmz1UDr3xVjmRuCpgi0knEaphIphyj7mRlnlXi", "gsJUjDpTLkdHkqgjOhI9Qfe7a3qU6Wxt1PBLXusU"); // Relace Keys with Bandter ones
+
+/*
+
 var annotationObject = Parse.Object.extend("annotationObject");
 var query = new Parse.Query(annotationObject);
 var annotationObject = new annotationObject();
@@ -28,55 +32,54 @@ query.find({
 });
 
 
+*/
+
 /**
  * Init & load.
  */
 
-
-
 /* Progress bar */
-
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
     // Init wavesurfer
     wavesurfer.init({
         container: document.querySelector('#waveform'),
-        height: 100,
+        height: 150,
         scrollParent: true,
-        normalize: false,
-        minimap: true,
-        waveColor: 'red',
-        progressColor: 'purple',
-        cursorColor: 'blue',
+        fillParent: true,
+        normalize: true,
+        minimap: false,
+        cursorWidth: 2 ,
+        waveColor: '#C6C6C6',
+        progressColor: '#337AB7',
+        cursorColor: '222244',
 
         // backend: 'AudioElement'
     });
 
 
-    wavesurfer.util.ajax({
-        responseType: 'json',
-        url: 'media/rashomon.json'
-    }).on('success', function (data) {
-        wavesurfer.load(
-            'file:///Users/3xx1/Documents/Bandter_v1/media/rooster.mp3' // will be replaced with the actual file path
-        );
-    });
+    // wavesurfer.util.ajax({
+    //     responseType: 'json',
+    //     url: 'media/rashomon.json'
+    // }).on('success', function (data) {
+    //     wavesurfer.load(
+    //         'media/rooster.mp3' // will be replaced with the actual file path
+    //     );
+    // });
 
     // wavesurfer.load(wavesurfer.load('media/msw001_03_rashomon_akutagawa_mt_64kb.mp3');
 
     /* Regions */
     wavesurfer.enableDragSelection({
-        color: randomColor(0.5)
+        color: 'rgba(20, 180, 120, 1)' // Alpha set to 1 by Josh; Opacity now controlled in css
     });
 
     wavesurfer.on('ready', function () {
-        if (localStorage.regions) {
-            loadRegions(JSON.parse(localStorage.regions));
-            // alert('thisisme');
-            // alert(localStorage.regions.start);
-        } else {
+      //loadRegions(annotationGlobal);
+      //saveRegions();
+        //if (localStorage.regions) {
+            // loadRegions(JSON.parse(localStorage.regions));
+        // } else {
             // loadRegions(
             //     extractRegions(
             //         wavesurfer.backend.getPeaks(512),
@@ -91,10 +94,10 @@ document.addEventListener('DOMContentLoaded', function () {
             //    loadRegions(data);
             //   saveRegions();
             //});
-            loadRegions(rawData);
-            saveRegions();
+            // loadRegions(annotationGlobal);
+            // saveRegions();
             // alert("case2");
-        }
+        // }
     });
     wavesurfer.on('region-click', function (region, e) {
         e.stopPropagation();
@@ -103,8 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-updated', saveRegions);
-    wavesurfer.on('region-removed', saveRegions);
+    //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', showNote);
+    wavesurfer.on('ready', loadRegions)
 
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
@@ -116,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Minimap plugin */
     wavesurfer.initMinimap({
-        height: 0,
+        height: 30,
         waveColor: '#ddd',
         progressColor: '#999',
         cursorColor: '#999'
@@ -124,13 +128,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* Timeline plugin */
-    wavesurfer.on('ready', function () {
-        var timeline = Object.create(WaveSurfer.Timeline);
-        timeline.init({
-            wavesurfer: wavesurfer,
-            container: "#wave-timeline"
-        });
-    });
+    // wavesurfer.on('ready', function () {
+    //     var timeline = Object.create(WaveSurfer.Timeline);
+    //     timeline.init({
+    //         wavesurfer: wavesurfer,
+    //         container: "#wave-timeline"
+    //     });
+    // });
 
 
     /* Toggle play/pause buttons. */
@@ -146,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
 document.addEventListener('DOMContentLoaded', function () {
     var progressDiv = document.querySelector('#progress-bar');
     var progressBar = progressDiv.querySelector('.progress-bar');
@@ -153,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var showProgress = function (percent) {
         progressDiv.style.display = 'block';
         progressBar.style.width = percent + '%';
+        if(percent>99) hideProgress();
     };
 
     var hideProgress = function () {
@@ -165,11 +171,12 @@ document.addEventListener('DOMContentLoaded', function () {
     wavesurfer.on('error', hideProgress);
 });
 
+
 /**
  * Save annotations to localStorage.
  */
 function saveRegions() {
-    localStorage.regions = JSON.stringify(
+    regionJson = JSON.stringify(
         Object.keys(wavesurfer.regions.list).map(function (id) {
             var region = wavesurfer.regions.list[id];
             return {
@@ -179,19 +186,49 @@ function saveRegions() {
             };
         })
     );
+    currentBandStructure[currentFolder][currentSong]['annotations'] = regionJson;
+    currentBand.set('folderStructure', [currentBandStructure]);
+    currentBand.save();
 }
 
 
 /**
  * Load regions from localStorage.
  */
-function loadRegions(regions) {
-    regions.forEach(function (region) {
-        region.color = randomColor(0.5);
-        wavesurfer.addRegion(region);
-    });
+function loadRegions() {
+    if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
+        regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
+        console.log('loading ' + regionJson.length + ' regions')
+
+        for (var i = 0; i < regionJson.length; i++) {
+            var currentRegion = regionJson[i];
+            //console.log('loading region ' + currentRegion);
+            //console.log('data = ' + currentRegion.data.note);
+
+            // Adding in regions based on the start / stop time in JSON ...
+            wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
+            // And then manually updating the region data with the data from the JSON
+            wavesurfer.regions.list[i].data = currentRegion.data;
+        };
+    };
+
+    // Ability to style regions which have been selected
+    // $(document).mouseup(function (e) {
+    //     if (!e.target.classList.contains('wavesurfer-selected')) {
+    //         $(".wavesurfer-region").removeClass('waveform-selected');
+    //     }
+    // });
+    // // Must wait for regions to load before style can be applied
+    // $(".wavesurfer-region").click(function() {
+    //   $(".wavesurfer-region").removeClass('waveform-selected');
+    //   $(this).addClass('waveform-selected');
+    // });
 }
 
+
+function clearRegions() {
+    wavesurfer.regions.clear();
+}
 
 /**
  * Extract regions separated by silence.
@@ -251,11 +288,9 @@ function extractRegions(peaks, duration) {
         return reg.end - reg.start >= minLen;
     });
 
-
     // Return time-based regions
     return fRegions.map(function (reg) {
         return {
-
             start: Math.round(reg.start * coef * 10) / 10,
             end: Math.round(reg.end * coef * 10) / 10
         };
@@ -276,44 +311,47 @@ function randomColor(alpha) {
 
 }
 
-
 /**
  * Edit annotation for a region.
  */
-function editAnnotation (region) {
-    var form = document.forms.edit;
-    form.style.opacity = 1;
-    form.elements.start.value = Math.round(region.start * 10) / 10,
-    form.elements.end.value = Math.round(region.end * 10) / 10;
-    // form.elements.note.value = region.data.note || '';
-    form.elements.note.value = '';
-    // var noteVal = ;
-    // var accountVal = region.data.account;
-    //noteVal[noteVal.length] = form.elements.note.value;
-    //accountVal[accountVal.length] = "kaz";
-    var notation = region.data.note || '';
-    var accountNote = region.data.account || '';
+ function editAnnotation (region) {
 
-    form.onsubmit = function (e) {
-        e.preventDefault();
-        annotationNotes = notation.split("|");
-        region.update({
-            start: form.elements.start.value,
-            end: form.elements.end.value,
-            data: {
-                "note": notation + "|" + form.elements.note.value,
-                "account": accountNote + "|" + "kaz"                  //replace here with actual account name
-            }
-        });
-        form.style.opacity = 0;
-    };
-    form.onreset = function () {
-        form.style.opacity = 0;
-        form.dataset.region = null;
-    };
-    form.dataset.region = region.id;
-}
+    // Show the annotation form (will be hidden when another recording loads)
+    // The .hide() call is in loadWaveform
+     $("#annotation").show();
 
+     var form = document.forms.edit;
+     form.style.opacity = 1;
+     form.elements.start.value = Math.round(region.start * 10) / 10,
+     form.elements.end.value = Math.round(region.end * 10) / 10;
+     // form.elements.note.value = region.data.note || '';
+     form.elements.note.value = '';
+     // var noteVal = ;
+     // var accountVal = region.data.account;
+     //noteVal[noteVal.length] = form.elements.note.value;
+     //accountVal[accountVal.length] = "kaz";
+     var notation = region.data.note || '';
+     var accountNote = region.data.account || '';
+
+     form.onsubmit = function (e) {
+         e.preventDefault();
+         annotationNotes = notation.split("|");
+         region.update({
+             start: form.elements.start.value,
+             end: form.elements.end.value,
+             data: {
+                 "note": notation + "|" + form.elements.note.value,
+                 "account": accountNote + "|" + "kaz"                  //replace here with actual account name
+             }
+         });
+         form.style.opacity = 0;
+     };
+     form.onreset = function () {
+         form.style.opacity = 0;
+         form.dataset.region = null;
+     };
+     form.dataset.region = region.id;
+ }
 
 /**
  * Display annotation.
@@ -328,19 +366,25 @@ function showNote (region) {
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
     var antNotes = region.data.note.split("|");
-    console.log(antNotes.length);
+    var antUsers = region.data.account.split("|");
+    // console.log(antNotes.length);
     var printNote = "";
 
+    // This will create the text for the html of individual comment replies
     for(var i=1; i<antNotes.length; i++)
     {
-      printNote += antNotes[i] + '</br>';
+      var sourceimg = 'media/' + antUsers[i] + '.jpg';
+
+      printNote += '<div class="annotationContainer">';
+      printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
+      printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+      printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
+      printNote += '</div>'; // Closing div for "annotationContainer"
     }
+
+    target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote || '-';
-
-    // showNote.el.textContent = region.data.note || '–';
-    // console.log(annotationNotes.length);
 }
-
 
 /**
  * Bind controls.
@@ -352,18 +396,28 @@ GLOBAL_ACTIONS['delete-region'] = function () {
         wavesurfer.regions.list[regionId].remove();
         form.reset();
     }
+
+    // Make sure to save after the deletion!
+    saveRegions();
 };
 
 GLOBAL_ACTIONS['export'] = function () {
     window.open('data:application/json;charset=utf-8,' +
         encodeURIComponent(localStorage.regions));
+    /*
     annotationObject.save(null, {
         success: function(annotationObject){
             var data = JSON.parse(localStorage.regions);
+            // console.log(data[0].start);
+            // console.log(data[1].end);
+            // console.log(data[2].data[0]);
+
             annotationObject.set("logs", data);
             annotationObject.save();
             // alert("saved!!");
             localStorage.clear();
         }
       })
+      */
+      // localStorage.clear();
 };

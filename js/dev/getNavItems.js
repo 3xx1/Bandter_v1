@@ -1,49 +1,57 @@
 
-// Wrapper function which calls getBands(), which will then call getFolders() 
-// Function is called on page load 
-function getNavItems() {
-  getBands()
-}
+
+// Global variable storing the current band. This should be accessible from anywhere
+var currentBand = null;
+var currentBandStructure = null;
+var currentFolder = null;
+var currentSong = null;
+var currentSongUrl = null;
 
 // Get all the bands (and folders within the bands) as sidebar nav items
-function getBands() {
+function getNavItems() {
   var Band = Parse.Object.extend("Band");
   var bandQuery = new Parse.Query(Band);
   // Temporarily limiting this to a particular band
   // Will eventually need to grab the current logged in user and all bands they're a part of
-  bandQuery.equalTo("objectId", "h54TtHZGZ5")  
+  bandQuery.equalTo("objectId", "h54TtHZGZ5")
 
   bandQuery.find({
     success: function(results) {
       console.log("Successfully retrieved " + results.length + " bands.");
       for (var i = 0; i < results.length; i++) {
-        var band = results[i];
-        var structure = band.get("structure");
-        var structure_url = structure["_url"];
-        // Log grabbing of URL
-        console.log("Url of JSON file is " + structure_url);
+        currentBand = results[i];
+        currentBandStructure = currentBand.get("folderStructure")[0];
+        // Empty the nav items so that this can be called again without doubling the length of the nav 
+        $("#bandSelect").empty();
+        $("#folderList").empty();
 
-        $("#folderList").append('<li><a href="#"> ' + band.get("name") + ' (band) </a></li>');
+        $("#bandSelect").append('<option value="' + currentBand.id + '"> ' + currentBand.get("name") + '</option>');
+        $("#folderList").append('<li><a href="#"> ' + currentBand.get("name") + '</a></li>');
 
-        // Go through the JSON file, and for each folder, and recording
-        $.getJSON(structure_url, function(data) { 
-          
-          // Grab the folder: recordings key/value pair in the JSON
-          $.each(data, function(folder, recordings) {
-            console.log('Folder: ' + folder + '  Recordings: '+ recordings);
-            $("#folderList").append('<li><a href="#"> ' + folder + ' (folder) </a></li>');
+        // Grab the folder: recordings key/value pair in the JSON
+        $.each(currentBandStructure, function(folder, recordings) {
+          //console.log('Folder: ' + folder + '  Recordings: '+ recordings);
+          $("#folderList").append('<li><a href="#"> <i class="fa fa-folder-open-o"></i> ' + folder + '</a></li>');
 
-            // Grab the recording: info key/value pair
-            $.each(recordings, function(recording, info) {
-              console.log('Recording Name: ' + recording + '  Info: '+ info);
-              $("#folderList").append('<li><a href="#"> ' + recording + ' (recording) </a></li>');
-            });
-          // End folder: recording (below)
+          // Grab the recording: info key/value pair
+          $.each(recordings, function(recording, info) {
+            //console.log('Recording Name: ' + recording + '  Info: '+ info);
+
+            // Add the file URL to an onclick function so that this can be loaded later
+            url = info['audioFile'];
+            $("#folderList").append('<li onclick=loadWaveform("' + url + '") > ' + recording + ' <span class="deleteAudio" onclick=deleteAudioFile("' + url + '") > <i class="fa fa-times"></i> </span> </li>');
+
+            currentFolder = folder;
+            currentSong = recording;
+            currentSongUrl = info['audioFile'];
+
           });
-        // End loop through JSON file (below)
+        // End folder: recording (below)
         });
       // End loop through query results (below)
       }
+    // By default, load whatever the last song is
+    loadWaveform(currentSongUrl)
     },
     error: function(error) {
       console.log("Error: " + error.code + " " + error.message);
