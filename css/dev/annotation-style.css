@@ -32,7 +32,7 @@
 }
 
 p.text-info{
-  word-break: break-all;
+  word-break: normal;
 }
 
 /* The form portion */
@@ -57,8 +57,9 @@ p.text-info{
 }
 
 .annotationUserName {
-  display: inline;
-  margin: 5px;
+  display: inline-block;
+  margin: -5px;
+  height: 2px;
 }
 
 /* The text of an individual reply */
@@ -75,6 +76,6 @@ p.text-info{
 
 /* input box */
 #note{
-  width: 95%;
+  width: 96.5%;
   margin: -5 5 0 5;
 }
