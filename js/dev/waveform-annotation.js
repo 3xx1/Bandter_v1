@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Minimap plugin */
     wavesurfer.initMinimap({
-        height: 30,
+        height: 0,
         waveColor: '#ddd',
         progressColor: '#999',
         cursorColor: '#999'
