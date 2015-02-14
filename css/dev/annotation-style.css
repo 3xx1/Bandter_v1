@@ -61,6 +61,10 @@ p.text-info{
   display: inline;
 }
 
+.annotationTimeStamp {
+  font-size: 8px;
+}
+
 /* The text of an individual reply */
 .annotationText {
   color: #000;

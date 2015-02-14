@@ -332,6 +332,8 @@ function randomColor(alpha) {
      //accountVal[accountVal.length] = "kaz";
      var notation = region.data.note || '';
      var accountNote = region.data.account || '';
+     var timeStamp = region.data.timeStamp || '';
+     var timeStmp = new Date();
 
      form.onsubmit = function (e) {
          e.preventDefault();
@@ -340,6 +342,7 @@ function randomColor(alpha) {
              start: form.elements.start.value,
              end: form.elements.end.value,
              data: {
+                 "timeStamp": timeStamp + '|' + timestmp,
                  "note": notation + "|" + form.elements.note.value,
                  "account": accountNote + "|" + "kaz"                  //replace here with actual account name
              }
@@ -367,6 +370,7 @@ function showNote (region) {
     target.style.left = (region.start / dur * wid + 'px');
     var antNotes = region.data.note.split("|");
     var antUsers = region.data.account.split("|");
+    var antTimes = region.data.timeStamp.split("|");
     // console.log(antNotes.length);
     var printNote = "";
 
@@ -378,6 +382,7 @@ function showNote (region) {
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+      printNote += '<div class="annotationTimeStamp">' + antTimes[i] + '</div>';
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
     }
