@@ -77,8 +77,8 @@ WaveSurfer.Region = {
             // small marker-like region
             this.start + (4 / this.wrapper.scrollWidth) * this.wavesurfer.getDuration() :
             Number(params.end);
-        this.resize = params.resize === undefined ? true : Boolean(params.resize);
-        this.drag = params.drag === undefined ? true : Boolean(params.drag);
+        this.resize = params.resize === undefined ? false : Boolean(params.resize);
+        this.drag = params.drag === undefined ? false : Boolean(params.drag);
         this.loop = Boolean(params.loop);
         this.color = params.color || 'rgba(0, 0, 0, 0.1)';
         this.data = params.data || {};

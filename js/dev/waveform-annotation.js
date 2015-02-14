@@ -42,13 +42,15 @@ query.find({
 
 document.addEventListener('DOMContentLoaded', function () {
     // Init wavesurfer
+
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         height: 150,
-        scrollParent: true,
+        scrollParent: false,
         fillParent: true,
         normalize: true,
-        minimap: true,
+        minimap: false,
+        cursorWidth: 2 ,
         waveColor: '#C6C6C6',
         progressColor: '#337AB7',
         cursorColor: '222244',
@@ -56,26 +58,42 @@ document.addEventListener('DOMContentLoaded', function () {
         // backend: 'AudioElement'
     });
 
-
-    wavesurfer.util.ajax({
-        responseType: 'json',
-        url: 'media/rashomon.json'
-    }).on('success', function (data) {
-        wavesurfer.load(
-            'media/rooster.mp3' // will be replaced with the actual file path
-        );
+    wavesurfer.initMinimap({
+        height: 0,
+        waveColor: '#ddd',
+        progressColor: '#999',
+        cursorColor: '#999'
     });
+
+
+    // wavesurfer.util.ajax({
+    //     responseType: 'json',
+    //     url: 'media/rashomon.json'
+    // }).on('success', function (data) {
+    //     wavesurfer.load(
+    //         'media/rooster.mp3' // will be replaced with the actual file path
+    //     );
+    // });
+
+    // wavesurfer.util.ajax({
+    //     responseType: 'json',
+    //     url: 'media/rashomon.json'
+    // }).on('success', function (data) {
+    //     wavesurfer.load(
+    //         'media/rooster.mp3' // will be replaced with the actual file path
+    //     );
+    // });
 
     // wavesurfer.load(wavesurfer.load('media/msw001_03_rashomon_akutagawa_mt_64kb.mp3');
 
     /* Regions */
     wavesurfer.enableDragSelection({
-        color: 'rgba(20, 180, 120, 0.3)'
+        color: 'rgba(20, 180, 120, 1)' // Alpha set to 1 by Josh; Opacity now controlled in css
     });
 
     wavesurfer.on('ready', function () {
-      loadRegions(annotationGlobal);
-      saveRegions();
+      //loadRegions(annotationGlobal);
+      //saveRegions();
         //if (localStorage.regions) {
             // loadRegions(JSON.parse(localStorage.regions));
         // } else {
@@ -99,40 +117,36 @@ document.addEventListener('DOMContentLoaded', function () {
         // }
     });
     wavesurfer.on('region-click', function (region, e) {
-        e.stopPropagation();
+        // e.stopPropagation();
         // Play on click, loop on shift click
-        e.shiftKey ? region.playLoop() : region.play();
+        // e.shiftKey ? region.playLoop() : region.play();
     });
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-updated', saveRegions);
-    wavesurfer.on('region-removed', saveRegions);
+    //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', showNote);
+    wavesurfer.on('ready', loadRegions)
 
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
-            wavesurfer.play(region.start);
-            wavesurfer.pause();
+            // wavesurfer.play(region.start);
+            // wavesurfer.pause();
         });
     });
 
 
     /* Minimap plugin */
-    wavesurfer.initMinimap({
-        height: 30,
-        waveColor: '#ddd',
-        progressColor: '#999',
-        cursorColor: '#999'
-    });
+
 
 
     /* Timeline plugin */
-    wavesurfer.on('ready', function () {
-        var timeline = Object.create(WaveSurfer.Timeline);
-        timeline.init({
-            wavesurfer: wavesurfer,
-            container: "#wave-timeline"
-        });
-    });
+    // wavesurfer.on('ready', function () {
+    //     var timeline = Object.create(WaveSurfer.Timeline);
+    //     timeline.init({
+    //         wavesurfer: wavesurfer,
+    //         container: "#wave-timeline"
+    //     });
+    // });
 
 
     /* Toggle play/pause buttons. */
@@ -174,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Save annotations to localStorage.
  */
 function saveRegions() {
-    localStorage.regions = JSON.stringify(
+    regionJson = JSON.stringify(
         Object.keys(wavesurfer.regions.list).map(function (id) {
             var region = wavesurfer.regions.list[id];
             return {
@@ -184,17 +198,42 @@ function saveRegions() {
             };
         })
     );
+    currentBandStructure[currentFolder][currentSong]['annotations'] = regionJson;
+    currentBand.set('folderStructure', [currentBandStructure]);
+    currentBand.save();
 }
 
 
 /**
  * Load regions from localStorage.
  */
-function loadRegions(regions) {
-    regions.forEach(function (region) {
-        region.color = 'rgba(20, 180, 120, 0.2)';
-        wavesurfer.addRegion(region);
-    });
+function loadRegions() {
+    if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
+        regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
+        console.log('loading ' + regionJson.length + ' regions')
+
+        for (var i = 0; i < regionJson.length; i++) {
+            var currentRegion = regionJson[i];
+            //console.log('loading region ' + currentRegion);
+            //console.log('data = ' + currentRegion.data.note);
+
+            // Adding in regions based on the start / stop time in JSON ...
+            wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
+            // And then manually updating the region data with the data from the JSON
+            wavesurfer.regions.list[i].data = currentRegion.data;
+        };
+    };
+
+    // Ability to style regions which have been selected
+    // $(document).mouseup(function (e) {
+    //     if (!e.target.classList.contains('wavesurfer-selected')) {
+    //         $(".wavesurfer-region").removeClass('waveform-selected');
+    // });
+    // // Must wait for regions to load before style can be applied
+    // $(".wavesurfer-region").click(function() {
+    //   $(".wavesurfer-region").removeClass('waveform-selected');
+    //   $(this).addClass('waveform-selected');
+    // });
 }
 
 
@@ -287,6 +326,10 @@ function randomColor(alpha) {
  * Edit annotation for a region.
  */
  function editAnnotation (region) {
+    // Show the annotation form (will be hidden when another recording loads)
+    // The .hide() call is in loadWaveform
+     $("#annotation").show();
+
      var form = document.forms.edit;
      form.style.opacity = 1;
      form.elements.start.value = Math.round(region.start * 10) / 10,
@@ -299,6 +342,8 @@ function randomColor(alpha) {
      //accountVal[accountVal.length] = "kaz";
      var notation = region.data.note || '';
      var accountNote = region.data.account || '';
+     var timeStamp = region.data.timeStamp || '';
+     var getTime = new Date();
 
      form.onsubmit = function (e) {
          e.preventDefault();
@@ -307,14 +352,17 @@ function randomColor(alpha) {
              start: form.elements.start.value,
              end: form.elements.end.value,
              data: {
+                 "timeStamp": timeStamp + '|' + getTime,
                  "note": notation + "|" + form.elements.note.value,
                  "account": accountNote + "|" + "kaz"                  //replace here with actual account name
              }
          });
-         form.style.opacity = 0;
+         // form.style.opacity = 0;
+         showNote(region);
+         form.elements.note.value='';
      };
      form.onreset = function () {
-         form.style.opacity = 0;
+         // form.style.opacity = 0;
          form.dataset.region = null;
      };
      form.dataset.region = region.id;
@@ -334,6 +382,7 @@ function showNote (region) {
     target.style.left = (region.start / dur * wid + 'px');
     var antNotes = region.data.note.split("|");
     var antUsers = region.data.account.split("|");
+    var antTimes = region.data.timeStamp.split("|");
     // console.log(antNotes.length);
     var printNote = "";
 
@@ -341,11 +390,12 @@ function showNote (region) {
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
 
-      printNote +=  '<img border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :(">';
-      printNote += '&nbsp';
-      printNote += '<b>' + antUsers[i] + '</b>' + '</br>';
-      printNote += antNotes[i] + '</br>';
-      printNote += '<hr>';
+      printNote += '<div class="annotationContainer">';
+      printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
+      printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+      printNote += '<div class="annotationTimeStamp">' + antTimes[i]+ '</div>';
+      printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
+      printNote += '</div>'; // Closing div for "annotationContainer"
     }
     target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote || '-';
@@ -361,25 +411,11 @@ GLOBAL_ACTIONS['delete-region'] = function () {
         wavesurfer.regions.list[regionId].remove();
         form.reset();
     }
+    // Make sure to save after the deletion!
+    saveRegions();
 };
 
 GLOBAL_ACTIONS['export'] = function () {
     window.open('data:application/json;charset=utf-8,' +
         encodeURIComponent(localStorage.regions));
-    /*
-    annotationObject.save(null, {
-        success: function(annotationObject){
-            var data = JSON.parse(localStorage.regions);
-            // console.log(data[0].start);
-            // console.log(data[1].end);
-            // console.log(data[2].data[0]);
-
-            annotationObject.set("logs", data);
-            annotationObject.save();
-            // alert("saved!!");
-            localStorage.clear();
-        }
-      })
-      */
-      // localStorage.clear();
 };

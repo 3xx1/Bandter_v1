@@ -1,5 +1,6 @@
-/* side nav li items */
 
+
+/* This file contains the css for the sidebar */
 
 
 /* Hide for mobile, show later */
@@ -28,22 +29,23 @@
 
 }
 
-
+/* This was copy-pasted from inspect element and tweaked... sorry - Josh */
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:hover {
     background-color: #444;
     border-bottom-color: #444;
     color: #FAFAFA;
 }
-
+/* This was copy-pasted from inspect element and tweaked... sorry - Josh */
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:hover {
     border: 1px solid #000;
     border-bottom: 1px solid #444;
 }
-
+/* This was copy-pasted from inspect element and tweaked... sorry - Josh */
 .nav-tabs.nav-justified > li > a {
     border-bottom: 1px solid #000;
     color: #FFF;
   }
+
 
 /* Sidebar navigation */
 .nav-sidebar {
@@ -59,7 +61,8 @@
   background-color: #428bca;
 }
 
-
+/* This is the "X" buttons which appear next to each song. 
+May need to improve the file deletion flow */
 .deleteAudio {
   display: inline-block;
   float: right;
@@ -88,7 +91,7 @@
     border: 0;
     font-size: 16px;
     text-decoration: none;
-	padding-left: 50px;
+	   padding-left: 50px;
 
     color: #FAFAFA;
     font-weight: 300;

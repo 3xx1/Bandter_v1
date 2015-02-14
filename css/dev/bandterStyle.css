@@ -1,23 +1,13 @@
-/*
- * Base structure
- */
 
-/* Move down content because we have a fixed navbar that is 50px tall */
+/* This file contains the css for the main section of the app */
+
+
 body {
   background: #eee;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
 }
 
-
-/*
- * Global add-ons
- */
-
-.sub-header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-}
 
 /*
  * Top navigation
@@ -27,7 +17,8 @@ body {
   border: 0;
 }
 
-
+/* The main area of the page. 
+Using padding to offset the weirdness caused by a fixed navbar and sidebar */
 #main {
     text-align: left;
     background: white;
@@ -68,6 +59,8 @@ body {
 }
 
 
+/* This is the container div for the recording name and folder name. 
+Setting the margin is a temporary solution (should probably set formatting of the play button div better) */
 #displayRecordingInfo {
   margin-left: 125px;
 }
@@ -84,12 +77,22 @@ body {
     margin-bottom: 15px;
 }
 
+/* This is the "highlight a section to comment" helper text */
+#helpText {
+    color: #888888;
+    font-size: 14px;
+    float: right;
+    padding-right: 15px;
+}
 
 .waveformContainer {
     margin: 0px;
     width: 100%;
 }
 
+#waveform {
+  cursor: pointer;
+}
 
 /*
  * Upload file button

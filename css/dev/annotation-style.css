@@ -1,16 +1,118 @@
+
+
+/* This file contains the css for the regions and annotations */
+
+.wavesurfer-region {
+  height: 120px !important;
+  opacity: .4;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.wavesurfer-region:hover {
+  box-shadow: 0px 0px 10px #000;
+  /* border: 1px solid #888; */
+  opacity: .55;
+}
+
+/* Temporary styling for a selected region */
+.waveform-selected {
+  border: 1px solid #000;
+}
+
+/* The actual annotation box container */
 #annotation {
   position: relative;
   left: 0px;
   width: 200px;
   height: auto;
+  max-height: 400px;
   border-style: solid;
   border-color: rgba(20, 180, 120, 0);
   border-radius: 10px;
+  font-size: 14px;
+  background-color: #EEE;
+<<<<<<< HEAD
+  overflow: scroll;
 }
 
 p.text-info{
+  word-break: keep-all;
+}
 
-  font-size: 12px;
-  padding-left: 5px;
+/* The form portion */
+#annotationSubmitForm {
+  opacity: 0;
+  transition: opacity 300ms linear;
+}
+
+/* The container for an individual comment response (contains user photo, username, and text) */
+.annotationContainer {
+  border: 1px solid #F0F0F0;
+  background-color: #FFF;
+}
+
+.annotationUserImageContainer {
+  display: inline;
+}
+
+.annotationUserImage {
+}
+
+.annotationUserName {
+  font-weight: bold;
+  display: inline;
+}
+
+.annotationTimeStamp {
+  font: #ddd;
+  font-size: 8px;
+}
+
+/* The text of an individual reply */
+.annotationText {
+  color: #000;
+  padding: 5px;
+}
+
+/* The form portion */
+#annotationSubmitForm {
+  opacity: 0;
+  transition: opacity 300ms linear;
+=======
+}
+
+p.text-info{
   word-break: break-all;
+>>>>>>> FETCH_HEAD
+}
+
+/* The form portion */
+#annotationSubmitForm {
+  opacity: 0;
+  transition: opacity 300ms linear;
+}
+
+/* The container for an individual comment response (contains user photo, username, and text) */
+.annotationContainer {
+  border: 1px solid #F0F0F0;
+  background-color: #FFF;
+}
+
+.annotationUserImageContainer {
+  display: inline;
+}
+
+.annotationUserImage {
+}
+
+.annotationUserName {
+  font-weight: bold;
+  display: inline;
+}
+
+/* The text of an individual reply */
+.annotationText {
+  color: #000;
+  padding: 5px;
 }

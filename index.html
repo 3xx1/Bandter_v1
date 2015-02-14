@@ -33,6 +33,7 @@
   <script type="text/javascript" src="js/dev/getNavItems.js"></script>
   <script type="text/javascript" src="js/dev/waveform-trivia.js"></script>
   <script type="text/javascript" src="js/dev/waveform-annotation.js"></script>
+  <script type="text/javascript" src="js/dev/global-doc-utils.js"></script>
 
   <script type="text/javascript" src="js/dev/loadwave-util.js"></script>
   <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
@@ -128,9 +129,16 @@
                   </div>
                   -->
                 <div id="displayRecordingInfo">
+                  <div id="helpText">
+                  Click and drag a section of the waveform to create a comment.
+                  </div>
+
                   <h1 id="displayRecordingName" itemprop="name">Default song</h1>
                   <div id="displayRecordingFolderName"> Click a recording on the left sidebar to load it </div>
+
                 </div>
+
+                
               </div>
 
 
@@ -150,7 +158,7 @@
 
               <div id="annotation">
                 <p id="subtitle" class="text-info">&nbsp;</p>
-                <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
+                <form id="annotationSubmitForm" role="form" name="edit">
                     <div class="form-group">
                         <!-- <label for="start">Start</label> -->
                         <input type="hidden" class="form-control" id="start" name="start" />
@@ -163,7 +171,7 @@
 
                     <div class="form-group">
                         <!-- <label for="note">Note</label> -->
-                        <textarea id="note" class="form-control" name="note"></textarea>
+                        <textarea id="note" class="form-control" name="note" placeholder="Add a comment..."></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-success btn-block">Save</button>

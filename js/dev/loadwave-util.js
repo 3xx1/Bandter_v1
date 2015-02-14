@@ -1,9 +1,14 @@
-var annotationGlobal;
+
 
 function loadWaveform(url) {
+  // First clear old regions
+  clearRegions();
   
-  // $('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Loading');
+  // Hide the annotation form (will be shown when on a region is clicked)
+    // The .show() call is in editAnnotation
+  $('#annotation').hide();
 
+  // Begin loading wavesurfer - on load it will then load the regions (annotations)
   wavesurfer.load(url);
 
   $.each(currentBandStructure, function(folder, recordings) {
@@ -13,19 +18,13 @@ function loadWaveform(url) {
         $("#displayRecordingName").text(recording);
         $("#displayRecordingFolderName").text('In folder ' + folder);
         
-        clearRegions();
-        annotationGlobal = info['annotation0'];
-        console.log(annotationGlobal.length);
-        //wavesurfer.load(url);
-        
-        
-        // loadRegions(annotationGlobal);
-        // saveRegions();
+        // Update these globals
+        currentFolder = folder;
+        currentSong = recording;
+        currentSongUrl = info['audioFile'];
       }
     });
   });
-
-  // $('#loadingStatus').empty();
 }
 
 

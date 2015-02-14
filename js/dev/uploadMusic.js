@@ -63,11 +63,6 @@ function uploadMusic() {
     }
 }
 
-// For now, just resetting the container div to be hidden
-function cancelUploadMusic() {
-    $("#nameUploadFile")[0].className = "hidden";
-}
-
 
 function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, AudioObject) {
     // Get the url of the file
@@ -75,14 +70,17 @@ function updateJsonForNewUpload(band, bandStructure, folderName, recordingName, 
 
     // Need to create an empty structure if the folderName doesn't exist yet
     if (folderName in bandStructure) {
-        bandStructure[folderName][recordingName] = {"audioFile": url};
+        bandStructure[folderName][recordingName] = {"audioFile": url, "annotations": null};
     } else {
         bandStructure[folderName] = {};
-        bandStructure[folderName][recordingName] = {"audioFile": url};
+        bandStructure[folderName][recordingName] = {"audioFile": url,  "annotations": null};
     };
 
     band.set("folderStructure", [bandStructure]);
     band.save();
 }
 
-// Temporarily here, should be added to a better spot. Code by Kaz, moved here cluelessly by Josh
+
+function stupid() {
+    wavesurfer.addRegion( {id: 5, start: 10, end: 30, color:'rgba(20, 180, 120, 1)'} );
+}
