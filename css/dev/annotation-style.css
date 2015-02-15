@@ -24,29 +24,19 @@
 #annotation {
   position: relative;
   left: 0px;
-  width: 200px;
+  width: 300px;
   height: auto;
-<<<<<<< HEAD
   max-height: 400px;
-=======
->>>>>>> kaz
   border-style: solid;
   border-color: rgba(20, 180, 120, 0);
   border-radius: 10px;
   font-size: 14px;
   background-color: #EEE;
-<<<<<<< HEAD
   overflow: scroll;
 }
 
 p.text-info{
   word-break: keep-all;
-=======
-}
-
-p.text-info{
-  word-break: break-all;
->>>>>>> kaz
 }
 
 /* The form portion */
@@ -74,10 +64,7 @@ p.text-info{
 }
 
 .annotationTimeStamp {
-<<<<<<< HEAD
   font: #ddd;
-=======
->>>>>>> kaz
   font-size: 8px;
 }
 
@@ -85,4 +72,30 @@ p.text-info{
 .annotationText {
   color: #000;
   padding: 5px;
+  box-shadow: 3px 3px 5px 1px #c1c1c1;
+  font-size: 14px;
+  background-color: #EEE;
+}
+
+p.text-info{
+  word-break: normal;
+}
+
+/* The form portion */
+#annotationSubmitForm {
+  opacity: 0;
+  transition: opacity 300ms linear;
+}
+
+
+/* Buttons Styling */
+.butts{
+  margin: -9 0 5 5;
+
+}
+
+/* input box */
+#note{
+  width: 96.5%;
+  margin: -5 5 0 5;
 }
