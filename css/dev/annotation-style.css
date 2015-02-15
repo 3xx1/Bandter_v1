@@ -32,7 +32,6 @@
   border-radius: 10px;
   font-size: 14px;
   background-color: #EEE;
-<<<<<<< HEAD
   overflow: scroll;
 }
 
@@ -67,48 +66,6 @@ p.text-info{
 .annotationTimeStamp {
   font: #ddd;
   font-size: 8px;
-}
-
-/* The text of an individual reply */
-.annotationText {
-  color: #000;
-  padding: 5px;
-}
-
-/* The form portion */
-#annotationSubmitForm {
-  opacity: 0;
-  transition: opacity 300ms linear;
-=======
-}
-
-p.text-info{
-  word-break: break-all;
->>>>>>> FETCH_HEAD
-}
-
-/* The form portion */
-#annotationSubmitForm {
-  opacity: 0;
-  transition: opacity 300ms linear;
-}
-
-/* The container for an individual comment response (contains user photo, username, and text) */
-.annotationContainer {
-  border: 1px solid #F0F0F0;
-  background-color: #FFF;
-}
-
-.annotationUserImageContainer {
-  display: inline;
-}
-
-.annotationUserImage {
-}
-
-.annotationUserName {
-  font-weight: bold;
-  display: inline;
 }
 
 /* The text of an individual reply */

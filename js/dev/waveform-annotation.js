@@ -65,6 +65,16 @@ document.addEventListener('DOMContentLoaded', function () {
         cursorColor: '#999'
     });
 
+    // wavesurfer.util.ajax({
+    //     responseType: 'json',
+    //     url: 'media/rashomon.json'
+    // }).on('success', function (data) {
+    //     wavesurfer.load(
+    //         'media/rooster.mp3' // will be replaced with the actual file path
+    //     );
+    // });
+
+
 
     // wavesurfer.util.ajax({
     //     responseType: 'json',
@@ -228,6 +238,7 @@ function loadRegions() {
     // $(document).mouseup(function (e) {
     //     if (!e.target.classList.contains('wavesurfer-selected')) {
     //         $(".wavesurfer-region").removeClass('waveform-selected');
+    //     }
     // });
     // // Must wait for regions to load before style can be applied
     // $(".wavesurfer-region").click(function() {
@@ -386,9 +397,11 @@ function showNote (region) {
     // console.log(antNotes.length);
     var printNote = "";
 
+    // This will create the text for the html of individual comment replies
     for(var i=1; i<antNotes.length; i++)
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
+
 
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
@@ -397,6 +410,7 @@ function showNote (region) {
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
     }
+
     target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote || '-';
 }
@@ -411,6 +425,7 @@ GLOBAL_ACTIONS['delete-region'] = function () {
         wavesurfer.regions.list[regionId].remove();
         form.reset();
     }
+
     // Make sure to save after the deletion!
     saveRegions();
 };
