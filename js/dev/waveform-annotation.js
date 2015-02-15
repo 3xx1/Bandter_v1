@@ -42,7 +42,10 @@ query.find({
 
 document.addEventListener('DOMContentLoaded', function () {
     // Init wavesurfer
+<<<<<<< HEAD
 
+=======
+>>>>>>> kaz
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         height: 150,
@@ -58,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // backend: 'AudioElement'
     });
 
+<<<<<<< HEAD
     wavesurfer.initMinimap({
         height: 0,
         waveColor: '#ddd',
@@ -84,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
     //         'media/rooster.mp3' // will be replaced with the actual file path
     //     );
     // });
+=======
+>>>>>>> kaz
 
     // wavesurfer.util.ajax({
     //     responseType: 'json',
@@ -126,16 +132,32 @@ document.addEventListener('DOMContentLoaded', function () {
             // alert("case2");
         // }
     });
+<<<<<<< HEAD
+=======
+    // wavesurfer.on('ready', editAnnotation);
+>>>>>>> kaz
     wavesurfer.on('region-click', function (region, e) {
         // e.stopPropagation();
         // Play on click, loop on shift click
         // e.shiftKey ? region.playLoop() : region.play();
     });
+<<<<<<< HEAD
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', showNote);
     wavesurfer.on('ready', loadRegions)
+=======
+    wavesurfer.on('ready', loadRegions);
+    wavesurfer.on('region-click', editAnnotation);
+    wavesurfer.on('region-click', showNote);
+    wavesurfer.on('region-updated', saveRegions);
+    //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
+    wavesurfer.on('region-in', function(region, e){
+        showNote(region);
+    });
+
+>>>>>>> kaz
 
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
@@ -146,7 +168,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* Minimap plugin */
+<<<<<<< HEAD
 
+=======
+    wavesurfer.initMinimap({
+        height: 0,
+        waveColor: '#ddd',
+        progressColor: '#999',
+        cursorColor: '#999'
+    });
+>>>>>>> kaz
 
 
     /* Timeline plugin */
@@ -337,8 +368,18 @@ function randomColor(alpha) {
  * Edit annotation for a region.
  */
  function editAnnotation (region) {
+<<<<<<< HEAD
     // Show the annotation form (will be hidden when another recording loads)
     // The .hide() call is in loadWaveform
+=======
+
+    // Show the annotation form (will be hidden when another recording loads)
+    // The .hide() call is in loadWaveform
+    var target;
+    target = document.getElementById('subtitle');
+    target.innerHTML = '';
+
+>>>>>>> kaz
      $("#annotation").show();
 
      var form = document.forms.edit;
@@ -354,7 +395,11 @@ function randomColor(alpha) {
      var notation = region.data.note || '';
      var accountNote = region.data.account || '';
      var timeStamp = region.data.timeStamp || '';
+<<<<<<< HEAD
      var getTime = new Date();
+=======
+     var timeStmp = new Date();
+>>>>>>> kaz
 
      form.onsubmit = function (e) {
          e.preventDefault();
@@ -363,17 +408,37 @@ function randomColor(alpha) {
              start: form.elements.start.value,
              end: form.elements.end.value,
              data: {
+<<<<<<< HEAD
                  "timeStamp": timeStamp + '|' + getTime,
+=======
+                 "timeStamp": timeStamp + '|' + timeStmp,
+>>>>>>> kaz
                  "note": notation + "|" + form.elements.note.value,
                  "account": accountNote + "|" + "kaz"                  //replace here with actual account name
              }
          });
+<<<<<<< HEAD
          // form.style.opacity = 0;
          showNote(region);
          form.elements.note.value='';
      };
      form.onreset = function () {
          // form.style.opacity = 0;
+=======
+
+         // form.dataset.region = region.id;
+         timeStamp = timeStamp + '|' + timeStmp;
+         notation = notation + '|' + form.elements.note.value;
+         accountNote = accountNote + '|' + "kaz";
+         // saveRegions();
+         showNote(region);
+
+         form.elements.note.value = '';
+         // form.style.opacity = 0;
+     };
+     form.onreset = function () {
+         form.style.opacity = 0;
+>>>>>>> kaz
          form.dataset.region = null;
      };
      form.dataset.region = region.id;
@@ -384,10 +449,19 @@ function randomColor(alpha) {
  */
 function showNote (region) {
     var target;
+<<<<<<< HEAD
+=======
+    // console.log("herecomes");
+
+>>>>>>> kaz
     target = document.getElementById('annotation');
     if (!showNote.el) {
         showNote.el = document.querySelector('#subtitle');
     }
+<<<<<<< HEAD
+=======
+    showNote.el.innerHTML = '';
+>>>>>>> kaz
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
@@ -402,17 +476,30 @@ function showNote (region) {
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
 
+<<<<<<< HEAD
 
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
       printNote += '<div class="annotationTimeStamp">' + antTimes[i]+ '</div>';
+=======
+      printNote += '<div class="annotationContainer">';
+      printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
+      printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+      printNote += '<div class="annotationTimeStamp">' + antTimes[i] + '</div>';
+>>>>>>> kaz
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
     }
 
     target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
+<<<<<<< HEAD
     showNote.el.innerHTML = printNote || '-';
+=======
+    // console.log(printNote);
+    showNote.el.innerHTML = printNote || '-';
+    $("#annotation").show();
+>>>>>>> kaz
 }
 
 /**
@@ -433,4 +520,23 @@ GLOBAL_ACTIONS['delete-region'] = function () {
 GLOBAL_ACTIONS['export'] = function () {
     window.open('data:application/json;charset=utf-8,' +
         encodeURIComponent(localStorage.regions));
+<<<<<<< HEAD
+=======
+    /*
+    annotationObject.save(null, {
+        success: function(annotationObject){
+            var data = JSON.parse(localStorage.regions);
+            // console.log(data[0].start);
+            // console.log(data[1].end);
+            // console.log(data[2].data[0]);
+
+            annotationObject.set("logs", data);
+            annotationObject.save();
+            // alert("saved!!");
+            localStorage.clear();
+        }
+      })
+      */
+      // localStorage.clear();
+>>>>>>> kaz
 };
