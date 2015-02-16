@@ -406,7 +406,6 @@ function showNote (region) {
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
 
-
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
@@ -416,6 +415,7 @@ function showNote (region) {
     }
 
     target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
+    showNote.el.innerHTML = printNote;
     $("#annotation").show();
 }
 
