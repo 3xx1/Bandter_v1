@@ -45,19 +45,27 @@ query.find({
 function setupWavesurfer() {
 
     // Init wavesurfer
+
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         height: 150,
-        scrollParent: true,
+        scrollParent: false,
         fillParent: true,
         normalize: true,
-        minimap: true,
+        minimap: false,
         cursorWidth: 2 ,
         waveColor: '#C6C6C6',
         progressColor: '#337AB7',
         cursorColor: '222244',
 
         // backend: 'AudioElement'
+    });
+
+    wavesurfer.initMinimap({
+        height: 0,
+        waveColor: '#ddd',
+        progressColor: '#999',
+        cursorColor: '#999'
     });
 
 
@@ -102,33 +110,28 @@ function setupWavesurfer() {
             // alert("case2");
         // }
     });
+
+    // wavesurfer.on('ready', editAnnotation);
     wavesurfer.on('region-click', function (region, e) {
-        e.stopPropagation();
+        // e.stopPropagation();
         // Play on click, loop on shift click
-        e.shiftKey ? region.playLoop() : region.play();
+        // e.shiftKey ? region.playLoop() : region.play();
     });
+
+    wavesurfer.on('ready', loadRegions);
     wavesurfer.on('region-click', editAnnotation);
+    wavesurfer.on('region-click', showNote);
     wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
-    wavesurfer.on('region-in', showNote);
-    wavesurfer.on('ready', loadRegions)
-
+    wavesurfer.on('region-in', function(region, e){
+        showNote(region);
+    });
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
-            wavesurfer.play(region.start);
-            wavesurfer.pause();
+            // wavesurfer.play(region.start);
+            // wavesurfer.pause();
         });
     });
-
-
-    /* Minimap plugin */
-    wavesurfer.initMinimap({
-        height: 30,
-        waveColor: '#ddd',
-        progressColor: '#999',
-        cursorColor: '#999'
-    });
-
 
     /* Timeline plugin */
     // wavesurfer.on('ready', function () {
@@ -221,7 +224,7 @@ function loadRegions() {
     // $(document).mouseup(function (e) {
     //     if (!e.target.classList.contains('wavesurfer-selected')) {
     //         $(".wavesurfer-region").removeClass('waveform-selected');
-    //     } 
+    //     }
     // });
     // // Must wait for regions to load before style can be applied
     // $(".wavesurfer-region").click(function() {
@@ -320,7 +323,15 @@ function randomColor(alpha) {
  * Edit annotation for a region.
  */
  function editAnnotation (region) {
-     
+
+    // Show the annotation form (will be hidden when another recording loads)
+    // The .hide() call is in loadWaveform
+    // Show the annotation form (will be hidden when another recording loads)
+    // The .hide() call is in loadWaveform
+    var target;
+    target = document.getElementById('subtitle');
+    target.innerHTML = '';
+
     // Show the annotation form (will be hidden when another recording loads)
     // The .hide() call is in loadWaveform
      $("#annotation").show();
@@ -337,6 +348,8 @@ function randomColor(alpha) {
      //accountVal[accountVal.length] = "kaz";
      var notation = region.data.note || '';
      var accountNote = region.data.account || '';
+     var timeStamp = region.data.timeStamp || '';
+     var timeStmp = new Date();
 
      form.onsubmit = function (e) {
          e.preventDefault();
@@ -345,11 +358,27 @@ function randomColor(alpha) {
              start: form.elements.start.value,
              end: form.elements.end.value,
              data: {
+                 "timeStamp": timeStamp + '|' + timeStmp,
                  "note": notation + "|" + form.elements.note.value,
                  "account": accountNote + "|" + "kaz"                  //replace here with actual account name
              }
          });
-         form.style.opacity = 0;
+         // form.style.opacity = 0;
+         showNote(region);
+         form.elements.note.value='';
+     };
+     form.onreset = function () {
+         // form.style.opacity = 0;
+
+         // form.dataset.region = region.id;
+         timeStamp = timeStamp + '|' + timeStmp;
+         notation = notation + '|' + form.elements.note.value;
+         accountNote = accountNote + '|' + "kaz";
+         // saveRegions();
+         showNote(region);
+
+         form.elements.note.value = '';
+         // form.style.opacity = 0;
      };
      form.onreset = function () {
          form.style.opacity = 0;
@@ -367,28 +396,32 @@ function showNote (region) {
     if (!showNote.el) {
         showNote.el = document.querySelector('#subtitle');
     }
+    showNote.el.innerHTML = '';
+
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
     var antNotes = region.data.note.split("|");
     var antUsers = region.data.account.split("|");
+    var antTimes = region.data.timeStamp.split("|");
     // console.log(antNotes.length);
     var printNote = "";
 
-    // This will create the text for the html of individual comment replies  
     for(var i=1; i<antNotes.length; i++)
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
 
-      printNote += '<div class="annotationContainer">'; 
+      printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
-      printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>'; 
+      printNote += '<div class="annotationTimeStamp">' + antTimes[i] + '</div>';
+      printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
     }
-    
+
     target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
-    showNote.el.innerHTML = printNote || '-';
+    showNote.el.innerHTML = printNote;
+    $("#annotation").show();
 }
 
 /**
