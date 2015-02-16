@@ -179,17 +179,34 @@ document.addEventListener('DOMContentLoaded', function () {
  * Save annotations to localStorage.
  */
 function saveRegions() {
-    regionJson = JSON.stringify(
-        Object.keys(wavesurfer.regions.list).map(function (id) {
-            var region = wavesurfer.regions.list[id];
-            return {
-                start: region.start,
-                end: region.end,
-                data: region.data
-            };
-        })
-    );
-    currentBandStructure[currentFolder][currentSong]['annotations'] = regionJson;
+    //console.log(wavesurfer.regions.list)
+    // regionJson = JSON.stringify(
+    //     Object.keys(wavesurfer.regions.list).map(function (id) {
+    //         var region = wavesurfer.regions.list[id];
+    //         return {
+    //             start: region.start,
+    //             end: region.end,
+    //             data: region.data
+    //         };
+    //     })
+    // );
+
+    regionData = Object.keys(wavesurfer.regions.list).map(function (id) {
+        var region = wavesurfer.regions.list[id];
+        return {
+            start: region.start,
+            end: region.end,
+            data: region.data
+        };
+    });
+
+    for (var i = 0; i < regionData.length; i++) {
+        console.log('region ' + i)
+        console.log(regionData[i].data.timeStamp)
+    }
+    console.log(regionData)
+
+    currentBandStructure[currentFolder][currentSong]['annotations'] = regionData;
     currentBand.set('folderStructure', [currentBandStructure]);
     currentBand.save();
 }
@@ -200,11 +217,12 @@ function saveRegions() {
  */
 function loadRegions() {
     if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
-        regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
-        console.log('loading ' + regionJson.length + ' regions')
+        //regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
+        annotationData = currentBandStructure[currentFolder][currentSong]['annotations'];
+        console.log('loading ' + annotationData.length + ' regions')
 
-        for (var i = 0; i < regionJson.length; i++) {
-            var currentRegion = regionJson[i];
+        for (var i = 0; i < annotationData.length; i++) {
+            var currentRegion = annotationData[i];
             //console.log('loading region ' + currentRegion);
             //console.log('data = ' + currentRegion.data.note);
 
@@ -345,6 +363,8 @@ function randomColor(alpha) {
      var accountNote = region.data.account || '';
      var timeStamp = region.data.timeStamp || '';
      var timeStmp = new Date();
+     var MMDDYYYYString = (timeStmp.getMonth() + 1) + '/' + timeStmp.getDate() + '/' +  timeStmp.getFullYear();
+     console.log(MMDDYYYYString)
 
      form.onsubmit = function (e) {
          e.preventDefault();
@@ -353,7 +373,7 @@ function randomColor(alpha) {
              start: form.elements.start.value,
              end: form.elements.end.value,
              data: {
-                 "timeStamp": timeStamp + '|' + timeStmp,
+                 "timeStamp": timeStamp + '|' + MMDDYYYYString,
                  "note": notation + "|" + form.elements.note.value,
                  "account": accountNote + "|" + "kaz"                  //replace here with actual account name
              }
@@ -366,7 +386,7 @@ function randomColor(alpha) {
          // form.style.opacity = 0;
 
          // form.dataset.region = region.id;
-         timeStamp = timeStamp + '|' + timeStmp;
+         timeStamp = timeStamp + '|' + MMDDYYYYString;
          notation = notation + '|' + form.elements.note.value;
          accountNote = accountNote + '|' + "kaz";
          // saveRegions();
@@ -405,16 +425,23 @@ function showNote (region) {
     for(var i=1; i<antNotes.length; i++)
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
+      
+      var stringDateArray = antTimes[i].split("/");
+      var dateFromMMDDYYYString = new Date(stringDateArray[2], stringDateArray[0] - 1, stringDateArray[1]);
+      console.log('loaded date ' + dateFromMMDDYYYString);
+      var ISO = dateFromMMDDYYYString.toISOString();
+      console.log('ISO: ' + ISO);
 
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
-      printNote += '<div class="annotationTimeStamp">' + antTimes[i] + '</div>';
+      printNote += '<div class="annotationTimeStamp" title="' + ISO +'">' + jQuery.timeago(dateFromMMDDYYYString) + '</div>';
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
     }
 
-    target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
+    jQuery(".annotationTimeStamp").timeago();
+    //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote;
     $("#annotation").show();
 }
