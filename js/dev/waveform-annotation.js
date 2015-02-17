@@ -418,7 +418,6 @@ function showNote (region) {
       printNote += '</div>'; // Closing div for "annotationContainer"
     }
 
-    jQuery(".annotationTimeStamp").timeago();
     //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote;
     $("#annotation").show();
