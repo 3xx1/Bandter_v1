@@ -2,7 +2,6 @@
  * Create a WaveSurfer instance.
  */
 var wavesurfer = Object.create(WaveSurfer);
-var currentRegion = null;
 /**
  * Parse logistics, init, and so on.
  */
@@ -413,7 +412,7 @@ function showNote (region) {
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
-      printNote += '<div class="annotationDelete" onclick="removeComment(' + i + ')"> x </div>';
+      printNote += '<div class="annotationDelete" onclick="removeComment(' + region.id + ', ' + i + ')"> x </div>';
       printNote += '<div class="annotationTimeStamp">' + jQuery.timeago(timeStampDate) + '</div>';
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
@@ -422,41 +421,39 @@ function showNote (region) {
     //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote;
     $("#annotation").show();
-    currentRegion = region;
 }
 
 
-function removeComment (commentIndex) {
-    var target = document.getElementById('annotation');
+function removeComment(regionIdString, commentIndex) {
+    // Find the region based on its ID string
+    var regionID = parseInt(regionIdString);
+    var currentRegion = wavesurfer.regions.list[regionID] 
 
     var antNotes = currentRegion.data.note.split("|");
     var antUsers = currentRegion.data.account.split("|");
     var antTimes = currentRegion.data.timeStamp.split("|");
-    // console.log(antNotes.length);
 
+    // Create new arrays to hold the remaining comment data
     var newNotes = [];
     var newUsers = [];
     var newTimes = [];
 
-    for(var i=1; i<antNotes.length; i++)
-    {
+    // Go through each annotation, and only add the ones which are not the deleted comment to the new list
+    for(var i=1; i<antNotes.length; i++) {
         if (i != commentIndex) {
             newNotes.push(antNotes[i]);
             newUsers.push(antUsers[i]);
             newTimes.push(antTimes[i]);
-        } else {
-            console.log('not adding ' + i)
         };
     }
-
+    // Reset the data of the current region to match the new arrays (which does not include the deleted comment)
     currentRegion.data.note = '|' + newNotes.join("|");
     currentRegion.data.account = '|' + newUsers.join("|");
     currentRegion.data.timeStamp = '|' + newTimes.join("|");
 
+    // Update the view and save the region info
+    showNote(currentRegion);
     saveRegions();
-    //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
-    //showNote.el.innerHTML = printNote;
-    //$("#annotation").show();
 }
 
 /**
