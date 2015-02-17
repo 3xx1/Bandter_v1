@@ -36,10 +36,6 @@
   box-shadow: 3px 3px 5px 1px #c1c1c1;
 }
 
-p.text-info{
-  word-break: keep-all;
-}
-
 /* The form portion */
 #annotationSubmitForm {
   opacity: 0;
@@ -70,6 +66,10 @@ p.text-info{
   padding: 5px;
   cursor: pointer;
 }
+.annotationDelete:hover {
+  color: #000;
+  font-weight: bold;
+}
 
 .annotationTimeStamp {
   color: #666;
@@ -83,10 +83,6 @@ p.text-info{
   color: #000;
   padding: 5px;
   font-size: 14px;
-}
-
-p.text-info{
-  word-break: normal;
 }
 
 /* The form portion */

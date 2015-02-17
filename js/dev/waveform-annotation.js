@@ -423,7 +423,7 @@ function showNote (region) {
     $("#annotation").show();
 }
 
-
+// Removes an individual comment from a thread
 function removeComment(regionIdString, commentIndex) {
     // Find the region based on its ID string
     var regionID = parseInt(regionIdString);
