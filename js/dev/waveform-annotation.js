@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
     wavesurfer.on('ready', loadRegions);
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-click', showNote);
-    wavesurfer.on('region-updated', saveRegions);
+    //wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', function(region, e){
         showNote(region);
@@ -179,18 +179,6 @@ document.addEventListener('DOMContentLoaded', function () {
  * Save annotations to localStorage.
  */
 function saveRegions() {
-    //console.log(wavesurfer.regions.list)
-    // regionJson = JSON.stringify(
-    //     Object.keys(wavesurfer.regions.list).map(function (id) {
-    //         var region = wavesurfer.regions.list[id];
-    //         return {
-    //             start: region.start,
-    //             end: region.end,
-    //             data: region.data
-    //         };
-    //     })
-    // );
-
     regionData = Object.keys(wavesurfer.regions.list).map(function (id) {
         var region = wavesurfer.regions.list[id];
         return {
@@ -199,12 +187,6 @@ function saveRegions() {
             data: region.data
         };
     });
-
-    for (var i = 0; i < regionData.length; i++) {
-        console.log('region ' + i)
-        console.log(regionData[i].data.timeStamp)
-    }
-    console.log(regionData)
 
     currentBandStructure[currentFolder][currentSong]['annotations'] = regionData;
     currentBand.set('folderStructure', [currentBandStructure]);
@@ -223,8 +205,6 @@ function loadRegions() {
 
         for (var i = 0; i < annotationData.length; i++) {
             var currentRegion = annotationData[i];
-            //console.log('loading region ' + currentRegion);
-            //console.log('data = ' + currentRegion.data.note);
 
             // Adding in regions based on the start / stop time in JSON ...
             wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
@@ -363,8 +343,6 @@ function randomColor(alpha) {
      var accountNote = region.data.account || '';
      var timeStamp = region.data.timeStamp || '';
      var timeStmp = new Date();
-     var MMDDYYYYString = (timeStmp.getMonth() + 1) + '/' + timeStmp.getDate() + '/' +  timeStmp.getFullYear();
-     console.log(MMDDYYYYString)
 
      form.onsubmit = function (e) {
          e.preventDefault();
@@ -373,7 +351,7 @@ function randomColor(alpha) {
              start: form.elements.start.value,
              end: form.elements.end.value,
              data: {
-                 "timeStamp": timeStamp + '|' + MMDDYYYYString,
+                 "timeStamp": timeStamp + '|' + timeStmp,
                  "note": notation + "|" + form.elements.note.value,
                  "account": accountNote + "|" + "kaz"                  //replace here with actual account name
              }
@@ -381,12 +359,14 @@ function randomColor(alpha) {
          // form.style.opacity = 0;
          showNote(region);
          form.elements.note.value='';
+         // Save once submitted
+         saveRegions();
      };
      form.onreset = function () {
          // form.style.opacity = 0;
 
          // form.dataset.region = region.id;
-         timeStamp = timeStamp + '|' + MMDDYYYYString;
+         timeStamp = timeStamp + '|' + timeStmp;
          notation = notation + '|' + form.elements.note.value;
          accountNote = accountNote + '|' + "kaz";
          // saveRegions();
@@ -394,6 +374,8 @@ function randomColor(alpha) {
 
          form.elements.note.value = '';
          // form.style.opacity = 0;
+         // Unsure if this is needed here -Josh
+         saveRegions();
      };
      form.onreset = function () {
          form.style.opacity = 0;
@@ -425,17 +407,13 @@ function showNote (region) {
     for(var i=1; i<antNotes.length; i++)
     {
       var sourceimg = 'media/' + antUsers[i] + '.jpg';
-      
-      var stringDateArray = antTimes[i].split("/");
-      var dateFromMMDDYYYString = new Date(stringDateArray[2], stringDateArray[0] - 1, stringDateArray[1]);
-      console.log('loaded date ' + dateFromMMDDYYYString);
-      var ISO = dateFromMMDDYYYString.toISOString();
-      console.log('ISO: ' + ISO);
+      // Set new date object from the one saved in database; this will be converted to look nice with the timeago() library
+      var timeStampDate = new Date(antTimes[i]);
 
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
-      printNote += '<div class="annotationTimeStamp" title="' + ISO +'">' + jQuery.timeago(dateFromMMDDYYYString) + '</div>';
+      printNote += '<div class="annotationTimeStamp">' + jQuery.timeago(timeStampDate) + '</div>';
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
     }
