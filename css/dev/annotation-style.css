@@ -64,6 +64,13 @@ p.text-info{
   display: inline;
 }
 
+.annotationDelete {
+  float: right;
+  font-size: 12px;
+  padding: 5px;
+  cursor: pointer;
+}
+
 .annotationTimeStamp {
   color: #666;
   font-size: 12px;

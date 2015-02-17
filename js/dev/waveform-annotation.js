@@ -413,6 +413,7 @@ function showNote (region) {
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+      printNote += '<div class="annotationDelete" onclick="removeComment(' + i + ')"> x </div>';
       printNote += '<div class="annotationTimeStamp">' + jQuery.timeago(timeStampDate) + '</div>';
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
@@ -421,6 +422,35 @@ function showNote (region) {
     //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote;
     $("#annotation").show();
+}
+
+
+function removeComment (commentIndex) {
+    var target = document.getElementById('annotation');
+
+    var antNotes = region.data.note.split("|");
+    var antUsers = region.data.account.split("|");
+    var antTimes = region.data.timeStamp.split("|");
+    // console.log(antNotes.length);
+
+    var newNotes = [];
+    var newUsers = [];
+    var newTimes = [];
+
+    for(var i=1; i<antNotes.length; i++)
+    {
+        if (i != commentIndex) {
+            newNotes.push(antNotes[i]);
+            newUsers.push(antUsers[i]);
+            newTimes.push(antTimes[i]);
+        } else {
+            console.log('not adding ' + i)
+        };
+    }
+
+    //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
+    //showNote.el.innerHTML = printNote;
+    //$("#annotation").show();
 }
 
 /**
