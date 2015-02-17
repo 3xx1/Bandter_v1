@@ -2,7 +2,7 @@
  * Create a WaveSurfer instance.
  */
 var wavesurfer = Object.create(WaveSurfer);
-
+var currentRegion = null;
 /**
  * Parse logistics, init, and so on.
  */
@@ -422,15 +422,16 @@ function showNote (region) {
     //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote;
     $("#annotation").show();
+    currentRegion = region;
 }
 
 
 function removeComment (commentIndex) {
     var target = document.getElementById('annotation');
 
-    var antNotes = region.data.note.split("|");
-    var antUsers = region.data.account.split("|");
-    var antTimes = region.data.timeStamp.split("|");
+    var antNotes = currentRegion.data.note.split("|");
+    var antUsers = currentRegion.data.account.split("|");
+    var antTimes = currentRegion.data.timeStamp.split("|");
     // console.log(antNotes.length);
 
     var newNotes = [];
@@ -448,6 +449,11 @@ function removeComment (commentIndex) {
         };
     }
 
+    currentRegion.data.note = '|' + newNotes.join("|");
+    currentRegion.data.account = '|' + newUsers.join("|");
+    currentRegion.data.timeStamp = '|' + newTimes.join("|");
+
+    saveRegions();
     //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     //showNote.el.innerHTML = printNote;
     //$("#annotation").show();
