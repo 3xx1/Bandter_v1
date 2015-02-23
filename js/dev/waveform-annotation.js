@@ -212,7 +212,7 @@ function loadRegions() {
         };
     };
 
-    // Ability to style regions which have been selected
+    //Ability to style regions which have been selected
     // $(document).mouseup(function (e) {
     //     if (!e.target.classList.contains('wavesurfer-selected')) {
     //         $(".wavesurfer-region").removeClass('waveform-selected');
@@ -375,12 +375,18 @@ function randomColor(alpha) {
          // form.style.opacity = 0;
          // Unsure if this is needed here -Josh
          saveRegions();
+         $("#annotation").hide();
      };
-     form.onreset = function () {
-         form.style.opacity = 0;
-         form.dataset.region = null;
-     };
+
+     // Below code commented out - not sure what this does
+     // Was wondering why there are 2 .onreset functions?? - Josh
+     // ------------ V ----------------
+     // form.onreset = function () {
+     //     form.style.opacity = 0;
+     //     form.dataset.region = null;
+     // };
      form.dataset.region = region.id;
+
  }
 
 
@@ -396,6 +402,15 @@ function showNote (region) {
     }
     showNote.el.innerHTML = '';
 
+    // Update title of box to the timestamp of the region
+    var beginningMinutes = Math.floor(region.start/60);
+    var beginningSeconds = Math.floor(region.start - beginningMinutes * 60);
+    
+    var endMinutes = Math.floor(region.end/60);
+    var endSeconds = Math.floor(region.end - endMinutes * 60);
+
+    $("#annotationTitle").text(beginningMinutes + ':' + beginningSeconds + ' - ' + endMinutes + ':' + endSeconds);
+
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
@@ -408,7 +423,6 @@ function showNote (region) {
     for(var i=1; i<antNotes.length; i++)
     {
       //var sourceimg = 'media/' + antUsers[i] + '.jpg';
-      //var sourceimg = currentUser.get('portrait')['_url'];
       var sourceimg = currentBandPortraits[antUsers[i]];
       // Set new date object from the one saved in database; this will be converted to look nice with the timeago() library
       var timeStampDate = new Date(antTimes[i]);

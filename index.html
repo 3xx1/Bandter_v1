@@ -162,7 +162,14 @@
                 </div>
 
                 <div id="annotation">
-                  <p id="subtitle" class="text-info">&nbsp;</p>
+                  <div id="annotationTitleContainer">
+                    <div id="annotationTitle"> </div>
+
+                    <a id="deleteRegion" data-action="delete-region">Delete Region</a>
+                  </div>
+                  
+                  <div id="subtitle" class="text-info"> </div>
+                  
                   <form id="annotationSubmitForm" role="form" name="edit">
                       <div class="form-group">
                           <!-- <label for="start">Start</label> -->
@@ -179,13 +186,12 @@
                           <textarea id="note" class="form-control" name="note" placeholder="Add a comment..."></textarea>
                       </div>
 
-                      <button type="submit" class="btn btn-success btn-sm butts">Comment</button>
-
-                      <button type="button" class="btn btn-danger btn-sm butts" data-action="delete-region">Delete Region</button>
+                      <button type="submit" class="btn btn-primary btn-sm butts">Comment</button>
                     </form>
                 </div>
             </div>
 
+            <!-- Hide the dev export button for now
             <div class="row">
                 <div class="col-sm-2">
                     <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
@@ -194,6 +200,7 @@
                     </button>
                 </div>
             </div>
+          -->
           </div>
         </div>
       </div>
