@@ -37,7 +37,7 @@
 
 #login-container{
 	margin: 50px auto;
-	width: 300px;
+	width: 250px;
 }
 
 #signup-container{
@@ -48,7 +48,7 @@
 .login-screen-button {
 	float: right;
 	margin-top: 25px;
-	font-size: 22px;
+	font-size: 20px;
 	padding: 10px;
 	color: white;
 	background-color: #222;
@@ -59,4 +59,10 @@
 	font-family: 'Lato', sans-serif;
 	font-weight: 300;
 	width: 120px;
+
+	transition: all 0.3s ease;
+}
+
+.login-screen-button:hover {
+	background-color: #2E6DA4;
 }
