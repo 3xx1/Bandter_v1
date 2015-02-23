@@ -85,13 +85,6 @@
   font-size: 14px;
 }
 
-/* The form portion */
-#annotationSubmitForm {
-  opacity: 0;
-  transition: opacity 300ms linear;
-}
-
-
 /* Buttons Styling */
 .butts{
   margin: -9 0 5 5;

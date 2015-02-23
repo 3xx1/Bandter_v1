@@ -12,8 +12,8 @@
   <link rel="stylesheet" type="text/css" href="css/lib/styles.css">
   <link rel="stylesheet" type="text/css" href="css/dev/sidebar.css">
   <link rel="stylesheet" type="text/css" href="css/dev/mediaPlayerControls.css">
-
   <link rel="styleSheet" type="text/css" href="css/dev/annotation-style.css">
+  <link rel="stylesheet" type="text/css" href="css/dev/login-style.css">
 
   <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -34,6 +34,7 @@
   <script type="text/javascript" src="js/dev/waveform-trivia.js"></script>
   <script type="text/javascript" src="js/dev/waveform-annotation.js"></script>
   <script type="text/javascript" src="js/dev/global-doc-utils.js"></script>
+  <script type="text/javascript" src="js/dev/login.js"></script>
 
   <script type="text/javascript" src="js/dev/loadwave-util.js"></script>
   <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
@@ -44,7 +45,7 @@
     Parse.initialize("5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi")
 </script>
 
-<body onload="getNavItems();">
+<body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -66,134 +67,156 @@
       </div>
     </div>
   </nav>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-3 sidebar">
-				<ul id="LibraryTabs" class="nav nav-tabs nav-justified">
-					<li class="active"> <a href="#"> <i class="fa fa-users"></i>  Sessions</a></li>
-					<li><a href="#"> <i class="fa fa-bookmark-o"></i> Extractions</a></li>
-				</ul>
-        <!-- Display all folders here -->
-				<ul id="folderList" class="nav nav-sidebar">
-          <!-- Any folders (and recordings within those folders) will be appended here by the getFolders.js on page load -->
-				</ul>
-				<div class="fixed">
-          <!-- Ugly but functional file upload -->
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-              <i class="fa fa-cloud-upload"></i> Upload recording
-            </button>
-          <!-- End ugly but functional file upload -->
-				</div>
-			</div>
-		</div>
-	</div>
+	
+  <div class="logged-in-body">
+    <div class="container-fluid">
+  		<div class="row">
+  			<div class="col-sm-3 sidebar">
+  				<ul id="LibraryTabs" class="nav nav-tabs nav-justified">
+  					<li class="active"> <a href="#"> <i class="fa fa-users"></i>  Sessions</a></li>
+  					<li><a href="#"> <i class="fa fa-bookmark-o"></i> Extractions</a></li>
+  				</ul>
+          <!-- Display all folders here -->
+  				<ul id="folderList" class="nav nav-sidebar">
+            <!-- Any folders (and recordings within those folders) will be appended here by the getFolders.js on page load -->
+  				</ul>
+  				<div class="fixed">
+            <!-- Ugly but functional file upload -->
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-cloud-upload"></i> Upload recording
+              </button>
+            <!-- End ugly but functional file upload -->
+  				</div>
+  			</div>
+  		</div>
+  	</div>
 
-  <!-- This will have to be replaced with whatever Bootstrap wants to use for the main body -->
-  <div id="main" class="container-fluid">
-    <div class="row">
-      <div class="container waveformContainer">
-          <div id="loadingStatus"> </div>
-          <div class="header">
-              <div class="row buttonControl">
-                  <!--
-                  <div class="col-sm-1">
-                      <div data-action="back">
-                          <i class="fa fa-step-backward fa-3x"></i>
-                      </div>
-                  </div>
-                  -->
-                  <div class="col-sm-1">
-                      <div data-action="play">
-                          <div id="play" class="control">
-                              <i class="fa fa-play fa-4x"></i>
-                          </div>
 
-                          <div id="pause" class="control controlPause" style="display: none">
-                              <i class="fa fa-pause fa-3x"></i>
-                          </div>
-                      </div>
-                  </div>
-                  <!--
-                  <div class="col-sm-1">
-                      <div data-action="forth">
-                          <i class="fa fa-step-forward fa-3x"></i>
-                      </div>
-                  </div>
-                  -->
-                  <!--
-                  <div class="col-sm-1">
-                      <button class="btn btn-primary" data-action="toggle-mute">
-                          <span class="glyphicon glyphicon-volume-off"></span>
-                          Mute
-                      </button>
-                  </div>
-                  -->
-                <div id="displayRecordingInfo">
-                  <div id="helpText">
-                  Click and drag a section of the waveform to create a comment.
+    <div id="main" class="container-fluid">
+      <div class="row">
+        <div class="container waveformContainer">
+            <div id="loadingStatus"> </div>
+            <div class="header">
+                <div class="row buttonControl">
+                    <!--
+                    <div class="col-sm-1">
+                        <div data-action="back">
+                            <i class="fa fa-step-backward fa-3x"></i>
+                        </div>
+                    </div>
+                    -->
+                    <div class="col-sm-1">
+                        <div data-action="play">
+                            <div id="play" class="control">
+                                <i class="fa fa-play fa-4x"></i>
+                            </div>
+
+                            <div id="pause" class="control controlPause" style="display: none">
+                                <i class="fa fa-pause fa-3x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-sm-1">
+                        <div data-action="forth">
+                            <i class="fa fa-step-forward fa-3x"></i>
+                        </div>
+                    </div>
+                    -->
+                    <!--
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary" data-action="toggle-mute">
+                            <span class="glyphicon glyphicon-volume-off"></span>
+                            Mute
+                        </button>
+                    </div>
+                    -->
+                  <div id="displayRecordingInfo">
+                    <div id="helpText">
+                    Click and drag a section of the waveform to create a comment.
+                    </div>
+
+                    <h1 id="displayRecordingName" itemprop="name">Default song</h1>
+                    <div id="displayRecordingFolderName"> Click a recording on the left sidebar to load it </div>
+
                   </div>
 
-                  <h1 id="displayRecordingName" itemprop="name">Default song</h1>
-                  <div id="displayRecordingFolderName"> Click a recording on the left sidebar to load it </div>
-
+                  
                 </div>
 
+
+            </div>
+
+            <div id="demo">
+                <!-- comment this in if you need timeline with visualized waveform -->
+                <!--<div id="wave-timeline"></div> -->
+
+                <div id="waveform">
+
+                  <div class="progress progress-striped active" id="progress-bar">
+                        <div class="progress-bar progress-bar-info"></div>
+                  </div>
                 
-              </div>
-
-
-          </div>
-
-          <div id="demo">
-              <!-- comment this in if you need timeline with visualized waveform -->
-              <!--<div id="wave-timeline"></div> -->
-
-              <div id="waveform">
-
-                <div class="progress progress-striped active" id="progress-bar">
-                      <div class="progress-bar progress-bar-info"></div>
                 </div>
-              
-              </div>
 
-              <div id="annotation">
-                <p id="subtitle" class="text-info">&nbsp;</p>
-                <form id="annotationSubmitForm" role="form" name="edit">
-                    <div class="form-group">
-                        <!-- <label for="start">Start</label> -->
-                        <input type="hidden" class="form-control" id="start" name="start" />
-                    </div>
+                <div id="annotation">
+                  <p id="subtitle" class="text-info">&nbsp;</p>
+                  <form id="annotationSubmitForm" role="form" name="edit">
+                      <div class="form-group">
+                          <!-- <label for="start">Start</label> -->
+                          <input type="hidden" class="form-control" id="start" name="start" />
+                      </div>
 
-                    <div class="form-group">
-                        <!-- <label for="end">End</label> -->
-                        <input type="hidden" class="form-control" id="end" name="end" />
-                    </div>
+                      <div class="form-group">
+                          <!-- <label for="end">End</label> -->
+                          <input type="hidden" class="form-control" id="end" name="end" />
+                      </div>
 
-                    <div class="form-group">
-                        <!-- <label for="note">Note</label> -->
-                        <textarea id="note" class="form-control" name="note" placeholder="Add a comment..."></textarea>
-                    </div>
+                      <div class="form-group">
+                          <!-- <label for="note">Note</label> -->
+                          <textarea id="note" class="form-control" name="note" placeholder="Add a comment..."></textarea>
+                      </div>
 
-                    <button type="submit" class="btn btn-success btn-sm butts">Comment</button>
+                      <button type="submit" class="btn btn-success btn-sm butts">Comment</button>
 
-                    <button type="button" class="btn btn-danger btn-sm butts" data-action="delete-region">Delete Region</button>
-                  </form>
-              </div>
-          </div>
+                      <button type="button" class="btn btn-danger btn-sm butts" data-action="delete-region">Delete Region</button>
+                    </form>
+                </div>
+            </div>
 
-          <div class="row">
-              <div class="col-sm-2">
-                  <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
-                      <i class="fa fa-file"></i>
-                      Export
-                  </button>
-              </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-block" data-action="export" title="Export annotations to JSON">
+                        <i class="fa fa-file"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <div id="not-logged-in-body">
+
+      <h2>Log In</h2>
+      <div class="error" style="display:none"></div>
+      
+      <input type="text" id="login-username" placeholder="Username" />
+      <input type="password" id="login-password" placeholder="Password" />
+      
+      <button id="login-button" onclick="login()">Log In</button>
+      
+      <!-- <form class="signup-form"> -->
+        <h2>Sign Up</h2>
+        <div class="error" style="display:none"></div>
+        <input type="text" id="signup-username" placeholder="Username" />
+        <input type="password" id="signup-password" placeholder="Create a Password" />
+        <button>Sign Up</button>
+      <!--  </form> -->
+
+    </div>
 
 </body>
 

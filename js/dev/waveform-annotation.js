@@ -108,11 +108,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // wavesurfer.on('ready', editAnnotation);
-    wavesurfer.on('region-click', function (region, e) {
+    //wavesurfer.on('region-click', function (region, e) {
         // e.stopPropagation();
         // Play on click, loop on shift click
         // e.shiftKey ? region.playLoop() : region.play();
-    });
+    //});
 
     wavesurfer.on('ready', loadRegions);
     wavesurfer.on('region-click', editAnnotation);
@@ -383,10 +383,12 @@ function randomColor(alpha) {
      form.dataset.region = region.id;
  }
 
+
 /**
  * Display annotation.
  */
 function showNote (region) {
+    console.log(region)
     var target;
     target = document.getElementById('annotation');
     if (!showNote.el) {
@@ -405,7 +407,9 @@ function showNote (region) {
 
     for(var i=1; i<antNotes.length; i++)
     {
-      var sourceimg = 'media/' + antUsers[i] + '.jpg';
+      //var sourceimg = 'media/' + antUsers[i] + '.jpg';
+      //var sourceimg = currentUser.get('portrait')['_url'];
+      var sourceimg = currentBandPortraits[antUsers[i]];
       // Set new date object from the one saved in database; this will be converted to look nice with the timeago() library
       var timeStampDate = new Date(antTimes[i]);
 

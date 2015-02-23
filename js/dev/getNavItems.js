@@ -2,6 +2,8 @@
 
 // Global variable storing the current band. This should be accessible from anywhere
 var currentBand = null;
+var currentBandMembers = null;
+var currentBandPortraits = null;
 var currentBandStructure = null;
 var currentFolder = null;
 var currentSong = null;
@@ -13,13 +15,22 @@ function getNavItems() {
   var bandQuery = new Parse.Query(Band);
   // Temporarily limiting this to a particular band
   // Will eventually need to grab the current logged in user and all bands they're a part of
-  bandQuery.equalTo("objectId", "h54TtHZGZ5")
+  bandQuery.equalTo("objectId", "h54TtHZGZ5");
 
   bandQuery.find({
     success: function(results) {
       console.log("Successfully retrieved " + results.length + " bands.");
       for (var i = 0; i < results.length; i++) {
         currentBand = results[i];
+        currentBandMembers = currentBand.get('members');
+
+        currentBandPortraits = {};
+
+        for (var i = 0; i < currentBandMembers.length; i++) {
+          username = currentBandMembers[i];
+          getPortrait(username);
+        }
+
         currentBandStructure = currentBand.get("folderStructure")[0];
         // Empty the nav items so that this can be called again without doubling the length of the nav 
         $("#bandSelect").empty();
@@ -57,4 +68,27 @@ function getNavItems() {
       console.log("Error: " + error.code + " " + error.message);
     }
   });
+}
+
+
+
+function getPortrait (username) {
+    
+    var portraitQuery = new Parse.Query(Parse.User);
+    var portraitUrl = null;
+    // Temporarily limiting this to a particular band
+    // Will eventually need to grab the current logged in user and all bands they're a part of
+    portraitQuery.equalTo("username", username);
+
+    portraitQuery.find({
+        success: function(results) {
+            user = results[0];
+            portraitUrl = user.get('portrait')['_url']; 
+            console.log(portraitUrl);
+            currentBandPortraits[username] = portraitUrl;
+        },
+        error: function(error) {
+        console.log("Error: " + error.code + " " + error.message);
+        }
+    });
 }
