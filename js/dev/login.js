@@ -31,9 +31,15 @@ function login() {
 	    currentUser = user;
 	    var username = user.get('username');
 
-
+	    // Hide the login screen
 	    $("#not-logged-in-body").hide();
+	    // Show the rest of the app
 	    $("#logged-in-body").show();
+	    // Set the text on the navbar, and show the navbar items
+	    $("#welcome-username").text("Welcome " + username);
+	    $("#navbar-items").show();
+	    // get nav items 
+	    getNavItems();
 
 	  },
 	  error: function(user, error) {

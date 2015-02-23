@@ -71,7 +71,7 @@ function getNavItems() {
 }
 
 
-
+// Function to cache portraits for all users in the current band
 function getPortrait (username) {
     
     var portraitQuery = new Parse.Query(Parse.User);

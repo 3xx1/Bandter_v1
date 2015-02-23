@@ -352,7 +352,7 @@ function randomColor(alpha) {
              data: {
                  "timeStamp": timeStamp + '|' + timeStmp,
                  "note": notation + "|" + form.elements.note.value,
-                 "account": accountNote + "|" + "kaz"                  //replace here with actual account name
+                 "account": accountNote + "|" + currentUser.get('username')                  //replace here with actual account name
              }
          });
          // form.style.opacity = 0;
