@@ -1,11 +1,6 @@
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-	getNavItems();
-});
-
-
 // Trying to work out a function to hide the annotations window when it is clicked out of
 
 // $(document).mouseup(function (e) {
