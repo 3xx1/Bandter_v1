@@ -64,3 +64,7 @@ function deleteEntireFolder(folderName) {
     currentBand.save();
   });
 }
+
+function hideAnnotation() {
+  $('#annotation').hide();
+}

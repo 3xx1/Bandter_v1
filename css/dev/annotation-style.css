@@ -46,6 +46,19 @@
   color: white;
 }
 
+#annotationHideButton {
+  display: inline-block;
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+  /* border: 1px solid #888; */
+  color: #888;
+  cursor: pointer;
+}
+#annotationHideButton:hover {
+  color: #FFF;
+}
+
 #annotationTitle{
   padding: 5px;
   display: inline-block;
