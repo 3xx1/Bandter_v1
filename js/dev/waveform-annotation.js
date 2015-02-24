@@ -329,7 +329,7 @@ function randomColor(alpha) {
     // Show the annotation form (will be hidden when another recording loads)
     // The .hide() call is in loadWaveform
     var target;
-    target = document.getElementById('subtitle');
+    target = document.getElementById('annotationCommentsContainer');
     target.innerHTML = '';
 
     // Show the annotation form (will be hidden when another recording loads)
@@ -413,7 +413,7 @@ function showNote (region) {
     var target;
     target = document.getElementById('annotation');
     if (!showNote.el) {
-        showNote.el = document.querySelector('#subtitle');
+        showNote.el = document.querySelector('#annotationCommentsContainer');
     }
     showNote.el.innerHTML = '';
 
@@ -507,6 +507,8 @@ GLOBAL_ACTIONS['delete-region'] = function () {
         wavesurfer.regions.list[regionId].remove();
         form.reset();
     }
+    // Make sure to hide annotation div
+    $("#annotation").fadeOut(200);
 
     // Make sure to save after the deletion!
     saveRegions();
