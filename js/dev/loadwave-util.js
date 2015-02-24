@@ -45,7 +45,7 @@ function deleteAudioFile(url) {
 
         console.log('Removing ' + recording + ' from ' + folder)
         currentBand.set("folderStructure", [currentBandStructure]);
-        //currentBand.save();
+        currentBand.save();
       }
     });
   });
