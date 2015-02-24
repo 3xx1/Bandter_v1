@@ -22,7 +22,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 	if (currentUser) {
 	    // do stuff with the user
-	    console.log(currentUser.get('username'))
+	    //console.log(currentUser.get('username'))
 	    loginScreenToMainScreen();
 	} else {
 		$("#login-username").focus();
@@ -43,7 +43,7 @@ function login() {
 	  },
 	  error: function(user, error) {
 	    // The login failed. Check error to see why.
-	    alert(error)
+	    alert("Error logging in!")
 	  }
 	});
 }
