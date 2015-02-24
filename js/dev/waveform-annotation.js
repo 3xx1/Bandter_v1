@@ -328,6 +328,7 @@ function randomColor(alpha) {
     // The .hide() call is in loadWaveform
     // $("#annotation").show();
     $('#annotation').fadeIn(200);
+    $( "#note" ).focus();
 
      var form = document.forms.edit;
      form.style.opacity = 1;
