@@ -356,6 +356,9 @@ function randomColor(alpha) {
                  "account": accountNote + "|" + currentUser.get('username')                  //replace here with actual account name
              }
          });
+         timeStamp = timeStamp + '|' + timeStmp;
+         notation = notation + '|' + form.elements.note.value;
+         accountNote = accountNote + '|' + currentUser.get('username');
          // form.style.opacity = 0;
          showNote(region);
          form.elements.note.value='';
@@ -368,7 +371,7 @@ function randomColor(alpha) {
          // form.dataset.region = region.id;
          timeStamp = timeStamp + '|' + timeStmp;
          notation = notation + '|' + form.elements.note.value;
-         accountNote = accountNote + '|' + "kaz";
+         accountNote = accountNote + '|' + currentUser.get('username');
          // saveRegions();
          showNote(region);
 
@@ -378,6 +381,7 @@ function randomColor(alpha) {
          saveRegions();
          //$("#annotation").hide();
          $('#annotation').fadeOut(200);
+         console.log("helloHerer");
      };
 
      // Below code commented out - not sure what this does
@@ -407,7 +411,7 @@ function showNote (region) {
     // Update title of box to the timestamp of the region
     var beginningMinutes = Math.floor(region.start/60);
     var beginningSeconds = Math.floor(region.start - beginningMinutes * 60);
-    
+
     var endMinutes = Math.floor(region.end/60);
     var endSeconds = Math.floor(region.end - endMinutes * 60);
 
@@ -448,7 +452,7 @@ function showNote (region) {
 function removeComment(regionIdString, commentIndex) {
     // Find the region based on its ID string
     var regionID = parseInt(regionIdString);
-    var currentRegion = wavesurfer.regions.list[regionID] 
+    var currentRegion = wavesurfer.regions.list[regionID]
 
     var antNotes = currentRegion.data.note.split("|");
     var antUsers = currentRegion.data.account.split("|");
