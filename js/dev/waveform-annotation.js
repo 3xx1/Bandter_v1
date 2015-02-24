@@ -326,7 +326,8 @@ function randomColor(alpha) {
 
     // Show the annotation form (will be hidden when another recording loads)
     // The .hide() call is in loadWaveform
-     $("#annotation").show();
+    // $("#annotation").show();
+    $('#annotation').fadeIn(200);
 
      var form = document.forms.edit;
      form.style.opacity = 1;
@@ -375,7 +376,8 @@ function randomColor(alpha) {
          // form.style.opacity = 0;
          // Unsure if this is needed here -Josh
          saveRegions();
-         $("#annotation").hide();
+         //$("#annotation").hide();
+         $('#annotation').fadeOut(200);
      };
 
      // Below code commented out - not sure what this does
@@ -438,7 +440,8 @@ function showNote (region) {
 
     //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
     showNote.el.innerHTML = printNote;
-    $("#annotation").show();
+    //$("#annotation").show();
+    $('#annotation').fadeIn(200);
 }
 
 // Removes an individual comment from a thread
