@@ -149,6 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
      wavesurfer.on('region-updated', function(region) {
          //console.log('updated region ' + region.id + ' at time ' + region.start + ' - ' + region.end);
          //editAnnotation(region);
+         showNote(region)
+         editAnnotation(region)
      });
     // wavesurfer.on('region-update-end', function() {
     //     console.log(' - update ended for region');
@@ -452,39 +454,43 @@ function showNote (region) {
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
-    var antNotes = region.data.note.split("|");
-    var antUsers = region.data.account.split("|");
-    var antTimes = region.data.timeStamp.split("|");
-    // console.log(antNotes.length);
-    var printNote = "";
 
-    for(var i=1; i<antNotes.length; i++)
-    {
-      //var sourceimg = 'media/' + antUsers[i] + '.jpg';
-      var sourceimg = currentBandPortraits[antUsers[i]];
-      // Set new date object from the one saved in database; this will be converted to look nice with the timeago() library
-      var timeStampDate = new Date(antTimes[i]);
+    // This statement is needed to correctly display newly-created regions (which don't have the "note" attribute)
+    if ('note' in region.data) {
+        var antNotes = region.data.note.split("|");
+        var antUsers = region.data.account.split("|");
+        var antTimes = region.data.timeStamp.split("|");
+        // console.log(antNotes.length);
+        var printNote = "";
 
-      // Only able to delete a comment if it's not the first comment, and if you were the user who left it
-      if (i > 1 && currentUser.get("username") == antUsers[i]) {
-        var deleteClick = ' onclick="removeComment(' + region.id + ', ' + i + ')" > x';
-      } else {
-        var deleteClick = "> ";
-      }
+        for(var i=1; i<antNotes.length; i++)
+        {
+          //var sourceimg = 'media/' + antUsers[i] + '.jpg';
+          var sourceimg = currentBandPortraits[antUsers[i]];
+          // Set new date object from the one saved in database; this will be converted to look nice with the timeago() library
+          var timeStampDate = new Date(antTimes[i]);
 
-      printNote += '<div class="annotationContainer">';
-      printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
-      printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
-      printNote += '<div class="annotationDelete"' + deleteClick + '  </div>';
-      printNote += '<div class="annotationTimeStamp">' + jQuery.timeago(timeStampDate) + '</div>';
-      printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
-      printNote += '</div>'; // Closing div for "annotationContainer"
-    }
+          // Only able to delete a comment if it's not the first comment, and if you were the user who left it
+          if (i > 1 && currentUser.get("username") == antUsers[i]) {
+            var deleteClick = ' onclick="removeComment(' + region.id + ', ' + i + ')" > x';
+          } else {
+            var deleteClick = "> ";
+          }
 
-    //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
-    showNote.el.innerHTML = printNote;
-    //$("#annotation").show();
-    $('#annotation').fadeIn(200);
+          printNote += '<div class="annotationContainer">';
+          printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
+          printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+          printNote += '<div class="annotationDelete"' + deleteClick + '  </div>';
+          printNote += '<div class="annotationTimeStamp">' + jQuery.timeago(timeStampDate) + '</div>';
+          printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
+          printNote += '</div>'; // Closing div for "annotationContainer"
+        }
+
+        //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
+        showNote.el.innerHTML = printNote;
+        //$("#annotation").show();
+        $('#annotation').fadeIn(200);
+    }; // End if "note" in region.data
 }
 
 // Removes an individual comment from a thread
