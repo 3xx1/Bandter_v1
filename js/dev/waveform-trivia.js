@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keydown', function (e) {
         var map = {
             38: 'play',       // space
-            37: 'back',       // left
-            39: 'forth'       // right
+            // Below commented out by Josh so that arrow keys work in text fields
+            //37: 'back',       // left
+            //39: 'forth'       // right
         };
         var action = map[e.keyCode];
         if (action in GLOBAL_ACTIONS) {

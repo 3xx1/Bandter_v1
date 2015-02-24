@@ -139,3 +139,9 @@
   width: 96.5%;
   margin: -5 5 0 5;
 }
+
+#commentHelperText {
+  font-size: 12px;
+  padding: 5px;
+  color: #666;
+}

@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	    // do stuff with the user
 	    console.log(currentUser.get('username'))
 	    loginScreenToMainScreen();
+	} else {
+		$("#login-username").focus();
 	};
 });
 
@@ -58,6 +60,8 @@ function signOut() {
     // Set the text on the navbar, and show the navbar items
     $("#welcome-username").text("");
     $("#navbar-items").hide();	
+
+    $("#login-username").focus();
 }
 
 
