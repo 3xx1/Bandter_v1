@@ -69,6 +69,7 @@ function loginScreenToMainScreen() {
 	var username = currentUser.get('username');
 
     // Hide the login screen
+    $("#annotation").hide();
     $("#not-logged-in-body").hide();
     // Show the rest of the app
     $("#logged-in-body").show();

@@ -105,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // saveRegions();
             // alert("case2");
         // }
+        $('#waveform').fadeOut(0);
     });
 
     // wavesurfer.on('ready', editAnnotation);
@@ -154,17 +155,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    var progressDiv = document.querySelector('#progress-bar');
-    var progressBar = progressDiv.querySelector('.progress-bar');
+    // used jquery here to add some animations - Josh
+    //var progressDiv = document.querySelector('#progress-bar');
+    //var progressBar = progressDiv.querySelector('.progress-bar');
 
     var showProgress = function (percent) {
-        progressDiv.style.display = 'block';
-        progressBar.style.width = percent + '%';
-        if(percent>99) hideProgress();
+        $('#progress-bar').fadeIn(200);
+        //progressDiv.style.display = 'block';
+        $('.progress-bar').css("width", percent + '%'); 
+        //progressBar.style.width = percent + '%';
+        //if(percent>99) hideProgress();
     };
 
     var hideProgress = function () {
-        progressDiv.style.display = 'none';
+        $('#progress-bar').fadeOut(0);
+        //progressDiv.style.display = 'none';
     };
 
     wavesurfer.on('loading', showProgress);
@@ -197,6 +202,9 @@ function saveRegions() {
  * Load regions from localStorage.
  */
 function loadRegions() {
+    
+    $('#waveform').fadeIn(200);
+
     if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
         //regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
         annotationData = currentBandStructure[currentFolder][currentSong]['annotations'];
