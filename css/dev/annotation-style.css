@@ -66,6 +66,8 @@
 
 #note{
   height: 4em;
+  width: calc(100% - 8px);
+  margin: 6px 4px 15px 4px;
 }
 
 #deleteRegion {
@@ -131,13 +133,6 @@
 /* Buttons Styling */
 .butts{
   margin: -9 0 5 5;
-
-}
-
-/* input box */
-#note{
-  width: 96.5%;
-  margin: -5 5 0 5;
 }
 
 #commentHelperText {
