@@ -446,7 +446,7 @@ function showNote (region) {
 
       // Only able to delete a comment if it's not the first comment, and if you were the user who left it
       if (i > 1 && currentUser.get("username") == antUsers[i]) {
-        var deleteClick = 'class="annotationDelete" onclick="removeComment(' + region.id + ', ' + i + ')" > x';
+        var deleteClick = ' onclick="removeComment(' + region.id + ', ' + i + ')" > x';
       } else {
         var deleteClick = "> ";
       }
@@ -454,7 +454,7 @@ function showNote (region) {
       printNote += '<div class="annotationContainer">';
       printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
       printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
-      printNote += '<div ' + deleteClick + '  </div>';
+      printNote += '<div class="annotationDelete"' + deleteClick + '  </div>';
       printNote += '<div class="annotationTimeStamp">' + jQuery.timeago(timeStampDate) + '</div>';
       printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
       printNote += '</div>'; // Closing div for "annotationContainer"
