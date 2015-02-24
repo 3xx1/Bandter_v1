@@ -128,7 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
     //wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', function(region, e){
+        // TODO - Why do I need to call editAnnotation before showNote???? If either is removed, annotation will display incorrectly the first time the playhead goes inside of it (not on click)
+        editAnnotation(region);
         showNote(region);
+        //editAnnotation(region);
     });
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
@@ -137,24 +140,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     
-    wavesurfer.on('region-created', function(region) {
-        //console.log('created region ' + region.id);
-        //if (typeof region.id == 'string') {
-            //console.log('region ' + region.id + ' is a string');
-            //console.log(region.start + ' - ' + region.end)
-            //editAnnotation(region)
-        //};
+    // Display the prompt to create comment once region is created
+    wavesurfer.on('region-updated', function(region) {
+        //Must showNote first to get the correct positioning, then editAnnotation is needed so that any edits apply to the newly created region
+        showNote(region);
+        editAnnotation(region);
+        // Must showNote again for some reason!
+        showNote(region);
     });
-    
-     wavesurfer.on('region-updated', function(region) {
-         //console.log('updated region ' + region.id + ' at time ' + region.start + ' - ' + region.end);
-         //editAnnotation(region);
-         showNote(region)
-         editAnnotation(region)
-     });
-    // wavesurfer.on('region-update-end', function() {
-    //     console.log(' - update ended for region');
-    // });
 
     /* Timeline plugin */
     // wavesurfer.on('ready', function () {
@@ -215,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Save annotations to localStorage.
  */
 function saveRegions() {
-    console.log('Saving regions')
+    //console.log('Saving regions')
     regionData = Object.keys(wavesurfer.regions.list).map(function (id) {
         var region = wavesurfer.regions.list[id];
         return {
@@ -356,7 +349,6 @@ function randomColor(alpha) {
  * Edit annotation for a region.
  */
  function editAnnotation (region) {
-    console.log("eding annotation region " + region.id)
     var target;
     target = document.getElementById('annotationCommentsContainer');
     target.innerHTML = '';
@@ -488,9 +480,15 @@ function showNote (region) {
 
         //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
         showNote.el.innerHTML = printNote;
-        //$("#annotation").show();
         $('#annotation').fadeIn(200);
-    }; // End if "note" in region.data
+
+    // End if "note" in region.data
+    } else { 
+        
+        showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> Type a comment in the box below to annotate this region! </div> <div id="initialRegionCreationHelpText"> Regions with no comments will not be saved </div> ';
+
+        $('#annotation').fadeIn(200);
+    };
 }
 
 // Removes an individual comment from a thread
