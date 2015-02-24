@@ -106,6 +106,11 @@ document.addEventListener('DOMContentLoaded', function () {
             // alert("case2");
         // }
         $('#waveform').fadeOut(0);
+
+        // Add the length of the song to the section below the folder name
+        var songLength = wavesurfer.getDuration();
+        var songTimeInMintuesAndSeconds = secondsToMinutesAndSeconds(songLength);
+        $("#displayRecordingLength").text(songTimeInMintuesAndSeconds)
     });
 
     // wavesurfer.on('ready', editAnnotation);
@@ -418,13 +423,10 @@ function showNote (region) {
     showNote.el.innerHTML = '';
 
     // Update title of box to the timestamp of the region
-    var beginningMinutes = Math.floor(region.start/60);
-    var beginningSeconds = Math.floor(region.start - beginningMinutes * 60);
-
-    var endMinutes = Math.floor(region.end/60);
-    var endSeconds = Math.floor(region.end - endMinutes * 60);
-
-    $("#annotationTitle").text(beginningMinutes + ':' + beginningSeconds + ' - ' + endMinutes + ':' + endSeconds);
+    var beginningTime = secondsToMinutesAndSeconds(region.start);
+    var endTime = secondsToMinutesAndSeconds(region.end);
+    
+    $("#annotationTitle").text(beginningTime + ' - ' + endTime);
 
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;

@@ -4,9 +4,9 @@ function loadWaveform(url) {
   // First clear old regions
   clearRegions();
   
+  // Hide the recording length text - this will be filled in when the waveform loads
+  $("#displayRecordingLength").text("");
   // Hide the annotation form (will be shown when on a region is clicked)
-    // The .show() call is in editAnnotation
-  //$('#annotation').hide();
   $('#annotation').fadeOut(200);
 
   // Begin loading wavesurfer - on load it will then load the regions (annotations)
@@ -73,3 +73,15 @@ function hideAnnotation() {
   //$('#annotation').hide();
   $('#annotation').fadeOut(200);
 }
+
+
+function secondsToMinutesAndSeconds(seconds) {
+    var minutes = Math.floor(seconds/60);
+    var leftoverSeconds = Math.floor(seconds - minutes * 60);
+
+    if (leftoverSeconds < 10) {leftoverSeconds = "0"+leftoverSeconds;}
+    var time    = minutes + ':' + leftoverSeconds;
+    
+    return time;
+}
+
