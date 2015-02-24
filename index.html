@@ -189,7 +189,7 @@
                       </div>
 
                       <button type="submit" class="btn btn-primary btn-sm butts">Comment</button>
-                    </form>
+                  </form>
                 </div>
             </div>
 
@@ -212,18 +212,18 @@
 
       <h1> Welcome to Bandter </h1>
 
-      
-      <div id="login-container">
-        <h2>Log In</h2>
-        <div class="error" style="display:none"></div>
-        
-        <input class="form-control" type="text" id="login-username" placeholder="Username" />
-        <br> 
-        <input class="form-control" type="password" id="login-password" placeholder="Password" />
-        
-        <button class="login-screen-button" id="login-button" onclick="login()">Log In</button>
-      </div>
-
+      <form id="signin-form">
+        <div id="login-container">
+          <h2>Log In</h2>
+          <div class="error" style="display:none"></div>
+          
+          <input class="form-control" type="text" id="login-username" placeholder="Username" />
+          <br> 
+          <input class="form-control" type="password" id="login-password" placeholder="Password" />
+          
+          <button class="login-screen-button" type="submit" id="login-button" onclick="login()">Log In</button>
+        </div>
+      </form>
       <br>
 
       <!--
