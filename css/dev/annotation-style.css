@@ -53,11 +53,10 @@
 #annotationHideButton {
   display: inline-block;
   font-size: 14px;
-  width: 20px;
-  text-align: center;
-  /* border: 1px solid #888; */
   color: #888;
   cursor: pointer;
+  vertical-align: middle;
+  padding: 5px;
 }
 #annotationHideButton:hover {
   color: #FFF;
