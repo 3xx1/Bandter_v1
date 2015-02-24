@@ -101,6 +101,12 @@ Setting the margin is a temporary solution (should probably set formatting of th
   cursor: pointer;
 }
 
+.wavesurfer-handle {
+    width: 5px !important;
+}
+
+
+
 /*
  * Upload file button
   From http://stackoverflow.com/questions/11235206/twitter-bootstrap-form-file-element-upload-button
@@ -124,3 +130,6 @@ Setting the margin is a temporary solution (should probably set formatting of th
     cursor: inherit;
     display: block;
 }
+
+
+

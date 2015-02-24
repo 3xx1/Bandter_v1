@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Regions */
     wavesurfer.enableDragSelection({
         color: 'rgba(20, 180, 120, 1)', // Alpha set to 1 by Josh; Opacity now controlled in css
-        resize: true
+        resize: true,
+        drag: true
     });
 
     wavesurfer.on('ready', function () {
@@ -135,6 +136,23 @@ document.addEventListener('DOMContentLoaded', function () {
             // wavesurfer.pause();
         });
     });
+    
+    wavesurfer.on('region-created', function(region) {
+        //console.log('created region ' + region.id);
+        //if (typeof region.id == 'string') {
+            //console.log('region ' + region.id + ' is a string');
+            //console.log(region.start + ' - ' + region.end)
+            //editAnnotation(region)
+        //};
+    });
+    
+     wavesurfer.on('region-updated', function(region) {
+         //console.log('updated region ' + region.id + ' at time ' + region.start + ' - ' + region.end);
+         //editAnnotation(region);
+     });
+    // wavesurfer.on('region-update-end', function() {
+    //     console.log(' - update ended for region');
+    // });
 
     /* Timeline plugin */
     // wavesurfer.on('ready', function () {
@@ -156,6 +174,12 @@ document.addEventListener('DOMContentLoaded', function () {
     wavesurfer.on('pause', function () {
         playButton.style.display = '';
         pauseButton.style.display = 'none';
+    });
+    // Once wavesurfer finishes a song, change back to "play" button and seek back to beginning of recording
+    wavesurfer.on('finish', function () {
+        playButton.style.display = '';
+        pauseButton.style.display = 'none';
+        wavesurfer.seekTo(0);
     });
 });
 
@@ -189,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Save annotations to localStorage.
  */
 function saveRegions() {
+    console.log('Saving regions')
     regionData = Object.keys(wavesurfer.regions.list).map(function (id) {
         var region = wavesurfer.regions.list[id];
         return {
@@ -329,18 +354,13 @@ function randomColor(alpha) {
  * Edit annotation for a region.
  */
  function editAnnotation (region) {
-
-    // Show the annotation form (will be hidden when another recording loads)
-    // The .hide() call is in loadWaveform
-    // Show the annotation form (will be hidden when another recording loads)
-    // The .hide() call is in loadWaveform
+    console.log("eding annotation region " + region.id)
     var target;
     target = document.getElementById('annotationCommentsContainer');
     target.innerHTML = '';
 
     // Show the annotation form (will be hidden when another recording loads)
-    // The .hide() call is in loadWaveform
-    // $("#annotation").show();
+    // The .fadeIn() call is in loadWaveform
     $('#annotation').fadeIn(200);
     $( "#note" ).focus();
 
@@ -415,7 +435,7 @@ function randomColor(alpha) {
  * Display annotation.
  */
 function showNote (region) {
-    //console.log(region)
+    //console.log('showing region ' + region.id)
     var target;
     target = document.getElementById('annotation');
     if (!showNote.el) {
