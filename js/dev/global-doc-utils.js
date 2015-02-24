@@ -16,7 +16,9 @@
 $(document).ready(function(){
     $('#note').keypress(function(e){
       if(e.which == 13){
-           // submit via ajax or
+      		// Prevent default of newline
+      		e.preventDefault();
+
            $('#annotationSubmitForm').submit();
        }
     });
