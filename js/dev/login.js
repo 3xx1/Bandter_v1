@@ -19,7 +19,13 @@
 // 	event.preventDefault();
 // });
 
-var currentUser = null;
+document.addEventListener('DOMContentLoaded', function () {
+	if (currentUser) {
+	    // do stuff with the user
+	    console.log(currentUser.get('username'))
+	    loginScreenToMainScreen();
+	};
+});
 
 function login() {
  	var username = $("#login-username").val();
@@ -29,17 +35,8 @@ function login() {
 	  success: function(user) {
 	    // Do stuff after successful login.
 	    currentUser = user;
-	    var username = user.get('username');
-
-	    // Hide the login screen
-	    $("#not-logged-in-body").hide();
-	    // Show the rest of the app
-	    $("#logged-in-body").show();
-	    // Set the text on the navbar, and show the navbar items
-	    $("#welcome-username").text("Welcome " + username);
-	    $("#navbar-items").show();
-	    // get nav items 
-	    getNavItems();
+	    
+	    loginScreenToMainScreen();
 
 	  },
 	  error: function(user, error) {
@@ -47,4 +44,33 @@ function login() {
 	    alert(error)
 	  }
 	});
+}
+
+
+function signOut() {
+	Parse.User.logOut();
+
+	// Show the rest of the app
+    $("#logged-in-body").hide();
+    // Hide the login screen
+    $("#not-logged-in-body").show();
+    
+    // Set the text on the navbar, and show the navbar items
+    $("#welcome-username").text("");
+    $("#navbar-items").hide();	
+}
+
+
+function loginScreenToMainScreen() {
+	var username = currentUser.get('username');
+
+    // Hide the login screen
+    $("#not-logged-in-body").hide();
+    // Show the rest of the app
+    $("#logged-in-body").show();
+    // Set the text on the navbar, and show the navbar items
+    $("#welcome-username").text("Welcome " + username);
+    $("#navbar-items").show();
+    // get nav items 
+    getNavItems();
 }

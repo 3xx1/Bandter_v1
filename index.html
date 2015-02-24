@@ -43,7 +43,8 @@
 </head>
 
 <script type="text/javascript">
-    Parse.initialize("5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi")
+    Parse.initialize("5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi");
+    var currentUser = Parse.User.current();
 </script>
 
 <body>
@@ -62,7 +63,7 @@
           <ul id="navbar-items" class="nav navbar-nav navbar-right">
             <li><a id="welcome-username" href="#"> </a></li>
             <li><a href="#"><i class="fa fa-envelope-o"></i></a></li>
-            <li><a href="#">Sign Out</a></li>
+            <li><a href="#" onclick="signOut()">Sign Out</a></li>
           </ul>
         </div>
       </div>
