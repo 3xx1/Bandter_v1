@@ -415,7 +415,7 @@ function randomColor(alpha) {
  * Display annotation.
  */
 function showNote (region) {
-    console.log(region)
+    //console.log(region)
     var target;
     target = document.getElementById('annotation');
     if (!showNote.el) {

@@ -19,7 +19,7 @@ function getNavItems() {
 
   bandQuery.find({
     success: function(results) {
-      console.log("Successfully retrieved " + results.length + " bands.");
+      //console.log("Successfully retrieved " + results.length + " bands.");
       for (var i = 0; i < results.length; i++) {
         currentBand = results[i];
         currentBandMembers = currentBand.get('members');
@@ -84,7 +84,7 @@ function getPortrait (username) {
         success: function(results) {
             user = results[0];
             portraitUrl = user.get('portrait')['_url']; 
-            console.log(portraitUrl);
+            //console.log(portraitUrl);
             currentBandPortraits[username] = portraitUrl;
         },
         error: function(error) {
