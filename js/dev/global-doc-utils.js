@@ -12,3 +12,12 @@
 //         container.hide();
 //     }
 // });
+
+$(document).ready(function(){
+    $('#note').keypress(function(e){
+      if(e.which == 13){
+           // submit via ajax or
+           $('#annotationSubmitForm').submit();
+       }
+    });
+});
