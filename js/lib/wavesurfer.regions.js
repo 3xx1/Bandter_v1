@@ -44,6 +44,7 @@ WaveSurfer.Regions = {
         });
         this.wrapper.addEventListener('mouseup', function () {
             drag = false;
+            filterRegions(region);
             region = null;
         });
         this.wrapper.addEventListener('mousemove', function (e) {
@@ -268,6 +269,11 @@ WaveSurfer.Region = {
             my.wavesurfer.fireEvent('region-dblclick', my, e);
         });
 
+        this.element.addEventListener('onmouseup', function (e) {
+            my.fireEvent('onmouseup', e);
+            my.wavesurfer.fireEvent('region-onmouseup', my, e);
+        });
+
         /* Drag or resize on mousemove. */
         (this.drag || this.resize) && (function () {
             var duration = my.wavesurfer.getDuration();
@@ -364,7 +370,10 @@ WaveSurfer.initRegions = function () {
 
 WaveSurfer.addRegion = function (options) {
     this.initRegions();
+    console.log(options.start);
+    console.log(options.end);
     return this.regions.add(options);
+
 };
 
 WaveSurfer.clearRegions = function () {
