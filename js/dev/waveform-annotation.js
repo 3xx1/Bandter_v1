@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     var hideProgress = function () {
-        $('#progress-bar').fadeOut(0);
+        $('#progress-bar').fadeOut(300);
         //progressDiv.style.display = 'none';
     };
 
@@ -235,7 +235,7 @@ function saveRegions() {
  */
 function loadRegions() {
     
-    $('#waveform').fadeIn(200);
+    $('#waveform').fadeIn(300);
 
     if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
         //regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
@@ -491,9 +491,9 @@ function showNote (region) {
     // End if "note" in region.data
     } else { 
         
-        showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> ' + 
-        'Annotate this region below! </div> ' +
-        ' <div id="initialRegionCreationHelpText"> Regions with no comments will not be saved </div> ';
+        //showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> ' + 
+        //'Annotate this region below! </div> ' +
+        //' <div id="initialRegionCreationHelpText"> Regions with no comments will not be saved </div> ';
 
         $('#annotation').show()
         //$('#annotation').fadeIn(200);
