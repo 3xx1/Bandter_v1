@@ -491,9 +491,12 @@ function showNote (region) {
     // End if "note" in region.data
     } else { 
         
-        showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> Type a comment in the box below to annotate this region! </div> <div id="initialRegionCreationHelpText"> Regions with no comments will not be saved </div> ';
+        showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> ' + 
+        'Annotate this region below! </div> ' +
+        ' <div id="initialRegionCreationHelpText"> Regions with no comments will not be saved </div> ';
 
-        $('#annotation').fadeIn(200);
+        $('#annotation').show()
+        //$('#annotation').fadeIn(200);
     };
 }
 
