@@ -6,7 +6,8 @@ var wavesurfer = Object.create(WaveSurfer);
  * Parse logistics, init, and so on.
  */
 var rawData = {};
-var minSec = 2.0;
+var minSecond = 2.0; // set minimum second for filtering region creation here
+
 // Probably these logistics below will be commented out because I will just fetch array from Josh's part.
 
 // "5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi" - Bandter Parse Account Authorization Keys
@@ -125,7 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
     wavesurfer.on('ready', loadRegions);
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-click', showNote);
+
     // wavesurfer.on('region-update-end', filterRegions);
+
     //wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', function(region, e){
@@ -247,13 +250,12 @@ function loadRegions() {
         for (var i = 0; i < annotationData.length; i++) {
             var currentRegion = annotationData[i];
 
-            // Adding in regions based on the start / stop time in JSON ...
-            if(currentRegion.end - currentRegion.start > minSec){
-              wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
-              // And then manually updating the region data with the data from the JSON
-              wavesurfer.regions.list[i].data = currentRegion.data;
+            if(currentRegion.end - currentRegion.start > minSecond) {
+                // Adding in regions based on the start / stop time in JSON ...
+                wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
+                // And then manually updating the region data with the data from the JSON
+                wavesurfer.regions.list[i].data = currentRegion.data;
             }
-
         };
     };
 
@@ -275,12 +277,13 @@ function clearRegions() {
     wavesurfer.regions.clear();
 }
 
-function filterRegions() {
-    var minSec = 2.0;
-    var regionId = region.id;
-    if(region.end - region.start < minSec){
-      console.log(happened);
-      // wavesurfer.regions.list[regionId].remove();
+
+function filterRegions(region) {
+    //console.log(region);
+    var duration = region.end - region.start;
+    console.log(duration);
+    if(duration < minSecond){
+        wavesurfer.regions.list[region.id].remove();
     }
 }
 
@@ -431,6 +434,7 @@ function randomColor(alpha) {
          saveRegions();
          //$("#annotation").hide();
          $('#annotation').fadeOut(200);
+
      };
 
      // Below code commented out - not sure what this does
@@ -443,6 +447,7 @@ function randomColor(alpha) {
      form.dataset.region = region.id;
 
  }
+
 
 /**
  * Display annotation.
