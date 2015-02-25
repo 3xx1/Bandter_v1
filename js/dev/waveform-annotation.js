@@ -154,7 +154,13 @@ document.addEventListener('DOMContentLoaded', function () {
     //     var timeline = Object.create(WaveSurfer.Timeline);
     //     timeline.init({
     //         wavesurfer: wavesurfer,
-    //         container: "#wave-timeline"
+    //         container: "#wave-timeline",
+    //         primaryColor: '#666',
+    //         secondaryColor: '#666',
+    //         primaryFontColor: '#666',
+    //         secondaryFontColor: '#666',
+    //         notchPercentHeight: 100,
+    //         height: 12
     //     });
     // });
 
