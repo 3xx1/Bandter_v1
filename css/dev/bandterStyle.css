@@ -6,6 +6,7 @@ body {
   background: #eee;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
 }
 
 
@@ -74,8 +75,14 @@ Setting the margin is a temporary solution (should probably set formatting of th
 #displayRecordingFolderName {
     color: #888888;
     font-size: 14px;
-    margin-bottom: 15px;
 }
+
+#displayRecordingLength {
+    color: #888888;
+    font-size: 14px;
+    margin-bottom: 15px;   
+}
+
 
 /* This is the "highlight a section to comment" helper text */
 #helpText {
@@ -93,6 +100,7 @@ Setting the margin is a temporary solution (should probably set formatting of th
 #waveform {
   cursor: pointer;
 }
+
 
 /*
  * Upload file button
@@ -117,3 +125,6 @@ Setting the margin is a temporary solution (should probably set formatting of th
     cursor: inherit;
     display: block;
 }
+
+
+

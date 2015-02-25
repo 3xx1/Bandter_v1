@@ -2,7 +2,6 @@
  * Create a WaveSurfer instance.
  */
 var wavesurfer = Object.create(WaveSurfer);
-
 /**
  * Parse logistics, init, and so on.
  */
@@ -42,6 +41,7 @@ query.find({
 
 document.addEventListener('DOMContentLoaded', function () {
     // Init wavesurfer
+
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         height: 150,
@@ -55,6 +55,13 @@ document.addEventListener('DOMContentLoaded', function () {
         cursorColor: '222244',
 
         // backend: 'AudioElement'
+    });
+
+    wavesurfer.initMinimap({
+        height: 0,
+        waveColor: '#ddd',
+        progressColor: '#999',
+        cursorColor: '#999'
     });
 
 
@@ -71,7 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Regions */
     wavesurfer.enableDragSelection({
-        color: 'rgba(20, 180, 120, 1)' // Alpha set to 1 by Josh; Opacity now controlled in css
+        color: 'rgba(20, 180, 120, 1)', // Alpha set to 1 by Josh; Opacity now controlled in css
+        resize: true,
+        drag: true
     });
 
     wavesurfer.on('ready', function () {
@@ -98,46 +107,60 @@ document.addEventListener('DOMContentLoaded', function () {
             // saveRegions();
             // alert("case2");
         // }
+        $('#waveform').fadeOut(0);
+
+        // Add the length of the song to the section below the folder name
+        var songLength = wavesurfer.getDuration();
+        var songTimeInMintuesAndSeconds = secondsToMinutesAndSeconds(songLength);
+        $("#displayRecordingLength").text(songTimeInMintuesAndSeconds)
     });
+
     // wavesurfer.on('ready', editAnnotation);
-    wavesurfer.on('region-click', function (region, e) {
+    //wavesurfer.on('region-click', function (region, e) {
         // e.stopPropagation();
         // Play on click, loop on shift click
         // e.shiftKey ? region.playLoop() : region.play();
-    });
+    //});
+
     wavesurfer.on('ready', loadRegions);
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-click', showNote);
-    wavesurfer.on('region-updated', saveRegions);
+    //wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', function(region, e){
+        // TODO - Why do I need to call editAnnotation before showNote???? If either is removed, annotation will display incorrectly the first time the playhead goes inside of it (not on click)
+        editAnnotation(region);
         showNote(region);
+        //editAnnotation(region);
     });
-
-
     wavesurfer.on('region-play', function (region) {
         region.once('out', function () {
             // wavesurfer.play(region.start);
             // wavesurfer.pause();
         });
     });
-
-
-    /* Minimap plugin */
-    wavesurfer.initMinimap({
-        height: 0,
-        waveColor: '#ddd',
-        progressColor: '#999',
-        cursorColor: '#999'
+    
+    // Display the prompt to create comment once region is created
+    wavesurfer.on('region-updated', function(region) {
+        //Must showNote first to get the correct positioning, then editAnnotation is needed so that any edits apply to the newly created region
+        showNote(region);
+        editAnnotation(region);
+        // Must showNote again for some reason!
+        showNote(region);
     });
-
 
     /* Timeline plugin */
     // wavesurfer.on('ready', function () {
     //     var timeline = Object.create(WaveSurfer.Timeline);
     //     timeline.init({
     //         wavesurfer: wavesurfer,
-    //         container: "#wave-timeline"
+    //         container: "#wave-timeline",
+    //         primaryColor: '#666',
+    //         secondaryColor: '#666',
+    //         primaryFontColor: '#666',
+    //         secondaryFontColor: '#666',
+    //         notchPercentHeight: 100,
+    //         height: 12
     //     });
     // });
 
@@ -153,21 +176,31 @@ document.addEventListener('DOMContentLoaded', function () {
         playButton.style.display = '';
         pauseButton.style.display = 'none';
     });
+    // Once wavesurfer finishes a song, change back to "play" button and seek back to beginning of recording
+    wavesurfer.on('finish', function () {
+        playButton.style.display = '';
+        pauseButton.style.display = 'none';
+        wavesurfer.seekTo(0);
+    });
 });
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    var progressDiv = document.querySelector('#progress-bar');
-    var progressBar = progressDiv.querySelector('.progress-bar');
+    // used jquery here to add some animations - Josh
+    //var progressDiv = document.querySelector('#progress-bar');
+    //var progressBar = progressDiv.querySelector('.progress-bar');
 
     var showProgress = function (percent) {
-        progressDiv.style.display = 'block';
-        progressBar.style.width = percent + '%';
-        if(percent>99) hideProgress();
+        $('#progress-bar').fadeIn(200);
+        //progressDiv.style.display = 'block';
+        $('.progress-bar').css("width", percent + '%'); 
+        //progressBar.style.width = percent + '%';
+        //if(percent>99) hideProgress();
     };
 
     var hideProgress = function () {
-        progressDiv.style.display = 'none';
+        $('#progress-bar').fadeOut(300);
+        //progressDiv.style.display = 'none';
     };
 
     wavesurfer.on('loading', showProgress);
@@ -181,17 +214,17 @@ document.addEventListener('DOMContentLoaded', function () {
  * Save annotations to localStorage.
  */
 function saveRegions() {
-    regionJson = JSON.stringify(
-        Object.keys(wavesurfer.regions.list).map(function (id) {
-            var region = wavesurfer.regions.list[id];
-            return {
-                start: region.start,
-                end: region.end,
-                data: region.data
-            };
-        })
-    );
-    currentBandStructure[currentFolder][currentSong]['annotations'] = regionJson;
+    //console.log('Saving regions')
+    regionData = Object.keys(wavesurfer.regions.list).map(function (id) {
+        var region = wavesurfer.regions.list[id];
+        return {
+            start: region.start,
+            end: region.end,
+            data: region.data
+        };
+    });
+
+    currentBandStructure[currentFolder][currentSong]['annotations'] = regionData;
     currentBand.set('folderStructure', [currentBandStructure]);
     currentBand.save();
 }
@@ -201,14 +234,16 @@ function saveRegions() {
  * Load regions from localStorage.
  */
 function loadRegions() {
-    if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
-        regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
-        console.log('loading ' + regionJson.length + ' regions')
+    
+    $('#waveform').fadeIn(300);
 
-        for (var i = 0; i < regionJson.length; i++) {
-            var currentRegion = regionJson[i];
-            //console.log('loading region ' + currentRegion);
-            //console.log('data = ' + currentRegion.data.note);
+    if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
+        //regionJson = JSON.parse(currentBandStructure[currentFolder][currentSong]['annotations'])
+        annotationData = currentBandStructure[currentFolder][currentSong]['annotations'];
+        console.log('loading ' + annotationData.length + ' regions')
+
+        for (var i = 0; i < annotationData.length; i++) {
+            var currentRegion = annotationData[i];
 
             // Adding in regions based on the start / stop time in JSON ...
             wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
@@ -217,7 +252,7 @@ function loadRegions() {
         };
     };
 
-    // Ability to style regions which have been selected
+    //Ability to style regions which have been selected
     // $(document).mouseup(function (e) {
     //     if (!e.target.classList.contains('wavesurfer-selected')) {
     //         $(".wavesurfer-region").removeClass('waveform-selected');
@@ -320,14 +355,14 @@ function randomColor(alpha) {
  * Edit annotation for a region.
  */
  function editAnnotation (region) {
-
-    // Show the annotation form (will be hidden when another recording loads)
-    // The .hide() call is in loadWaveform
     var target;
-    target = document.getElementById('subtitle');
+    target = document.getElementById('annotationCommentsContainer');
     target.innerHTML = '';
 
-     $("#annotation").show();
+    // Show the annotation form (will be hidden when another recording loads)
+    // The .fadeIn() call is in loadWaveform
+    $('#annotation').fadeIn(200);
+    $( "#note" ).focus();
 
      var form = document.forms.edit;
      form.style.opacity = 1;
@@ -353,65 +388,149 @@ function randomColor(alpha) {
              data: {
                  "timeStamp": timeStamp + '|' + timeStmp,
                  "note": notation + "|" + form.elements.note.value,
-                 "account": accountNote + "|" + "kaz"                  //replace here with actual account name
+                 "account": accountNote + "|" + currentUser.get('username')                  //replace here with actual account name
              }
          });
+         timeStamp = timeStamp + '|' + timeStmp;
+         notation = notation + '|' + form.elements.note.value;
+         accountNote = accountNote + '|' + currentUser.get('username');
+         // form.style.opacity = 0;
+         showNote(region);
+         form.elements.note.value='';
+         // Save once submitted
+         saveRegions();
+     };
+     form.onreset = function () {
+         // form.style.opacity = 0;
 
          // form.dataset.region = region.id;
          timeStamp = timeStamp + '|' + timeStmp;
          notation = notation + '|' + form.elements.note.value;
-         accountNote = accountNote + '|' + "kaz";
+         accountNote = accountNote + '|' + currentUser.get('username');
          // saveRegions();
          showNote(region);
 
          form.elements.note.value = '';
          // form.style.opacity = 0;
+         // Unsure if this is needed here -Josh
+         saveRegions();
+         //$("#annotation").hide();
+         $('#annotation').fadeOut(200);
+         console.log("helloHerer");
      };
-     form.onreset = function () {
-         form.style.opacity = 0;
-         form.dataset.region = null;
-     };
+
+     // Below code commented out - not sure what this does
+     // Was wondering why there are 2 .onreset functions?? - Josh
+     // ------------ V ----------------
+     // form.onreset = function () {
+     //     form.style.opacity = 0;
+     //     form.dataset.region = null;
+     // };
      form.dataset.region = region.id;
+
  }
+
 
 /**
  * Display annotation.
  */
 function showNote (region) {
+    //console.log('showing region ' + region.id)
     var target;
-    // console.log("herecomes");
-
     target = document.getElementById('annotation');
     if (!showNote.el) {
-        showNote.el = document.querySelector('#subtitle');
+        showNote.el = document.querySelector('#annotationCommentsContainer');
     }
     showNote.el.innerHTML = '';
+
+    // Update title of box to the timestamp of the region
+    var beginningTime = secondsToMinutesAndSeconds(region.start);
+    var endTime = secondsToMinutesAndSeconds(region.end);
+    
+    $("#annotationTitle").text(beginningTime + ' - ' + endTime);
+
     var dur = wavesurfer.getDuration();
     var wid = wavesurfer.drawer.wrapper.scrollWidth;
     target.style.left = (region.start / dur * wid + 'px');
-    var antNotes = region.data.note.split("|");
-    var antUsers = region.data.account.split("|");
-    var antTimes = region.data.timeStamp.split("|");
-    // console.log(antNotes.length);
-    var printNote = "";
 
-    // This will create the text for the html of individual comment replies
-    for(var i=1; i<antNotes.length; i++)
-    {
-      var sourceimg = 'media/' + antUsers[i] + '.jpg';
+    // This statement is needed to correctly display newly-created regions (which don't have the "note" attribute)
+    if ('note' in region.data) {
+        var antNotes = region.data.note.split("|");
+        var antUsers = region.data.account.split("|");
+        var antTimes = region.data.timeStamp.split("|");
+        // console.log(antNotes.length);
+        var printNote = "";
 
-      printNote += '<div class="annotationContainer">';
-      printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
-      printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
-      printNote += '<div class="annotationTimeStamp">' + antTimes[i] + '</div>';
-      printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
-      printNote += '</div>'; // Closing div for "annotationContainer"
+        for(var i=1; i<antNotes.length; i++)
+        {
+          //var sourceimg = 'media/' + antUsers[i] + '.jpg';
+          var sourceimg = currentBandPortraits[antUsers[i]];
+          // Set new date object from the one saved in database; this will be converted to look nice with the timeago() library
+          var timeStampDate = new Date(antTimes[i]);
+
+          // Only able to delete a comment if it's not the first comment, and if you were the user who left it
+          if (i > 1 && currentUser.get("username") == antUsers[i]) {
+            var deleteClick = ' onclick="removeComment(' + region.id + ', ' + i + ')" > x';
+          } else {
+            var deleteClick = "> ";
+          }
+
+          printNote += '<div class="annotationContainer">';
+          printNote += '<div class="annotationUserImageContainer"> <img class="annotationUserImage" border="0" src="' + sourceimg + '" width="30" height="30" alt="no image found :("> </div>';
+          printNote += '<div class="annotationUserName">' + antUsers[i] + '</div>';
+          printNote += '<div class="annotationDelete"' + deleteClick + '  </div>';
+          printNote += '<div class="annotationTimeStamp">' + jQuery.timeago(timeStampDate) + '</div>';
+          printNote += '<div class="annotationText"> ' + antNotes[i] + '</div>';
+          printNote += '</div>'; // Closing div for "annotationContainer"
+        }
+
+        //target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
+        showNote.el.innerHTML = printNote;
+        $('#annotation').fadeIn(200);
+
+    // End if "note" in region.data
+    } else { 
+        
+        //showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> ' + 
+        //'Annotate this region below! </div> ' +
+        //' <div id="initialRegionCreationHelpText"> Regions with no comments will not be saved </div> ';
+
+        $('#annotation').show()
+        //$('#annotation').fadeIn(200);
+    };
+}
+
+// Removes an individual comment from a thread
+function removeComment(regionIdString, commentIndex) {
+    // Find the region based on its ID string
+    var regionID = parseInt(regionIdString);
+    var currentRegion = wavesurfer.regions.list[regionID]
+
+    var antNotes = currentRegion.data.note.split("|");
+    var antUsers = currentRegion.data.account.split("|");
+    var antTimes = currentRegion.data.timeStamp.split("|");
+
+    // Create new arrays to hold the remaining comment data
+    var newNotes = [];
+    var newUsers = [];
+    var newTimes = [];
+
+    // Go through each annotation, and only add the ones which are not the deleted comment to the new list
+    for(var i=1; i<antNotes.length; i++) {
+        if (i != commentIndex) {
+            newNotes.push(antNotes[i]);
+            newUsers.push(antUsers[i]);
+            newTimes.push(antTimes[i]);
+        };
     }
+    // Reset the data of the current region to match the new arrays (which does not include the deleted comment)
+    currentRegion.data.note = '|' + newNotes.join("|");
+    currentRegion.data.account = '|' + newUsers.join("|");
+    currentRegion.data.timeStamp = '|' + newTimes.join("|");
 
-    target.style.borderColor = 'rgba(20, 180, 120, 0.1)';
-    // console.log(printNote);
-    showNote.el.innerHTML = printNote || '-';
-    $("#annotation").show();
+    // Update the view and save the region info
+    showNote(currentRegion);
+    saveRegions();
 }
 
 /**
@@ -424,6 +543,8 @@ GLOBAL_ACTIONS['delete-region'] = function () {
         wavesurfer.regions.list[regionId].remove();
         form.reset();
     }
+    // Make sure to hide annotation div
+    $("#annotation").fadeOut(200);
 
     // Make sure to save after the deletion!
     saveRegions();

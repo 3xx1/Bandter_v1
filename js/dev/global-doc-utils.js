@@ -1,4 +1,6 @@
 
+
+
 // Trying to work out a function to hide the annotations window when it is clicked out of
 
 // $(document).mouseup(function (e) {
@@ -10,3 +12,14 @@
 //         container.hide();
 //     }
 // });
+
+$(document).ready(function(){
+    $('#note').keypress(function(e){
+      if(e.which == 13){
+      		// Prevent default of newline
+      		e.preventDefault();
+
+           $('#annotationSubmitForm').submit();
+       }
+    });
+});
