@@ -57,12 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // backend: 'AudioElement'
     });
 
-    wavesurfer.initMinimap({
-        height: 0,
-        waveColor: '#ddd',
-        progressColor: '#999',
-        cursorColor: '#999'
-    });
+    // wavesurfer.initMinimap({
+    //     height: 0,
+    //     waveColor: '#ddd',
+    //     progressColor: '#999',
+    //     cursorColor: '#999'
+    // });
 
 
     // wavesurfer.util.ajax({
