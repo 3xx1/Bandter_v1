@@ -6,7 +6,7 @@ var wavesurfer = Object.create(WaveSurfer);
  * Parse logistics, init, and so on.
  */
 var rawData = {};
-
+var minSec = 2.0;
 // Probably these logistics below will be commented out because I will just fetch array from Josh's part.
 
 // "5HMRplZYZA5KFfgGRFNjIk5iUl4GRUJHDJuinu40", "J3Q7R4sojsyHA1CUZPCsDz0evTkCs1KuLgCPjvEi" - Bandter Parse Account Authorization Keys
@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
     wavesurfer.on('ready', loadRegions);
     wavesurfer.on('region-click', editAnnotation);
     wavesurfer.on('region-click', showNote);
+    // wavesurfer.on('region-update-end', filterRegions);
     //wavesurfer.on('region-updated', saveRegions);
     //wavesurfer.on('region-removed', saveRegions); // This triggers when clearRegions() is called, cleaning out all of our regions :(
     wavesurfer.on('region-in', function(region, e){
@@ -139,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // wavesurfer.pause();
         });
     });
-    
+
     // Display the prompt to create comment once region is created
     wavesurfer.on('region-updated', function(region) {
         //Must showNote first to get the correct positioning, then editAnnotation is needed so that any edits apply to the newly created region
@@ -163,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //         height: 12
     //     });
     // });
+
 
 
     /* Toggle play/pause buttons. */
@@ -193,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var showProgress = function (percent) {
         $('#progress-bar').fadeIn(200);
         //progressDiv.style.display = 'block';
-        $('.progress-bar').css("width", percent + '%'); 
+        $('.progress-bar').css("width", percent + '%');
         //progressBar.style.width = percent + '%';
         //if(percent>99) hideProgress();
     };
@@ -234,7 +236,7 @@ function saveRegions() {
  * Load regions from localStorage.
  */
 function loadRegions() {
-    
+
     $('#waveform').fadeIn(300);
 
     if (currentBandStructure[currentFolder][currentSong]['annotations'] != null) {
@@ -246,9 +248,12 @@ function loadRegions() {
             var currentRegion = annotationData[i];
 
             // Adding in regions based on the start / stop time in JSON ...
-            wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
-            // And then manually updating the region data with the data from the JSON
-            wavesurfer.regions.list[i].data = currentRegion.data;
+            if(currentRegion.end - currentRegion.start > minSec){
+              wavesurfer.addRegion( {id: i, start: currentRegion.start, end: currentRegion.end, color:'rgba(20, 180, 120, 1)'} )
+              // And then manually updating the region data with the data from the JSON
+              wavesurfer.regions.list[i].data = currentRegion.data;
+            }
+
         };
     };
 
@@ -270,13 +275,22 @@ function clearRegions() {
     wavesurfer.regions.clear();
 }
 
+function filterRegions() {
+    var minSec = 2.0;
+    var regionId = region.id;
+    if(region.end - region.start < minSec){
+      console.log(happened);
+      // wavesurfer.regions.list[regionId].remove();
+    }
+}
+
 /**
  * Extract regions separated by silence.
  */
 function extractRegions(peaks, duration) {
     // Silence params
     var minValue = 0.0015;
-    var minSeconds = 0.25;
+    var minSeconds = 2;
 
     var length = peaks.length;
     var coef = duration / length;
@@ -327,6 +341,7 @@ function extractRegions(peaks, duration) {
     var fRegions = regions.filter(function (reg) {
         return reg.end - reg.start >= minLen;
     });
+
 
     // Return time-based regions
     return fRegions.map(function (reg) {
@@ -416,7 +431,6 @@ function randomColor(alpha) {
          saveRegions();
          //$("#annotation").hide();
          $('#annotation').fadeOut(200);
-         console.log("helloHerer");
      };
 
      // Below code commented out - not sure what this does
@@ -429,7 +443,6 @@ function randomColor(alpha) {
      form.dataset.region = region.id;
 
  }
-
 
 /**
  * Display annotation.
@@ -446,7 +459,7 @@ function showNote (region) {
     // Update title of box to the timestamp of the region
     var beginningTime = secondsToMinutesAndSeconds(region.start);
     var endTime = secondsToMinutesAndSeconds(region.end);
-    
+
     $("#annotationTitle").text(beginningTime + ' - ' + endTime);
 
     var dur = wavesurfer.getDuration();
@@ -489,9 +502,9 @@ function showNote (region) {
         $('#annotation').fadeIn(200);
 
     // End if "note" in region.data
-    } else { 
-        
-        //showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> ' + 
+    } else {
+
+        //showNote.el.innerHTML  = ' <div id="initialRegionCreationPrompt"> ' +
         //'Annotate this region below! </div> ' +
         //' <div id="initialRegionCreationHelpText"> Regions with no comments will not be saved </div> ';
 

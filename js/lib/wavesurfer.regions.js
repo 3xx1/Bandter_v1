@@ -365,6 +365,7 @@ WaveSurfer.initRegions = function () {
 WaveSurfer.addRegion = function (options) {
     this.initRegions();
     return this.regions.add(options);
+
 };
 
 WaveSurfer.clearRegions = function () {
