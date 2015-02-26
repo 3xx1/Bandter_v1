@@ -22,16 +22,9 @@ body {
 Using padding to offset the weirdness caused by a fixed navbar and sidebar */
 #main {
     text-align: left;
-    background: white;
-    border: solid #ddd;
-    border-width: 0 1px 1px 1px;
-
+    background-color: #F8F8F8;
     height: 100%;
-
-    padding-top: 75px;
-    padding-bottom: 20px;
-    padding-left: 285px;
-    padding-right: 20px;
+    padding: 50px 0px 20px 259px;
 }
 
 #main h1 {
@@ -60,6 +53,14 @@ Using padding to offset the weirdness caused by a fixed navbar and sidebar */
 }
 
 
+#track-info-container{
+    padding: 20px 20px 1px 20px;
+    background-color: #333;
+    box-shadow: 0px 0px 6px #000;
+    color: #F0F0F0;
+    margin-bottom: 25px;
+}
+
 /* This is the container div for the recording name and folder name. 
 Setting the margin is a temporary solution (should probably set formatting of the play button div better) */
 #displayRecordingInfo {
@@ -73,12 +74,12 @@ Setting the margin is a temporary solution (should probably set formatting of th
 
 /* The name of the folder that the current song is in */
 #displayRecordingFolderName {
-    color: #888888;
+    color: #AAA;
     font-size: 14px;
 }
 
 #displayRecordingLength {
-    color: #888888;
+    color: #AAA;
     font-size: 14px;
     margin-bottom: 15px;   
 }
@@ -86,19 +87,22 @@ Setting the margin is a temporary solution (should probably set formatting of th
 
 /* This is the "highlight a section to comment" helper text */
 #helpText {
-    color: #888888;
+    color: #AAA;
     font-size: 14px;
     float: right;
-    padding-right: 15px;
+    padding-right: 40px;
 }
 
 .waveformContainer {
     margin: 0px;
+    padding: 0px;
     width: 100%;
 }
 
 #waveform {
   cursor: pointer;
+  margin-left:5px;
+  margin-right: 5px;
 }
 
 

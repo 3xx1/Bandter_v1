@@ -22,7 +22,8 @@ function uploadMusic() {
     var recordingFolderName = $("#recordingFolderName")[0].value;
     var band_id = $("#bandSelect").val();
 
-    $('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Uploading ' + recordingName);
+    NProgress.start(); // start loading bar
+    //$('#loadingStatus').append('<i class="fa fa-circle-o-notch fa-spin"></i> Uploading ' + recordingName);
     //console.log('Band ID = ' + band_id);
 
     // TODO - handle multiple file uploading
@@ -50,8 +51,9 @@ function uploadMusic() {
             console.log('Done uploading ' + recordingName)
             
             // Remove the loading sign on the div
-            $('#loadingStatus').empty();
-            
+            //$('#loadingStatus').empty();
+            NProgress.done(); // start loading bar
+
             getNavItems();
             // Hide the file name input form
             //$("#nameUploadFile")[0].className = "hidden";
@@ -59,6 +61,7 @@ function uploadMusic() {
         }, function(error) {
             // The file either could not be read, or could not be saved to Parse.
             console.log('error saving file');
+            NProgress.done(); // start loading bar
         });
     }
 }

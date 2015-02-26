@@ -196,16 +196,18 @@ document.addEventListener('DOMContentLoaded', function () {
     //var progressBar = progressDiv.querySelector('.progress-bar');
 
     var showProgress = function (percent) {
-        $('#progress-bar').fadeIn(200);
+        NProgress.start();
+        //$('#progress-bar').fadeIn(200);
         //progressDiv.style.display = 'block';
-        $('.progress-bar').css("width", percent + '%');
+        //$('.progress-bar').css("width", percent + '%');
         //progressBar.style.width = percent + '%';
         //if(percent>99) hideProgress();
     };
 
     var hideProgress = function () {
-        $('#progress-bar').fadeOut(300);
+        //$('#progress-bar').fadeOut(300);
         //progressDiv.style.display = 'none';
+        NProgress.done();
     };
 
     wavesurfer.on('loading', showProgress);
