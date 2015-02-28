@@ -2,6 +2,12 @@
 
 /* This file contains the css for the sidebar */
 
+#navbar {
+  background-color: #161616;
+  margin: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
 /* Hide for mobile, show later */
 @media (min-width: 768px) {
@@ -17,33 +23,28 @@
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 
     max-width: 260px;
-    background-color: #444;
+    background-color: #262626;
   }
 }
 
 /*Tabs*/
 #LibraryTabs{
-    margin-top: 0px;
-  padding-top: 0px;
+  margin-top: 0px;
+  padding-top: 2px;
   background-color: #333;
 
 }
 
 /* This was copy-pasted from inspect element and tweaked... sorry - Josh */
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:hover {
-    background-color: #444;
-    border-bottom-color: #444;
-    color: #FAFAFA;
-}
-/* This was copy-pasted from inspect element and tweaked... sorry - Josh */
-.nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:hover {
-    border: 1px solid #000;
-    border-bottom: 1px solid #444;
+    background-color: #262626;
+    color: #DDDDDD;
+    border: 0px solid #000;
 }
 /* This was copy-pasted from inspect element and tweaked... sorry - Josh */
 .nav-tabs.nav-justified > li > a {
-    border-bottom: 1px solid #000;
-    color: #FFF;
+    border-bottom: 0px solid #000;
+    color: #DDDDDD;
   }
 
 
@@ -57,8 +58,28 @@
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
-  color: #fff;
+  color: #DDDDDD;
   background-color: #428bca;
+}
+
+#folderList > li {
+  display: block;
+  background: 0;
+  padding: 0;
+  border: 0;
+  font-size: 16px;
+  text-decoration: none;
+  padding-left: 50px;
+
+  color: #DDDDDD;
+}
+
+#folderList > li > a{
+  text-decoration: none;
+  margin-left: -25px;
+  /* color: black; */
+
+    color: #DDDDDD;
 }
 
 /* This is the "X" buttons which appear next to each song. 
@@ -69,7 +90,7 @@ May need to improve the file deletion flow */
   margin-right: 30px;
   color: #666;
 
-  width: 25px;
+  width: 20px;
   text-align: center;
 
   font-size: 20px;
@@ -77,32 +98,8 @@ May need to improve the file deletion flow */
   border-radius: 10px;
 }
 .deleteAudio:hover {
-  color: #FFF;
-  box-shadow: 0px 0px 5px #FFF;
-}
-
-
-
-
-#folderList > li {
-    display: block;
-    background: 0;
-    padding: 0;
-    border: 0;
-    font-size: 16px;
-    text-decoration: none;
-	   padding-left: 50px;
-
-    color: #FAFAFA;
-    font-weight: 300;
-}
-
-#folderList > li > a{
-    text-decoration: none;
-	margin-left: -25px;
-	/* color: black; */
-
-    color: #FFF;
+  color: #DDDDDD;
+  box-shadow: 0px 0px 5px #DDDDDD;
 }
 
 /* side nav bands + folders no hover */ 
