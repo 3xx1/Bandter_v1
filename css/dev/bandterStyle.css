@@ -55,7 +55,8 @@ Using padding to offset the weirdness caused by a fixed navbar and sidebar */
 
 #track-info-container{
     padding: 20px 20px 1px 20px;
-    background-color: #333;
+    background-color: #343434;
+    /* blue-color: 337AB7 */
     box-shadow: 0px 0px 6px #000;
     color: #F0F0F0;
     margin-bottom: 25px;
