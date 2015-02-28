@@ -286,6 +286,9 @@ function filterRegions(region) {
     console.log(duration);
     if(duration < minSecond){
         wavesurfer.regions.list[region.id].remove();
+        $("#annotation").fadeOut(200);
+    }else{
+
     }
 }
 
