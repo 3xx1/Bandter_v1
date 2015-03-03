@@ -34,6 +34,14 @@
   background-color: #333;
 
 }
+#LibraryTabs > li > a {
+  padding: 5px;
+  font-weight: 400;
+}
+#LibraryTabs > li > a:hover {
+}
+
+
 
 /* This was copy-pasted from inspect element and tweaked... sorry - Josh */
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:hover {
@@ -105,15 +113,14 @@ May need to improve the file deletion flow */
 /* side nav bands + folders no hover */ 
 #folderList > li > a:focus, #folderList > li > a:hover {
     text-decoration: none;
-    background-color: #2E6DA4;
-	cursor: auto;
+    background-color: #333;
 }
 
 /*side nav songs hover */
 #folderList > li:focus, #folderList > li:hover {
     text-decoration: none;
     background-color: #2E6DA4;
-	cursor: pointer;
+    cursor: pointer;
 }
 
 /*static upload button*/
@@ -121,7 +128,7 @@ May need to improve the file deletion flow */
     position: fixed;
     bottom:5px;
     left:100px;
-	margin-top:25px
+	   margin-top:25px
 }
 
 
