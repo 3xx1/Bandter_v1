@@ -55,11 +55,7 @@ Using padding to offset the weirdness caused by a fixed navbar and sidebar */
 
 #track-info-container{
     padding: 20px 20px 1px 20px;
-    background-color: #343434;
     /* blue-color: 337AB7 */
-    box-shadow: 0px 0px 6px #000;
-    color: #F0F0F0;
-    margin-bottom: 25px;
 }
 
 /* This is the container div for the recording name and folder name. 
@@ -75,23 +71,22 @@ Setting the margin is a temporary solution (should probably set formatting of th
 
 /* The name of the folder that the current song is in */
 #displayRecordingFolderName {
-    color: #AAA;
+    color: #666;
     font-size: 14px;
 }
 
 #displayRecordingLength {
-    color: #AAA;
-    font-size: 14px;
-    margin-bottom: 15px;   
+    color: #666;
+    font-size: 14px;  
 }
 
 
 /* This is the "highlight a section to comment" helper text */
 #helpText {
-    color: #AAA;
+    color: #666;
     font-size: 14px;
     float: right;
-    padding-right: 40px;
+    padding-right: 10px;
 }
 
 .waveformContainer {
