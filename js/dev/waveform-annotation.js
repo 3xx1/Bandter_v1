@@ -75,8 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
     //     );
     // });
 
-    // wavesurfer.load(wavesurfer.load('media/msw001_03_rashomon_akutagawa_mt_64kb.mp3');
-
     /* Regions */
     wavesurfer.enableDragSelection({
         color: 'rgba(20, 180, 120, 1)', // Alpha set to 1 by Josh; Opacity now controlled in css
